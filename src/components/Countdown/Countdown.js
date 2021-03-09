@@ -1,13 +1,14 @@
 import styled from 'styled-components/macro'
 import { ReactComponent as Play } from '../../assets/play-icon.svg'
 import { ReactComponent as Stop } from '../../assets/stop-icon.svg'
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Countdown({ startMinutes = 0, startSeconds = 0 }) {
   const playIcon = <Play />
   const stopIcon = <Stop />
 
-  const [counterExpired, setCounterExpired] = useState(false)
+  const [isActive, setIsActive] = useState(false)
+  const [timerExpired, setTimerExpired] = useState(false)
   const [[minutes, seconds], setCounter] = useState([
     startMinutes,
     startSeconds,
@@ -16,9 +17,9 @@ export default function Countdown({ startMinutes = 0, startSeconds = 0 }) {
   const displayMinutes = minutes.toString().padStart(2, '0')
   const displaySeconds = seconds.toString().padStart(2, '0')
 
-  const tick = () => {
-    if (counterExpired) return
-    if (minutes === 0 && seconds === 0) setCounterExpired(true)
+  function timer() {
+    if (timerExpired) return
+    if (minutes === 0 && seconds === 0) setTimerExpired(true)
     else if (seconds === 0) {
       setCounter([minutes - 1, 59])
     } else {
@@ -26,23 +27,32 @@ export default function Countdown({ startMinutes = 0, startSeconds = 0 }) {
     }
   }
 
-  const reset = () => {
-    setCounter([parseInt(startMinutes), parseInt(startSeconds)])
-    setCounterExpired(false)
-  }
-
   useEffect(() => {
-    const timeoutID = setTimeout(() => tick(), 1000)
+    const timeoutID = setTimeout(() => timer(), 1000)
     return () => clearTimeout(timeoutID)
   })
+
+  // function handleStart() {
+  //   setIsActive(true)
+  // }
+
+  function handleStop() {
+    setCounter([parseInt(startMinutes), parseInt(startSeconds)])
+    setTimerExpired(false)
+    setIsActive(false)
+  }
 
   return (
     <SectionWrapper>
       <CountdownWrapper>
         {displayMinutes}:{displaySeconds}
       </CountdownWrapper>
-      <button onClick={() => reset()}>Restart</button> <br />
-      <StartStopButton>{counterExpired ? playIcon : stopIcon}</StartStopButton>
+      {/* {!isActive ? (
+        <StartStopButton onClick={handleStart}>{playIcon}</StartStopButton>
+      ) : (
+        <StartStopButton onClick={handleStop}>{stopIcon}</StartStopButton>
+      )} */}
+      <StartStopButton onClick={handleStop}>{playIcon}</StartStopButton>
     </SectionWrapper>
   )
 }

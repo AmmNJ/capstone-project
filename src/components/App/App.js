@@ -4,7 +4,7 @@ import Countdown from '../Countdown/Countdown'
 function App() {
   return (
     <AppGrid>
-      <Countdown startMinutes={0} startSeconds={1} />
+      <Countdown startMinutes={0} startSeconds={5} />
     </AppGrid>
   )
 }
