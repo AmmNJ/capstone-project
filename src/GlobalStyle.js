@@ -8,14 +8,11 @@ export default createGlobalStyle`
   body {
     margin: 0;
     font-family: sans-serif;
-    font-size: 112.5%;
     line-height: 1.5;
-    text-align: center;
   }
 
   button {
     font-family: inherit;
     font-size: inherit;
-    width: 100%;
   }
 `

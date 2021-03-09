@@ -1,11 +1,18 @@
+import styled from 'styled-components/macro'
 import Countdown from '../Countdown/Countdown'
 
 function App() {
   return (
-    <div>
-      <Countdown minutes={1} />
-    </div>
+    <AppGrid>
+      <Countdown startMinutes={0} startSeconds={1} />
+    </AppGrid>
   )
 }
 
 export default App
+
+const AppGrid = styled.div`
+  display: grid;
+  place-items: center;
+  height: 100vh;
+`
