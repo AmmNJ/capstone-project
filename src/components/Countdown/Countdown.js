@@ -28,13 +28,15 @@ export default function Countdown({ startMinutes = 0, startSeconds = 0 }) {
   }
 
   useEffect(() => {
-    const timeoutID = setTimeout(() => timer(), 1000)
-    return () => clearTimeout(timeoutID)
+    if (isActive) {
+      const timeoutID = setTimeout(() => timer(), 1000)
+      return () => clearTimeout(timeoutID)
+    }
   })
 
-  // function handleStart() {
-  //   setIsActive(true)
-  // }
+  function handleStart() {
+    setIsActive(true)
+  }
 
   function handleStop() {
     setCounter([parseInt(startMinutes), parseInt(startSeconds)])
@@ -47,12 +49,11 @@ export default function Countdown({ startMinutes = 0, startSeconds = 0 }) {
       <CountdownWrapper>
         {displayMinutes}:{displaySeconds}
       </CountdownWrapper>
-      {/* {!isActive ? (
+      {!isActive ? (
         <StartStopButton onClick={handleStart}>{playIcon}</StartStopButton>
       ) : (
         <StartStopButton onClick={handleStop}>{stopIcon}</StartStopButton>
-      )} */}
-      <StartStopButton onClick={handleStop}>{playIcon}</StartStopButton>
+      )}
     </SectionWrapper>
   )
 }
@@ -69,7 +70,8 @@ const CountdownWrapper = styled.section`
 
 const StartStopButton = styled.button`
   border: none;
-  height: 60px;
-  width: 60px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
+  background-color: white;
 `
