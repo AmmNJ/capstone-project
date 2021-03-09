@@ -10,7 +10,7 @@ export default createGlobalStyle`
     font-family: sans-serif;
     font-size: 112.5%;
     line-height: 1.5;
-    font-weight: 700;
+    text-align: center;
   }
 
   button {
