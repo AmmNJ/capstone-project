@@ -5,6 +5,9 @@ export default function Countdown({ minutes = 0, seconds = 0 }) {
   const [counterExpired, setCounterExpired] = useState(false)
   const [[min, sec], setCounter] = useState([minutes, seconds])
 
+  const displayMinutes = min.toString().padStart(2, '0')
+  const displaySeconds = sec.toString().padStart(2, '0')
+
   const tick = () => {
     if (counterExpired) return
     if (min === 0 && sec === 0) setCounterExpired(true)
@@ -15,19 +18,14 @@ export default function Countdown({ minutes = 0, seconds = 0 }) {
     }
   }
 
-  const reset = () => {
-    setCounter([parseInt(minutes), parseInt(seconds)])
-    setCounterExpired(false)
-  }
-
   useEffect(() => {
-    const timerID = setInterval(() => tick(), 1000)
-    return () => clearInterval(timerID)
+    const timerId = setInterval(() => tick(), 1000)
+    return () => clearInterval(timerId)
   })
 
   return (
     <CountdownWrapper>
-      {`${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`}
+      {displayMinutes}:{displaySeconds}
     </CountdownWrapper>
   )
 }
