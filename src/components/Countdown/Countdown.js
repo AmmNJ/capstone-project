@@ -70,8 +70,7 @@ const CountdownWrapper = styled.section`
 
 const StartStopButton = styled.button`
   border: none;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
+  padding: 0;
   background-color: white;
+  line-height: 0;
 `
