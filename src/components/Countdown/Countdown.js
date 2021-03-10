@@ -71,6 +71,6 @@ const CountdownWrapper = styled.div`
 const StartStopButton = styled.button`
   border: none;
   padding: 0;
-  background-color: white;
+  background-color: transparent;
   line-height: 0;
 `

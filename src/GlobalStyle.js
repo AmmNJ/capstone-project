@@ -10,9 +10,4 @@ export default createGlobalStyle`
     font-family: sans-serif;
     line-height: 1.5;
   }
-
-  button {
-    font-family: inherit;
-    font-size: inherit;
-  }
 `
