@@ -64,7 +64,7 @@ const SectionWrapper = styled.section`
   gap: 10px;
 `
 
-const CountdownWrapper = styled.section`
+const CountdownWrapper = styled.div`
   font-size: 50px;
 `
 
