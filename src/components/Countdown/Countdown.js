@@ -73,4 +73,6 @@ const StartStopButton = styled.button`
   padding: 0;
   background-color: transparent;
   line-height: 0;
+  width: fit-content;
+  height: fit-content;
 `

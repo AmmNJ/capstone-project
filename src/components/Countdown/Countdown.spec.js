@@ -2,19 +2,30 @@ import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Countdown from './Countdown'
 
-describe('Countdown', () => {
-  const handleStart = jest.fn()
+jest.useFakeTimers()
 
-  it('renders the countdown display and one buttons', () => {
+describe('Countdown', () => {
+  it('renders the countdown display and one button', () => {
     render(<Countdown />)
     expect(screen.getByText('25:00')).toBeInTheDocument()
     expect(screen.getAllByRole('button')).toHaveLength(1)
   })
 
-  it('calls handleStart when clicking the button', () => {
+  it('calls setTimeout by clicking the button', () => {
     render(<Countdown />)
-    const button = screen.getByRole('button', { name: 'play-icon.svg' })
-    userEvent.click(button)
-    expect(handleStart).toHaveBeenCalled()
+    expect(setTimeout).toHaveBeenCalledTimes(0)
+    userEvent.click(screen.getByRole('button'))
+    expect(setTimeout).toHaveBeenCalledTimes(1)
+    expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000)
+  })
+
+  it('does not call setTimeout function by clicking the button a second time, but does on a third time', () => {
+    render(<Countdown />)
+    userEvent.click(screen.getByRole('button'))
+    userEvent.click(screen.getByRole('button'))
+    expect(setTimeout).toBeCalled()
+    expect(setTimeout).toHaveBeenCalledTimes(1)
+    userEvent.click(screen.getByRole('button'))
+    expect(setTimeout).toHaveBeenCalledTimes(2)
   })
 })
