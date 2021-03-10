@@ -3,7 +3,7 @@ import { ReactComponent as Play } from '../../assets/play-icon.svg'
 import { ReactComponent as Stop } from '../../assets/stop-icon.svg'
 import { useState, useEffect } from 'react'
 
-export default function Countdown({ startMinutes = 0, startSeconds = 0 }) {
+export default function Countdown({ startMinutes = 25, startSeconds = 0 }) {
   const playIcon = <Play />
   const stopIcon = <Stop />
 
