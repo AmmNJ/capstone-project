@@ -5,15 +5,14 @@ import { ReactComponent as Stop } from '../../assets/stop-icon.svg'
 import { useState, useEffect } from 'react'
 
 function App({ startMinutes = 25, startSeconds = 0 }) {
+  const playIcon = <Play />
+  const stopIcon = <Stop />
   const [isActive, setIsActive] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
   const [[minutes, seconds], setCounter] = useState([
     startMinutes,
     startSeconds,
   ])
-
-  const playIcon = <Play />
-  const stopIcon = <Stop />
 
   function timer() {
     if (timerExpired) return
@@ -44,12 +43,7 @@ function App({ startMinutes = 25, startSeconds = 0 }) {
 
   return (
     <AppGrid>
-      <Countdown
-        minutes={minutes}
-        seconds={seconds}
-        handleStart={handleStart}
-        handleStop={handleStop}
-      />
+      <Countdown minutes={minutes} seconds={seconds} />
       {!isActive ? (
         <StartStopButton onClick={handleStart}>{playIcon}</StartStopButton>
       ) : (
