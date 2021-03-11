@@ -1,12 +1,10 @@
 import styled from 'styled-components/macro'
 import Countdown from '../Countdown/Countdown'
-import { ReactComponent as Play } from '../../assets/play-icon.svg'
-import { ReactComponent as Stop } from '../../assets/stop-icon.svg'
+import { ReactComponent as PlayButton } from '../../assets/play-icon.svg'
+import { ReactComponent as StopButton } from '../../assets/stop-icon.svg'
 import { useState, useEffect } from 'react'
 
 function App({ startMinutes = 25, startSeconds = 0 }) {
-  const playIcon = <Play />
-  const stopIcon = <Stop />
   const [isActive, setIsActive] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
   const [[minutes, seconds], setCounter] = useState([
@@ -45,9 +43,9 @@ function App({ startMinutes = 25, startSeconds = 0 }) {
     <AppGrid>
       <Countdown minutes={minutes} seconds={seconds} />
       {!isActive ? (
-        <StartStopButton onClick={handleStart}>{playIcon}</StartStopButton>
+        <PlayButton role="button" onClick={handleStart} />
       ) : (
-        <StartStopButton onClick={handleStop}>{stopIcon}</StartStopButton>
+        <StopButton role="button" onClick={handleStop} />
       )}
     </AppGrid>
   )
@@ -59,12 +57,4 @@ const AppGrid = styled.div`
   display: grid;
   place-items: center;
   height: 100vh;
-`
-const StartStopButton = styled.button`
-  border: none;
-  padding: 0;
-  background-color: transparent;
-  line-height: 0;
-  width: fit-content;
-  height: fit-content;
 `
