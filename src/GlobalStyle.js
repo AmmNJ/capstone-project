@@ -8,14 +8,7 @@ export default createGlobalStyle`
   body {
     margin: 0;
     font-family: sans-serif;
-    font-size: 112.5%;
     line-height: 1.5;
-    font-weight: 700;
-  }
-
-  button {
-    font-family: inherit;
-    font-size: inherit;
-    width: 100%;
+    font-size: 112.5%;
   }
 `
