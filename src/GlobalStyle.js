@@ -9,5 +9,6 @@ export default createGlobalStyle`
     margin: 0;
     font-family: sans-serif;
     line-height: 1.5;
+    font-size: 112.5%;
   }
 `

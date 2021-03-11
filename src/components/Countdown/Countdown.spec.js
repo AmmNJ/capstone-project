@@ -21,11 +21,12 @@ describe('Countdown', () => {
 
   it('does not call setTimeout function by clicking the button a second time, but does on a third time', () => {
     render(<Countdown />)
-    userEvent.click(screen.getByRole('button'))
-    userEvent.click(screen.getByRole('button'))
+    const button = screen.getByRole('button')
+    userEvent.click(button)
+    userEvent.click(button)
     expect(setTimeout).toBeCalled()
     expect(setTimeout).toHaveBeenCalledTimes(1)
-    userEvent.click(screen.getByRole('button'))
+    userEvent.click(button)
     expect(setTimeout).toHaveBeenCalledTimes(2)
   })
 })
