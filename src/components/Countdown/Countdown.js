@@ -13,4 +13,5 @@ export default function Countdown({ minutes, seconds }) {
 
 const CountdownWrapper = styled.div`
   font-size: 50px;
+  padding: 100px;
 `

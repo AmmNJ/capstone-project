@@ -42,6 +42,10 @@ function App({ startMinutes = 25, startSeconds = 0 }) {
   return (
     <AppGrid>
       <Countdown minutes={minutes} seconds={seconds} />
+      <SwitchButtonGrid>
+        <TimerLength>25:00</TimerLength>
+        <TimerLength>50:00</TimerLength>
+      </SwitchButtonGrid>
       {!isActive ? (
         <PlayButton role="button" onClick={handleStart} />
       ) : (
@@ -55,6 +59,23 @@ export default App
 
 const AppGrid = styled.div`
   display: grid;
-  place-items: center;
   height: 100vh;
+  place-content: center;
+  place-items: center;
+  gap: 40px;
+`
+
+const SwitchButtonGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+`
+
+const TimerLength = styled.button`
+  border: none;
+  width: fit-content;
+  height: fit-content;
+  background-color: transparent;
+  font-size: 20px;
+  padding: 0;
 `
