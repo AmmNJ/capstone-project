@@ -65,10 +65,18 @@ function App() {
     <AppGrid>
       <Countdown minutes={minutes} seconds={seconds} />
       <SwitchButtonGrid>
-        <TimerLength onClick={handleLengthTwentyFive} disabled={isActive}>
+        <TimerLength
+          onClick={handleLengthTwentyFive}
+          disabled={isActive}
+          selected={!lengthFifty}
+        >
           25:00
         </TimerLength>
-        <TimerLength onClick={handleLengthFifty} disabled={isActive}>
+        <TimerLength
+          onClick={handleLengthFifty}
+          disabled={isActive}
+          selected={lengthFifty}
+        >
           50:00
         </TimerLength>
       </SwitchButtonGrid>
@@ -98,6 +106,7 @@ const SwitchButtonGrid = styled.div`
 `
 
 const TimerLength = styled.button`
+  color: ${props => (props.selected ? '#52DFD1' : '#585858')};
   border: none;
   width: fit-content;
   height: fit-content;

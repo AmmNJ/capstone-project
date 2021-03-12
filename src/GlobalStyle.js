@@ -10,5 +10,6 @@ export default createGlobalStyle`
     font-family: sans-serif;
     line-height: 1.5;
     font-size: 112.5%;
+    color: #585858;
   }
 `
