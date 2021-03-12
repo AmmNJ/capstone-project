@@ -4,12 +4,16 @@ import { ReactComponent as PlayButton } from '../../assets/play-icon.svg'
 import { ReactComponent as StopButton } from '../../assets/stop-icon.svg'
 import { useState, useEffect } from 'react'
 
-function App({ startMinutes = 25, startSeconds = 0 }) {
+function App() {
+  const LENGTHTWENTYFIVE = { minutes: 25, seconds: 0 }
+  const LENGTHFIFTY = { minutes: 50, seconds: 0 }
+
+  const [lengthFifty, setLengthFifty] = useState(false)
   const [isActive, setIsActive] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
   const [[minutes, seconds], setCounter] = useState([
-    startMinutes,
-    startSeconds,
+    LENGTHTWENTYFIVE.minutes,
+    LENGTHTWENTYFIVE.seconds,
   ])
 
   function timer() {
@@ -30,7 +34,15 @@ function App({ startMinutes = 25, startSeconds = 0 }) {
   })
 
   function handleStop() {
-    setCounter([parseInt(startMinutes), parseInt(startSeconds)])
+    lengthFifty
+      ? setCounter([
+          parseInt(LENGTHFIFTY.minutes),
+          parseInt(LENGTHFIFTY.seconds),
+        ])
+      : setCounter([
+          parseInt(LENGTHTWENTYFIVE.minutes),
+          parseInt(LENGTHTWENTYFIVE.seconds),
+        ])
     setTimerExpired(false)
     setIsActive(false)
   }
@@ -39,12 +51,26 @@ function App({ startMinutes = 25, startSeconds = 0 }) {
     setIsActive(true)
   }
 
+  function handleLengthFifty() {
+    setLengthFifty(true)
+    setCounter([LENGTHFIFTY.minutes, LENGTHFIFTY.seconds])
+  }
+
+  function handleLengthTwentyFive() {
+    setLengthFifty(false)
+    setCounter([LENGTHTWENTYFIVE.minutes, LENGTHTWENTYFIVE.seconds])
+  }
+
   return (
     <AppGrid>
       <Countdown minutes={minutes} seconds={seconds} />
       <SwitchButtonGrid>
-        <TimerLength>25:00</TimerLength>
-        <TimerLength>50:00</TimerLength>
+        <TimerLength onClick={handleLengthTwentyFive} disabled={isActive}>
+          25:00
+        </TimerLength>
+        <TimerLength onClick={handleLengthFifty} disabled={isActive}>
+          50:00
+        </TimerLength>
       </SwitchButtonGrid>
       {!isActive ? (
         <PlayButton role="button" onClick={handleStart} />
