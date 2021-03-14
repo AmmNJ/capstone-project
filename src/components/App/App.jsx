@@ -11,8 +11,8 @@ function App() {
 
   const [lengthLong, setLengthLong] = useState(false)
   const [isActive, setIsActive] = useState(false)
-  const [timerExpired, setTimerExpired] = useState(false)
   const [[endHours, endMinutes], setEndTime] = useState([])
+  const [timerExpired, setTimerExpired] = useState(false)
   const [[minutes, seconds], setCounter] = useState([
     LENGTHTWENTYFIVE.minutes,
     LENGTHTWENTYFIVE.seconds,
@@ -44,8 +44,6 @@ function App() {
       ? endDateObj.setTime(currentDateObj.getTime() + 50 * 60 * 1000)
       : endDateObj.setTime(currentDateObj.getTime() + 25 * 60 * 1000)
     setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
-    console.log(endDateObj)
-    console.log([endDateObj.getHours(), endDateObj.getMinutes()])
   }
 
   function handleStop() {
