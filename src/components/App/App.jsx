@@ -41,8 +41,12 @@ function App() {
     const endDateObj = new Date()
 
     lengthLong
-      ? endDateObj.setTime(currentDateObj.getTime() + 50 * 60 * 1000)
-      : endDateObj.setTime(currentDateObj.getTime() + 25 * 60 * 1000)
+      ? endDateObj.setTime(
+          currentDateObj.getTime() + LENGTHFIFTY.minutes * 60 * 1000
+        )
+      : endDateObj.setTime(
+          currentDateObj.getTime() + LENGTHTWENTYFIVE.minutes * 60 * 1000
+        )
     setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
   }
 
