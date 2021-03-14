@@ -8,7 +8,7 @@ function App() {
   const LENGTHTWENTYFIVE = { minutes: 25, seconds: 0 }
   const LENGTHFIFTY = { minutes: 50, seconds: 0 }
 
-  const [lengthFifty, setLengthFifty] = useState(false)
+  const [lengthLong, setLengthLong] = useState(false)
   const [isActive, setIsActive] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
   const [[minutes, seconds], setCounter] = useState([
@@ -34,7 +34,7 @@ function App() {
   })
 
   function handleStop() {
-    lengthFifty
+    lengthLong
       ? setCounter([
           parseInt(LENGTHFIFTY.minutes),
           parseInt(LENGTHFIFTY.seconds),
@@ -51,35 +51,35 @@ function App() {
     setIsActive(true)
   }
 
-  function handleLengthFifty() {
-    setLengthFifty(true)
-    setCounter([LENGTHFIFTY.minutes, LENGTHFIFTY.seconds])
+  function handleLengthShort() {
+    setLengthLong(false)
+    setCounter([LENGTHTWENTYFIVE.minutes, LENGTHTWENTYFIVE.seconds])
   }
 
-  function handleLengthTwentyFive() {
-    setLengthFifty(false)
-    setCounter([LENGTHTWENTYFIVE.minutes, LENGTHTWENTYFIVE.seconds])
+  function handleLengthLong() {
+    setLengthLong(true)
+    setCounter([LENGTHFIFTY.minutes, LENGTHFIFTY.seconds])
   }
 
   return (
     <AppGrid>
       <Countdown minutes={minutes} seconds={seconds} />
-      <SwitchButtonGrid>
+      <LengthButtonGrid>
         <TimerLength
-          onClick={handleLengthTwentyFive}
+          onClick={handleLengthShort}
           disabled={isActive}
-          selected={!lengthFifty}
+          selected={!lengthLong}
         >
           25:00
         </TimerLength>
         <TimerLength
-          onClick={handleLengthFifty}
+          onClick={handleLengthLong}
           disabled={isActive}
-          selected={lengthFifty}
+          selected={lengthLong}
         >
           50:00
         </TimerLength>
-      </SwitchButtonGrid>
+      </LengthButtonGrid>
       {!isActive ? (
         <PlayButton role="button" onClick={handleStart} />
       ) : (
@@ -93,13 +93,17 @@ export default App
 
 const AppGrid = styled.div`
   display: grid;
-  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   place-content: center;
   place-items: center;
   gap: 40px;
 `
 
-const SwitchButtonGrid = styled.div`
+const LengthButtonGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
