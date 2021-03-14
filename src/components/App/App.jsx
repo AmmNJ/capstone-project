@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro'
 import Countdown from '../Countdown/Countdown'
+import EndTime from '../EndTime/EndTime'
 import { ReactComponent as PlayButton } from '../../assets/play-icon.svg'
 import { ReactComponent as StopButton } from '../../assets/stop-icon.svg'
 import { useState, useEffect } from 'react'
@@ -11,6 +12,7 @@ function App() {
   const [lengthLong, setLengthLong] = useState(false)
   const [isActive, setIsActive] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
+  const [[endHours, endMinutes], setEndTime] = useState([])
   const [[minutes, seconds], setCounter] = useState([
     LENGTHTWENTYFIVE.minutes,
     LENGTHTWENTYFIVE.seconds,
@@ -33,6 +35,19 @@ function App() {
     }
   })
 
+  function handleStart() {
+    setIsActive(true)
+    const currentDateObj = new Date()
+    const endDateObj = new Date()
+
+    lengthLong
+      ? endDateObj.setTime(currentDateObj.getTime() + 50 * 60 * 1000)
+      : endDateObj.setTime(currentDateObj.getTime() + 25 * 60 * 1000)
+    setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
+    console.log(endDateObj)
+    console.log([endDateObj.getHours(), endDateObj.getMinutes()])
+  }
+
   function handleStop() {
     lengthLong
       ? setCounter([
@@ -47,10 +62,6 @@ function App() {
     setIsActive(false)
   }
 
-  function handleStart() {
-    setIsActive(true)
-  }
-
   function handleLengthShort() {
     setLengthLong(false)
     setCounter([LENGTHTWENTYFIVE.minutes, LENGTHTWENTYFIVE.seconds])
@@ -63,58 +74,82 @@ function App() {
 
   return (
     <AppGrid>
-      <Countdown minutes={minutes} seconds={seconds} />
-      <LengthButtonGrid>
-        <TimerLength
+      <CountdownGrid>
+        <Countdown minutes={minutes} seconds={seconds} />
+        {isActive ? (
+          <EndTime endHours={endHours} endMinutes={endMinutes} />
+        ) : (
+          ''
+        )}
+      </CountdownGrid>
+      <ConfigurationGrid>
+        <CountdownLength
           onClick={handleLengthShort}
           disabled={isActive}
           selected={!lengthLong}
         >
           25:00
-        </TimerLength>
-        <TimerLength
+        </CountdownLength>
+        <CountdownLength
           onClick={handleLengthLong}
           disabled={isActive}
           selected={lengthLong}
         >
           50:00
-        </TimerLength>
-      </LengthButtonGrid>
-      {!isActive ? (
-        <PlayButton role="button" onClick={handleStart} />
-      ) : (
-        <StopButton role="button" onClick={handleStop} />
-      )}
+        </CountdownLength>
+      </ConfigurationGrid>
+      <StartStopGrid>
+        {!isActive ? (
+          <PlayButton role="button" onClick={handleStart} />
+        ) : (
+          <StopButton role="button" onClick={handleStop} />
+        )}
+      </StartStopGrid>
     </AppGrid>
   )
 }
 
 export default App
 
-const AppGrid = styled.div`
+const AppGrid = styled.main`
   display: grid;
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  place-content: center;
-  place-items: center;
-  gap: 40px;
+  grid-template-rows: 1fr 1fr 100px;
 `
 
-const LengthButtonGrid = styled.div`
+const CountdownGrid = styled.section`
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 10px;
+  grid-template-rows: 1fr 30px;
+  align-items: end;
+  justify-items: center;
 `
 
-const TimerLength = styled.button`
+const ConfigurationGrid = styled.section`
+  display: grid;
+  grid-template-columns: auto auto;
+  align-content: end;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+`
+
+const StartStopGrid = styled.section`
+  display: grid;
+  align-content: start;
+  justify-content: center;
+  padding: 10px;
+`
+
+const CountdownLength = styled.button`
   color: ${props => (props.selected ? '#52DFD1' : '#585858')};
   border: none;
-  width: fit-content;
-  height: fit-content;
   background-color: transparent;
   font-size: 20px;
-  padding: 0;
+  width: fit-content;
+  height: fit-content;
 `
