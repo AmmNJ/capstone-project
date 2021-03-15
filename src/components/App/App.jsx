@@ -6,16 +6,16 @@ import { ReactComponent as StopButton } from '../../assets/stop-icon.svg'
 import { useState, useEffect } from 'react'
 
 function App() {
-  const LENGTHTWENTYFIVE = { minutes: 25, seconds: 0 }
-  const LENGTHFIFTY = { minutes: 50, seconds: 0 }
+  const DURATIONTWENTYFIVE = { minutes: 25, seconds: 0 }
+  const DURATIONFIFTY = { minutes: 50, seconds: 0 }
 
-  const [lengthLong, setLengthLong] = useState(false)
+  const [durationLong, setDurationLong] = useState(false)
   const [isActive, setIsActive] = useState(false)
   const [[endHours, endMinutes], setEndTime] = useState([])
   const [timerExpired, setTimerExpired] = useState(false)
   const [[minutes, seconds], setCounter] = useState([
-    LENGTHTWENTYFIVE.minutes,
-    LENGTHTWENTYFIVE.seconds,
+    DURATIONTWENTYFIVE.minutes,
+    DURATIONTWENTYFIVE.seconds,
   ])
 
   function timer() {
@@ -40,65 +40,61 @@ function App() {
     const currentDateObj = new Date()
     const endDateObj = new Date()
 
-    lengthLong
+    durationLong
       ? endDateObj.setTime(
-          currentDateObj.getTime() + LENGTHFIFTY.minutes * 60 * 1000
+          currentDateObj.getTime() + DURATIONFIFTY.minutes * 60 * 1000
         )
       : endDateObj.setTime(
-          currentDateObj.getTime() + LENGTHTWENTYFIVE.minutes * 60 * 1000
+          currentDateObj.getTime() + DURATIONTWENTYFIVE.minutes * 60 * 1000
         )
     setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
   }
 
   function handleStop() {
-    lengthLong
+    durationLong
       ? setCounter([
-          parseInt(LENGTHFIFTY.minutes),
-          parseInt(LENGTHFIFTY.seconds),
+          parseInt(DURATIONFIFTY.minutes),
+          parseInt(DURATIONFIFTY.seconds),
         ])
       : setCounter([
-          parseInt(LENGTHTWENTYFIVE.minutes),
-          parseInt(LENGTHTWENTYFIVE.seconds),
+          parseInt(DURATIONTWENTYFIVE.minutes),
+          parseInt(DURATIONTWENTYFIVE.seconds),
         ])
     setTimerExpired(false)
     setIsActive(false)
   }
 
-  function handleLengthShort() {
-    setLengthLong(false)
-    setCounter([LENGTHTWENTYFIVE.minutes, LENGTHTWENTYFIVE.seconds])
+  function handleDurationShort() {
+    setDurationLong(false)
+    setCounter([DURATIONTWENTYFIVE.minutes, DURATIONTWENTYFIVE.seconds])
   }
 
-  function handleLengthLong() {
-    setLengthLong(true)
-    setCounter([LENGTHFIFTY.minutes, LENGTHFIFTY.seconds])
+  function handleDurationLong() {
+    setDurationLong(true)
+    setCounter([DURATIONFIFTY.minutes, DURATIONFIFTY.seconds])
   }
 
   return (
     <AppGrid>
       <CountdownGrid>
         <Countdown minutes={minutes} seconds={seconds} />
-        {isActive ? (
-          <EndTime endHours={endHours} endMinutes={endMinutes} />
-        ) : (
-          ''
-        )}
+        {isActive && <EndTime endHours={endHours} endMinutes={endMinutes} />}
       </CountdownGrid>
       <ConfigurationGrid>
-        <CountdownLength
-          onClick={handleLengthShort}
+        <CountdownDuration
+          onClick={handleDurationShort}
           disabled={isActive}
-          selected={!lengthLong}
+          selected={!durationLong}
         >
           25:00
-        </CountdownLength>
-        <CountdownLength
-          onClick={handleLengthLong}
+        </CountdownDuration>
+        <CountdownDuration
+          onClick={handleDurationLong}
           disabled={isActive}
-          selected={lengthLong}
+          selected={durationLong}
         >
           50:00
-        </CountdownLength>
+        </CountdownDuration>
       </ConfigurationGrid>
       <StartStopGrid>
         {!isActive ? (
@@ -147,7 +143,7 @@ const StartStopGrid = styled.section`
   padding: 10px;
 `
 
-const CountdownLength = styled.button`
+const CountdownDuration = styled.button`
   color: ${props => (props.selected ? '#52DFD1' : '#585858')};
   border: none;
   background-color: transparent;
