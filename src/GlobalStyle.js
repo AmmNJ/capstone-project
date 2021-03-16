@@ -12,4 +12,19 @@ export default createGlobalStyle`
     font-size: 112.5%;
     color: #585858;
   }
+
+  @keyframes slide-opacity {
+    -50% {
+      transform: translateY(0);
+    }
+    0% {
+      transform: translateY(10px);
+    }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `

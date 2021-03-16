@@ -21,7 +21,21 @@ function App() {
   ])
 
   function timer() {
-    if (isPaused || timerExpired) return
+    if (timerExpired) {
+      setIsActive(false)
+      durationLong
+        ? setCounter([
+            parseInt(DURATIONFIFTY.minutes),
+            parseInt(DURATIONFIFTY.seconds),
+          ])
+        : setCounter([
+            parseInt(DURATIONTWENTYFIVE.minutes),
+            parseInt(DURATIONTWENTYFIVE.seconds),
+          ])
+      setTimerExpired(false)
+      return alert('Congratulations! Time is up.')
+    }
+    if (isPaused) return
     if (minutes === 0 && seconds === 0) setTimerExpired(true)
     else if (seconds === 0) {
       setCounter([minutes - 1, 59])
@@ -146,6 +160,7 @@ const CountdownGrid = styled.section`
   grid-template-rows: 1fr 30px;
   align-items: end;
   justify-items: center;
+  animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
 const ConfigurationGrid = styled.section`
@@ -155,6 +170,7 @@ const ConfigurationGrid = styled.section`
   margin: 0 0 20px;
   align-content: end;
   justify-content: center;
+  animation: slide-opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
 const ExecutionGrid = styled.section`
@@ -164,6 +180,7 @@ const ExecutionGrid = styled.section`
   align-content: start;
   justify-content: center;
   padding: 10px;
+  animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
 const CountdownDuration = styled.button`
@@ -173,4 +190,5 @@ const CountdownDuration = styled.button`
   font-size: 20px;
   width: fit-content;
   height: fit-content;
+  transition: 0.2s;
 `
