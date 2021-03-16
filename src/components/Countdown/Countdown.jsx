@@ -13,4 +13,6 @@ export default function Countdown({ minutes, seconds }) {
 
 const CountdownWrapper = styled.span`
   font-size: 50px;
+  font-weight: 600;
+  letter-spacing: -3.5px;
 `
