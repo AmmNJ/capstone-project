@@ -13,8 +13,8 @@ function App() {
   const [durationLong, setDurationLong] = useState(false)
   const [isActive, setIsActive] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
-  const [[endHours, endMinutes], setEndTime] = useState([])
   const [timerExpired, setTimerExpired] = useState(false)
+  const [[endHours, endMinutes], setEndTime] = useState([])
   const [[minutes, seconds], setCounter] = useState([
     DURATIONTWENTYFIVE.minutes,
     DURATIONTWENTYFIVE.seconds,
