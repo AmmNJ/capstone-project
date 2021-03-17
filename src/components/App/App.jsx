@@ -5,6 +5,7 @@ import { ReactComponent as PlayButton } from '../../assets/play-icon.svg'
 import { ReactComponent as PauseButton } from '../../assets/pause-icon.svg'
 import { ReactComponent as StopButton } from '../../assets/stop-icon.svg'
 import { useState, useEffect } from 'react'
+import Header from '../Header/Header'
 
 function App() {
   const DURATIONTWENTYFIVE = { minutes: 25, seconds: 0 }
