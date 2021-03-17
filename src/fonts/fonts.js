@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components'
-
 import InterRegularWoff2 from './inter-regular.woff2'
 import InterRegularWoff from './inter-regular.woff'
 import InterSemiboldWoff2 from './inter-semibold.woff2'
