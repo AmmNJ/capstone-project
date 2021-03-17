@@ -13,5 +13,6 @@ export default function EndTime({ endHours, endMinutes }) {
 
 const TimeWrapper = styled.span`
   font-size: 20px;
-  color: #c2c2c2;
+  color: #b4b4b4;
+  animation: slide-opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `

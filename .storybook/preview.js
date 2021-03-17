@@ -1,4 +1,6 @@
 import GlobalStyle from '../src/GlobalStyle'
+import GlobalFonts from '../src/fonts/fonts'
+
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
 
 export const parameters = {
@@ -13,6 +15,7 @@ export const decorators =[
   Story => (
     <>
       <GlobalStyle />
+      <GlobalFonts />
       <Story />
     </>
   ),
