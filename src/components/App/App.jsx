@@ -181,12 +181,6 @@ const ExecutionGrid = styled.section`
   justify-content: center;
   padding: 10px;
   animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-
-  svg {
-    :focus {
-      background-color: transparent;
-    }
-  }
 `
 
 const CountdownDuration = styled.button`
