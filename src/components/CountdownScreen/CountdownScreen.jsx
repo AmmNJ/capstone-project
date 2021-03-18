@@ -7,24 +7,22 @@ import { ReactComponent as StopButton } from '../../assets/stop-icon.svg'
 import { useEffect } from 'react'
 
 export default function CountdownScreen({
-  handleStart,
-  handleStop,
-  setCounter,
-  isActive,
-  setIsActive,
-  setTimerExpired,
-  timerExpired,
-  isPaused,
-  setIsPaused,
-  durationLong,
-  DURATIONFIFTY,
   DURATIONTWENTYFIVE,
+  DURATIONFIFTY,
   countdownMinutes,
   countdownSeconds,
   endHours,
   endMinutes,
-  handleDurationShort,
-  handleDurationLong,
+  isActive,
+  isPaused,
+  timerExpired,
+  durationLong,
+  setCounter,
+  setIsActive,
+  setTimerExpired,
+  handleStart,
+  handleStop,
+  handlePause,
 }) {
   function timer() {
     if (timerExpired) {
@@ -57,11 +55,6 @@ export default function CountdownScreen({
     }
   })
 
-  function handlePause() {
-    setIsPaused(true)
-    setIsActive(false)
-  }
-
   return (
     <CountdownScreenGrid>
       <CountdownGrid>
@@ -71,22 +64,7 @@ export default function CountdownScreen({
         />
         {isActive && <EndTime endHours={endHours} endMinutes={endMinutes} />}
       </CountdownGrid>
-      <ConfigurationGrid>
-        <CountdownDuration
-          onClick={handleDurationShort}
-          disabled={isActive}
-          selected={!durationLong}
-        >
-          25:00
-        </CountdownDuration>
-        <CountdownDuration
-          onClick={handleDurationLong}
-          disabled={isActive}
-          selected={durationLong}
-        >
-          50:00
-        </CountdownDuration>
-      </ConfigurationGrid>
+      <ConfigurationGrid></ConfigurationGrid>
       <ExecutionGrid>
         <StopButton role="button" onClick={handleStop} />
         {!isActive ? (
@@ -136,14 +114,4 @@ const ExecutionGrid = styled.section`
   justify-content: center;
   padding: 10px;
   animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-`
-
-const CountdownDuration = styled.button`
-  color: ${props => (props.selected ? '#52DFD1' : '#585858')};
-  border: none;
-  background-color: transparent;
-  font-size: 20px;
-  width: fit-content;
-  height: fit-content;
-  transition: 0.2s;
 `

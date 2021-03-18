@@ -73,34 +73,42 @@ function App() {
     setIsPaused(false)
     push('/countdown')
   }
-
+  function handlePause() {
+    setIsPaused(true)
+    setIsActive(false)
+  }
   return (
     <>
       <Switch>
         <Route exact path="/">
-          <StartScreen onStart={handleStart} />
+          <StartScreen
+            isActive={isActive}
+            durationLong={durationLong}
+            handleStart={handleStart}
+            handleDurationShort={handleDurationShort}
+            handleDurationLong={handleDurationLong}
+          />
         </Route>
       </Switch>
       <Switch>
         <Route exact path="/countdown">
           <CountdownScreen
+            DURATIONTWENTYFIVE={DURATIONTWENTYFIVE}
+            DURATIONFIFTY={DURATIONFIFTY}
             countdownMinutes={countdownMinutes}
             countdownSeconds={countdownSeconds}
             endHours={endHours}
             endMinutes={endMinutes}
-            handleStop={handleStop}
-            handleStart={handleStart}
-            setCounter={setCounter}
-            timerExpired={timerExpired}
             isActive={isActive}
+            isPaused={isPaused}
+            timerExpired={timerExpired}
+            durationLong={durationLong}
+            setCounter={setCounter}
             setIsActive={setIsActive}
             setTimerExpired={setTimerExpired}
-            DURATIONTWENTYFIVE={DURATIONTWENTYFIVE}
-            DURATIONFIFTY={DURATIONFIFTY}
-            isPaused={isPaused}
-            setIsPaused={setIsPaused}
-            handleDurationShort={handleDurationShort}
-            handleDurationLong={handleDurationLong}
+            handleStart={handleStart}
+            handleStop={handleStop}
+            handlePause={handlePause}
           />
         </Route>
       </Switch>
