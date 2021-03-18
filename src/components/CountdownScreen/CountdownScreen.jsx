@@ -4,22 +4,28 @@ import EndTime from '../EndTime/EndTime'
 import { ReactComponent as PlayButton } from '../../assets/play-icon.svg'
 import { ReactComponent as PauseButton } from '../../assets/pause-icon.svg'
 import { ReactComponent as StopButton } from '../../assets/stop-icon.svg'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
-export default function CountdownScreen({ onStop }) {
-  const DURATIONTWENTYFIVE = { minutes: 25, seconds: 0 }
-  const DURATIONFIFTY = { minutes: 50, seconds: 0 }
-
-  const [durationLong, setDurationLong] = useState(false)
-  const [isActive, setIsActive] = useState(false)
-  const [isPaused, setIsPaused] = useState(false)
-  const [timerExpired, setTimerExpired] = useState(false)
-  const [[endHours, endMinutes], setEndTime] = useState([])
-  const [[minutes, seconds], setCounter] = useState([
-    DURATIONTWENTYFIVE.minutes,
-    DURATIONTWENTYFIVE.seconds,
-  ])
-
+export default function CountdownScreen({
+  handleStart,
+  handleStop,
+  setCounter,
+  isActive,
+  setIsActive,
+  setTimerExpired,
+  timerExpired,
+  isPaused,
+  setIsPaused,
+  durationLong,
+  DURATIONFIFTY,
+  DURATIONTWENTYFIVE,
+  countdownMinutes,
+  countdownSeconds,
+  endHours,
+  endMinutes,
+  handleDurationShort,
+  handleDurationLong,
+}) {
   function timer() {
     if (timerExpired) {
       setIsActive(false)
@@ -36,11 +42,11 @@ export default function CountdownScreen({ onStop }) {
       return alert('Congratulations! Time is up.')
     }
     if (isPaused) return
-    if (minutes === 0 && seconds === 0) setTimerExpired(true)
-    else if (seconds === 0) {
-      setCounter([minutes - 1, 59])
+    if (countdownMinutes === 0 && countdownSeconds === 0) setTimerExpired(true)
+    else if (countdownSeconds === 0) {
+      setCounter([countdownMinutes - 1, 59])
     } else {
-      setCounter([minutes, seconds - 1])
+      setCounter([countdownMinutes, countdownSeconds - 1])
     }
   }
 
@@ -51,67 +57,18 @@ export default function CountdownScreen({ onStop }) {
     }
   })
 
-  function handleStart() {
-    setIsActive(true)
-    const currentDateObj = new Date()
-    const endDateObj = new Date()
-
-    if (isPaused) {
-      durationLong
-        ? endDateObj.setTime(
-            currentDateObj.getTime() + (minutes + seconds / 60) * 60 * 1000
-          )
-        : endDateObj.setTime(
-            currentDateObj.getTime() + (minutes + seconds / 60) * 60 * 1000
-          )
-      setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
-    } else {
-      durationLong
-        ? endDateObj.setTime(
-            currentDateObj.getTime() + DURATIONFIFTY.minutes * 60 * 1000
-          )
-        : endDateObj.setTime(
-            currentDateObj.getTime() + DURATIONTWENTYFIVE.minutes * 60 * 1000
-          )
-      setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
-    }
-    setIsPaused(false)
-  }
-
   function handlePause() {
     setIsPaused(true)
     setIsActive(false)
   }
 
-  function handleStop() {
-    durationLong
-      ? setCounter([
-          parseInt(DURATIONFIFTY.minutes),
-          parseInt(DURATIONFIFTY.seconds),
-        ])
-      : setCounter([
-          parseInt(DURATIONTWENTYFIVE.minutes),
-          parseInt(DURATIONTWENTYFIVE.seconds),
-        ])
-    setTimerExpired(false)
-    setIsActive(false)
-    setIsPaused(false)
-  }
-
-  function handleDurationShort() {
-    setDurationLong(false)
-    setCounter([DURATIONTWENTYFIVE.minutes, DURATIONTWENTYFIVE.seconds])
-  }
-
-  function handleDurationLong() {
-    setDurationLong(true)
-    setCounter([DURATIONFIFTY.minutes, DURATIONFIFTY.seconds])
-  }
-
   return (
     <CountdownScreenGrid>
       <CountdownGrid>
-        <Countdown minutes={minutes} seconds={seconds} />
+        <Countdown
+          countdownMinutes={countdownMinutes}
+          countdownSeconds={countdownSeconds}
+        />
         {isActive && <EndTime endHours={endHours} endMinutes={endMinutes} />}
       </CountdownGrid>
       <ConfigurationGrid>

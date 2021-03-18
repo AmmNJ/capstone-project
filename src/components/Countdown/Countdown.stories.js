@@ -5,4 +5,6 @@ export default {
   components: Countdown,
 }
 
-export const Timer = () => <Countdown minutes={25} seconds={0} />
+export const Timer = () => (
+  <Countdown countdownMinutes={25} countdownSeconds={0} />
+)
