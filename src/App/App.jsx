@@ -1,5 +1,5 @@
-import CountdownScreen from '../CountdownScreen/CountdownScreen'
-import StartScreen from '../StartScreen/StartScreen'
+import CountdownScreen from '../pages/CountdownScreen'
+import StartScreen from '../pages/StartScreen'
 import { useState } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 
@@ -91,26 +91,28 @@ function App() {
         </Route>
       </Switch>
       <Switch>
-        <Route exact path="/countdown">
-          <CountdownScreen
-            DURATIONTWENTYFIVE={DURATIONTWENTYFIVE}
-            DURATIONFIFTY={DURATIONFIFTY}
-            countdownMinutes={countdownMinutes}
-            countdownSeconds={countdownSeconds}
-            endHours={endHours}
-            endMinutes={endMinutes}
-            isActive={isActive}
-            isPaused={isPaused}
-            isDurationLong={isDurationLong}
-            isTimerExpired={isTimerExpired}
-            setCounter={setCounter}
-            setIsActive={setIsActive}
-            setIsTimerExpired={setIsTimerExpired}
-            handleStart={handleStart}
-            handleStop={handleStop}
-            handlePause={handlePause}
-          />
-        </Route>
+        {(isActive || isPaused) && (
+          <Route path="/countdown">
+            <CountdownScreen
+              DURATIONTWENTYFIVE={DURATIONTWENTYFIVE}
+              DURATIONFIFTY={DURATIONFIFTY}
+              countdownMinutes={countdownMinutes}
+              countdownSeconds={countdownSeconds}
+              endHours={endHours}
+              endMinutes={endMinutes}
+              isActive={isActive}
+              isPaused={isPaused}
+              isDurationLong={isDurationLong}
+              isTimerExpired={isTimerExpired}
+              setCounter={setCounter}
+              setIsActive={setIsActive}
+              setIsTimerExpired={setIsTimerExpired}
+              handleStart={handleStart}
+              handleStop={handleStop}
+              handlePause={handlePause}
+            />
+          </Route>
+        )}
       </Switch>
     </>
   )

@@ -12,6 +12,7 @@ export default createGlobalStyle`
     font-family: 'Inter', sans-serif;
     line-height: 1.5;
     font-size: 112.5%;
+    letter-spacing: -0.6px;
     color: #585858;
   }
 

@@ -1,9 +1,9 @@
 import styled from 'styled-components/macro'
-import Countdown from '../Countdown/Countdown'
-import EndTime from '../EndTime/EndTime'
-import { ReactComponent as PlayButton } from '../../assets/play-icon.svg'
-import { ReactComponent as PauseButton } from '../../assets/pause-icon.svg'
-import { ReactComponent as StopButton } from '../../assets/stop-icon.svg'
+import Countdown from '../components/Countdown/Countdown'
+import EndTime from '../components/EndTime/EndTime'
+import { ReactComponent as PlayButton } from '../assets/play-icon.svg'
+import { ReactComponent as PauseButton } from '../assets/pause-icon.svg'
+import { ReactComponent as StopButton } from '../assets/stop-icon.svg'
 import { useEffect } from 'react'
 
 export default function CountdownScreen({
@@ -65,7 +65,7 @@ export default function CountdownScreen({
         />
         {isActive && <EndTime endHours={endHours} endMinutes={endMinutes} />}
       </CountdownGrid>
-      <ConfigurationGrid></ConfigurationGrid>
+      <CurrentConfigurationGrid>25:00</CurrentConfigurationGrid>
       <ExecutionGrid>
         <StopButton role="button" onClick={handleStop} />
         {!isActive ? (
@@ -80,12 +80,13 @@ export default function CountdownScreen({
 
 const CountdownScreenGrid = styled.main`
   display: grid;
-  grid-template-rows: 1fr 1fr 100px;
+  grid-template-rows: 1fr 1fr auto;
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
+  padding: 70px 50px 60px;
 `
 
 const CountdownGrid = styled.section`
@@ -94,17 +95,18 @@ const CountdownGrid = styled.section`
   grid-template-rows: 1fr 30px;
   align-items: end;
   justify-items: center;
+  padding: 0 0 20px;
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
-const ConfigurationGrid = styled.section`
+const CurrentConfigurationGrid = styled.section`
   display: grid;
-  grid-template-columns: auto auto;
-  gap: 10px;
+  color: #52dfd1;
   align-content: end;
   justify-content: center;
-  animation: slide-opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   padding: 0 0 40px;
+  font-size: 20px;
+  animation: slide-opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
 const ExecutionGrid = styled.section`
@@ -113,6 +115,5 @@ const ExecutionGrid = styled.section`
   gap: 40px;
   align-content: start;
   justify-content: center;
-  padding: 10px;
   animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `

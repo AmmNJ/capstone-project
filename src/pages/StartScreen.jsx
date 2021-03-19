@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro'
-import Header from '../Header/Header'
-import { ReactComponent as GetThingsDoneSVG } from '../../assets/get-things-done.svg'
+import Header from '../components/Header/Header'
+import { ReactComponent as GetThingsDoneSVG } from '../assets/get-things-done.svg'
 
 export default function StartScreen({
   isActive,
@@ -33,9 +33,9 @@ export default function StartScreen({
           50:00
         </CountdownDuration>
       </ConfigutationGrid>
-      <StartGrid>
+      <StartTimerGrid>
         <StartTimerButton onClick={handleStart}>Start Timer</StartTimerButton>
-      </StartGrid>
+      </StartTimerGrid>
     </StartScreenGrid>
   )
 }
@@ -75,10 +75,20 @@ const ConfigutationGrid = styled.section`
   padding: 0 0 40px;
 `
 
-const StartGrid = styled.section`
+const StartTimerGrid = styled.section`
   animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   align-content: end;
   justify-content: center;
+`
+
+const CountdownDuration = styled.button`
+  color: ${props => (props.selected ? '#52DFD1' : '#585858')};
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  width: fit-content;
+  height: fit-content;
+  transition: 0.2s;
 `
 
 const StartTimerButton = styled.button`
@@ -90,13 +100,4 @@ const StartTimerButton = styled.button`
   border: none;
   border-radius: 8px;
   padding: 0;
-`
-const CountdownDuration = styled.button`
-  color: ${props => (props.selected ? '#52DFD1' : '#585858')};
-  border: none;
-  background-color: transparent;
-  font-size: 20px;
-  width: fit-content;
-  height: fit-content;
-  transition: 0.2s;
 `

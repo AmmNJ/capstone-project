@@ -1,7 +1,7 @@
 import Countdown from './Countdown'
 
 export default {
-  title: 'Countdown',
+  title: 'Components/Countdown',
   components: Countdown,
 }
 
