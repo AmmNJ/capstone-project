@@ -4,7 +4,7 @@ import { ReactComponent as GetThingsDoneSVG } from '../../assets/get-things-done
 
 export default function StartScreen({
   isActive,
-  durationLong,
+  isDurationLong,
   handleStart,
   handleDurationShort,
   handleDurationLong,
@@ -21,14 +21,14 @@ export default function StartScreen({
         <CountdownDuration
           onClick={handleDurationShort}
           disabled={isActive}
-          selected={!durationLong}
+          selected={!isDurationLong}
         >
           25:00
         </CountdownDuration>
         <CountdownDuration
           onClick={handleDurationLong}
           disabled={isActive}
-          selected={durationLong}
+          selected={isDurationLong}
         >
           50:00
         </CountdownDuration>

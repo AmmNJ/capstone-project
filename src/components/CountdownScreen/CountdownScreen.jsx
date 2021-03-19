@@ -15,19 +15,19 @@ export default function CountdownScreen({
   endMinutes,
   isActive,
   isPaused,
-  timerExpired,
-  durationLong,
+  isTimerExpired,
+  isDurationLong,
   setCounter,
   setIsActive,
-  setTimerExpired,
+  setIsTimerExpired,
   handleStart,
   handleStop,
   handlePause,
 }) {
   function timer() {
-    if (timerExpired) {
+    if (isTimerExpired) {
       setIsActive(false)
-      durationLong
+      isDurationLong
         ? setCounter([
             parseInt(DURATIONFIFTY.minutes),
             parseInt(DURATIONFIFTY.seconds),
@@ -36,11 +36,12 @@ export default function CountdownScreen({
             parseInt(DURATIONTWENTYFIVE.minutes),
             parseInt(DURATIONTWENTYFIVE.seconds),
           ])
-      setTimerExpired(false)
+      setIsTimerExpired(false)
       return alert('Congratulations! Time is up.')
     }
     if (isPaused) return
-    if (countdownMinutes === 0 && countdownSeconds === 0) setTimerExpired(true)
+    if (countdownMinutes === 0 && countdownSeconds === 0)
+      setIsTimerExpired(true)
     else if (countdownSeconds === 0) {
       setCounter([countdownMinutes - 1, 59])
     } else {

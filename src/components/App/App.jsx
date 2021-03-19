@@ -38,7 +38,7 @@ function App() {
           parseInt(DURATIONTWENTYFIVE.minutes),
           parseInt(DURATIONTWENTYFIVE.seconds),
         ])
-    setTimerExpired(false)
+    setIsTimerExpired(false)
     setIsActive(false)
     setIsPaused(false)
     push('/')
