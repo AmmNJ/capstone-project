@@ -8,10 +8,10 @@ function App() {
   const DURATIONTWENTYFIVE = { minutes: 25, seconds: 0 }
   const DURATIONFIFTY = { minutes: 50, seconds: 0 }
 
-  const [durationLong, setDurationLong] = useState(false)
+  const [isDurationLong, setIsDurationLong] = useState(false)
   const [isActive, setIsActive] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
-  const [timerExpired, setTimerExpired] = useState(false)
+  const [isTimerExpired, setIsTimerExpired] = useState(false)
   const [[endHours, endMinutes], setEndTime] = useState([])
   const [[countdownMinutes, countdownSeconds], setCounter] = useState([
     DURATIONTWENTYFIVE.minutes,
@@ -19,17 +19,17 @@ function App() {
   ])
 
   function handleDurationShort() {
-    setDurationLong(false)
+    setIsDurationLong(false)
     setCounter([DURATIONTWENTYFIVE.minutes, DURATIONTWENTYFIVE.seconds])
   }
 
   function handleDurationLong() {
-    setDurationLong(true)
+    setIsDurationLong(true)
     setCounter([DURATIONFIFTY.minutes, DURATIONFIFTY.seconds])
   }
 
   function handleStop() {
-    durationLong
+    isDurationLong
       ? setCounter([
           parseInt(DURATIONFIFTY.minutes),
           parseInt(DURATIONFIFTY.seconds),
@@ -50,7 +50,7 @@ function App() {
     const endDateObj = new Date()
 
     if (isPaused) {
-      durationLong
+      isDurationLong
         ? endDateObj.setTime(
             currentDateObj.getTime() +
               (countdownMinutes + countdownSeconds / 60) * 60 * 1000
@@ -61,7 +61,7 @@ function App() {
           )
       setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
     } else {
-      durationLong
+      isDurationLong
         ? endDateObj.setTime(
             currentDateObj.getTime() + DURATIONFIFTY.minutes * 60 * 1000
           )
@@ -83,7 +83,7 @@ function App() {
         <Route exact path="/">
           <StartScreen
             isActive={isActive}
-            durationLong={durationLong}
+            isDurationLong={isDurationLong}
             handleStart={handleStart}
             handleDurationShort={handleDurationShort}
             handleDurationLong={handleDurationLong}
@@ -101,11 +101,11 @@ function App() {
             endMinutes={endMinutes}
             isActive={isActive}
             isPaused={isPaused}
-            timerExpired={timerExpired}
-            durationLong={durationLong}
+            isDurationLong={isDurationLong}
+            isTimerExpired={isTimerExpired}
             setCounter={setCounter}
             setIsActive={setIsActive}
-            setTimerExpired={setTimerExpired}
+            setIsTimerExpired={setIsTimerExpired}
             handleStart={handleStart}
             handleStop={handleStop}
             handlePause={handlePause}

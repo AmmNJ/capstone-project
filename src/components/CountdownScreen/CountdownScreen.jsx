@@ -100,10 +100,10 @@ const ConfigurationGrid = styled.section`
   display: grid;
   grid-template-columns: auto auto;
   gap: 10px;
-  margin: 0 0 20px;
   align-content: end;
   justify-content: center;
   animation: slide-opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  padding: 0 0 40px;
 `
 
 const ExecutionGrid = styled.section`

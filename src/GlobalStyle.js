@@ -2,7 +2,9 @@ import { createGlobalStyle } from 'styled-components'
 
 export default createGlobalStyle`
   * {
-    box-sizing: border-box
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -moz-tap-highlight-color: rgba(0, 0, 0, 0);
   }
 
   body {
