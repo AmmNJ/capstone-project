@@ -65,7 +65,11 @@ export default function CountdownScreen({
         />
         {isActive && <EndTime endHours={endHours} endMinutes={endMinutes} />}
       </CountdownGrid>
-      <CurrentConfigurationGrid>25:00</CurrentConfigurationGrid>
+      <CurrentConfigurationGrid>
+        {isDurationLong
+          ? DURATIONFIFTY.minutes + ':' + DURATIONFIFTY.seconds
+          : DURATIONTWENTYFIVE.minutes + ':' + DURATIONTWENTYFIVE.seconds}
+      </CurrentConfigurationGrid>
       <ExecutionGrid>
         <StopButton role="button" onClick={handleStop} />
         {!isActive ? (
