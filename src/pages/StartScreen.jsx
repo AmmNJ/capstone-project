@@ -2,10 +2,12 @@ import styled from 'styled-components/macro'
 import Header from '../components/Header/Header'
 import { ReactComponent as GetThingsDoneSVG } from '../assets/get-things-done.svg'
 import { ReactComponent as BreakSVG } from '../assets/break.svg'
-import { useState } from 'react'
 
 export default function StartScreen({
-  isActive,
+  DURATION_TWENTY_FIVE,
+  DURATION_FIFTY,
+  breakCountdownMinutes,
+  breakCountdownSeconds,
   isDurationLong,
   isTimerExpired,
   handleStart,
@@ -13,12 +15,14 @@ export default function StartScreen({
   handleDurationLong,
   setIsTimerExpired,
 }) {
-  const [isBreakTimerExpired, setIsBreakTimerExpired] = useState(false)
-
   return (
     <StartScreenGrid>
       <HeaderGrid>
-        <Header text="Let’s get things done" />
+        {isTimerExpired ? (
+          <Header text="Time for a break" />
+        ) : (
+          <Header text="Let’s get things done" />
+        )}
       </HeaderGrid>
       <IllustrationGrid>
         {isTimerExpired ? <BreakSVG /> : <GetThingsDoneSVG />}
@@ -28,19 +32,24 @@ export default function StartScreen({
           onClick={handleDurationShort}
           selected={!isDurationLong}
         >
-          25:00
+          {DURATION_TWENTY_FIVE.minutes.toString().padStart(2, '0') +
+            ':' +
+            DURATION_TWENTY_FIVE.seconds.toString().padStart(2, '0')}
         </CountdownDuration>
         <CountdownDuration
           onClick={handleDurationLong}
           selected={isDurationLong}
         >
-          50:00
+          {DURATION_FIFTY.minutes.toString().padStart(2, '0') +
+            ':' +
+            DURATION_FIFTY.seconds.toString().padStart(2, '0')}
         </CountdownDuration>
       </ConfigutationGrid>
       <StartTimerGrid>
         {isTimerExpired ? (
           <BreakTimerButton onClick={handleBreakAlert}>
-            Start Timer
+            {breakCountdownMinutes.toString().padStart(2, '0')}:
+            {breakCountdownSeconds.toString().padStart(2, '0')}
           </BreakTimerButton>
         ) : (
           <StartTimerButton onClick={handleStart}>Start Timer</StartTimerButton>
@@ -57,20 +66,6 @@ export default function StartScreen({
       setIsTimerExpired(false)
     }
   }
-  // function breakTimer() {
-  //   if (isTimerExpired) {
-  //     setIsBreakTimerExpired(false)
-  //     return alert('Congratulations! Time is up.')
-  //   }
-  //   if (isPaused) return
-  //   if (countdownMinutes === 0 && countdownSeconds === 0)
-  //     setIsBreakTimerExpired(true)
-  //   else if (countdownSeconds === 0) {
-  //     setBreakCounter([countdownMinutes - 1, 59])
-  //   } else {
-  //     setBreakCounter([countdownMinutes, countdownSeconds - 1])
-  //   }
-  // }
 }
 
 const StartScreenGrid = styled.main`
@@ -133,6 +128,7 @@ const StartTimerButton = styled.button`
   border: none;
   border-radius: 8px;
   padding: 0;
+  animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
 const BreakTimerButton = styled.button`
@@ -144,4 +140,5 @@ const BreakTimerButton = styled.button`
   border: none;
   border-radius: 8px;
   padding: 0;
+  animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `

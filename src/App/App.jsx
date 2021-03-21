@@ -5,17 +5,35 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 
 function App() {
   const { push } = useHistory()
-  const DURATION_TWENTY_FIVE = { minutes: 0, seconds: 3 }
-  const DURATION_FIFTY = { minutes: 0, seconds: 5 }
+  const DURATION_TWENTY_FIVE = {
+    minutes: 0,
+    seconds: 3,
+    breakMinutes: 0,
+    breakSeconds: 3,
+  }
+  const DURATION_FIFTY = {
+    minutes: 0,
+    seconds: 5,
+    breakMinutes: 0,
+    breakSeconds: 5,
+  }
 
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [isActive, setIsActive] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
   const [isTimerExpired, setIsTimerExpired] = useState(false)
+  const [isBreakTimerExpired, setIsBreakTimerExpired] = useState(false)
   const [[endHours, endMinutes], setEndTime] = useState([])
   const [[countdownMinutes, countdownSeconds], setCounter] = useState([
     DURATION_TWENTY_FIVE.minutes,
     DURATION_TWENTY_FIVE.seconds,
+  ])
+  const [
+    [breakCountdownMinutes, breakCountdownSeconds],
+    setBreakCounter,
+  ] = useState([
+    DURATION_TWENTY_FIVE.breakMinutes,
+    DURATION_TWENTY_FIVE.breakSeconds,
   ])
 
   useEffect(() => {
@@ -25,18 +43,28 @@ function App() {
     }
   })
 
+  useEffect(() => {
+    if (isTimerExpired) {
+      const breakTimeoutID = setTimeout(() => breakTimer(), 1000)
+      return () => clearTimeout(breakTimeoutID)
+    }
+  })
+
   return (
     <>
       <Switch>
         <Route exact path="/">
           <StartScreen
-            isActive={isActive}
+            DURATION_TWENTY_FIVE={DURATION_TWENTY_FIVE}
+            DURATION_FIFTY={DURATION_FIFTY}
+            breakCountdownMinutes={breakCountdownMinutes}
+            breakCountdownSeconds={breakCountdownSeconds}
             isDurationLong={isDurationLong}
             isTimerExpired={isTimerExpired}
+            setIsTimerExpired={setIsTimerExpired}
             handleStart={handleStart}
             handleDurationShort={handleDurationShort}
             handleDurationLong={handleDurationLong}
-            setIsTimerExpired={setIsTimerExpired}
           />
         </Route>
         {(isActive || isPaused) && (
@@ -63,16 +91,40 @@ function App() {
   function timer() {
     if (isTimerExpired) {
       setIsActive(false)
+      isDurationLong
+        ? setBreakCounter([
+            DURATION_FIFTY.breakMinutes,
+            DURATION_FIFTY.breakSeconds,
+          ])
+        : setBreakCounter([
+            DURATION_TWENTY_FIVE.breakMinutes,
+            DURATION_TWENTY_FIVE.breakSeconds,
+          ])
       push('/')
       return alert('Congratulations! Time is up.')
     }
     if (isPaused) return
-    if (countdownMinutes === 0 && countdownSeconds === 0)
+    if (countdownMinutes === 0 && countdownSeconds === 0) {
       setIsTimerExpired(true)
-    else if (countdownSeconds === 0) {
+    } else if (countdownSeconds === 0) {
       setCounter([countdownMinutes - 1, 59])
     } else {
       setCounter([countdownMinutes, countdownSeconds - 1])
+    }
+  }
+
+  function breakTimer() {
+    if (isBreakTimerExpired) {
+      setIsTimerExpired(false)
+      setIsBreakTimerExpired(false)
+      return
+    }
+    if (breakCountdownMinutes === 0 && breakCountdownSeconds === 0)
+      setIsBreakTimerExpired(true)
+    else if (breakCountdownSeconds === 0) {
+      setBreakCounter([breakCountdownMinutes - 1, 59])
+    } else {
+      setBreakCounter([breakCountdownMinutes, breakCountdownSeconds - 1])
     }
   }
 
@@ -131,9 +183,7 @@ function App() {
         parseInt(DURATION_TWENTY_FIVE.seconds),
       ])
     }
-
     setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
-
     setIsPaused(false)
     push('/countdown')
   }
