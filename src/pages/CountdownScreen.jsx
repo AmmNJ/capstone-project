@@ -7,8 +7,8 @@ import { ReactComponent as StopButton } from '../assets/stop-icon.svg'
 import { useEffect } from 'react'
 
 export default function CountdownScreen({
-  DURATIONTWENTYFIVE,
-  DURATIONFIFTY,
+  DURATION_TWENTY_FIVE,
+  DURATION_FIFTY,
   countdownMinutes,
   countdownSeconds,
   endHours,
@@ -29,12 +29,12 @@ export default function CountdownScreen({
       setIsActive(false)
       isDurationLong
         ? setCounter([
-            parseInt(DURATIONFIFTY.minutes),
-            parseInt(DURATIONFIFTY.seconds),
+            parseInt(DURATION_FIFTY.minutes),
+            parseInt(DURATION_FIFTY.seconds),
           ])
         : setCounter([
-            parseInt(DURATIONTWENTYFIVE.minutes),
-            parseInt(DURATIONTWENTYFIVE.seconds),
+            parseInt(DURATION_TWENTY_FIVE.minutes),
+            parseInt(DURATION_TWENTY_FIVE.seconds),
           ])
       setIsTimerExpired(false)
       return alert('Congratulations! Time is up.')
@@ -67,8 +67,12 @@ export default function CountdownScreen({
       </CountdownGrid>
       <CurrentConfigurationGrid>
         {isDurationLong
-          ? DURATIONFIFTY.minutes + ':' + DURATIONFIFTY.seconds
-          : DURATIONTWENTYFIVE.minutes + ':' + DURATIONTWENTYFIVE.seconds}
+          ? DURATION_FIFTY.minutes.toString().padStart(2, '0') +
+            ':' +
+            DURATION_FIFTY.seconds.toString().padStart(2, '0')
+          : DURATION_TWENTY_FIVE.minutes.toString().padStart(2, '0') +
+            ':' +
+            DURATION_TWENTY_FIVE.seconds.toString().padStart(2, '0')}
       </CurrentConfigurationGrid>
       <ExecutionGrid>
         <StopButton role="button" onClick={handleStop} />

@@ -5,8 +5,8 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 
 function App() {
   const { push } = useHistory()
-  const DURATIONTWENTYFIVE = { minutes: 25, seconds: 0 }
-  const DURATIONFIFTY = { minutes: 50, seconds: 0 }
+  const DURATION_TWENTY_FIVE = { minutes: 25, seconds: 0 }
+  const DURATION_FIFTY = { minutes: 50, seconds: 0 }
 
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [isActive, setIsActive] = useState(false)
@@ -14,29 +14,29 @@ function App() {
   const [isTimerExpired, setIsTimerExpired] = useState(false)
   const [[endHours, endMinutes], setEndTime] = useState([])
   const [[countdownMinutes, countdownSeconds], setCounter] = useState([
-    DURATIONTWENTYFIVE.minutes,
-    DURATIONTWENTYFIVE.seconds,
+    DURATION_TWENTY_FIVE.minutes,
+    DURATION_TWENTY_FIVE.seconds,
   ])
 
   function handleDurationShort() {
     setIsDurationLong(false)
-    setCounter([DURATIONTWENTYFIVE.minutes, DURATIONTWENTYFIVE.seconds])
+    setCounter([DURATION_TWENTY_FIVE.minutes, DURATION_TWENTY_FIVE.seconds])
   }
 
   function handleDurationLong() {
     setIsDurationLong(true)
-    setCounter([DURATIONFIFTY.minutes, DURATIONFIFTY.seconds])
+    setCounter([DURATION_FIFTY.minutes, DURATION_FIFTY.seconds])
   }
 
   function handleStop() {
     isDurationLong
       ? setCounter([
-          parseInt(DURATIONFIFTY.minutes),
-          parseInt(DURATIONFIFTY.seconds),
+          parseInt(DURATION_FIFTY.minutes),
+          parseInt(DURATION_FIFTY.seconds),
         ])
       : setCounter([
-          parseInt(DURATIONTWENTYFIVE.minutes),
-          parseInt(DURATIONTWENTYFIVE.seconds),
+          parseInt(DURATION_TWENTY_FIVE.minutes),
+          parseInt(DURATION_TWENTY_FIVE.seconds),
         ])
     setIsTimerExpired(false)
     setIsActive(false)
@@ -63,10 +63,10 @@ function App() {
     } else {
       isDurationLong
         ? endDateObj.setTime(
-            currentDateObj.getTime() + DURATIONFIFTY.minutes * 60 * 1000
+            currentDateObj.getTime() + DURATION_FIFTY.minutes * 60 * 1000
           )
         : endDateObj.setTime(
-            currentDateObj.getTime() + DURATIONTWENTYFIVE.minutes * 60 * 1000
+            currentDateObj.getTime() + DURATION_TWENTY_FIVE.minutes * 60 * 1000
           )
       setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
     }
@@ -94,8 +94,8 @@ function App() {
         {(isActive || isPaused) && (
           <Route path="/countdown">
             <CountdownScreen
-              DURATIONTWENTYFIVE={DURATIONTWENTYFIVE}
-              DURATIONFIFTY={DURATIONFIFTY}
+              DURATION_TWENTY_FIVE={DURATION_TWENTY_FIVE}
+              DURATION_FIFTY={DURATION_FIFTY}
               countdownMinutes={countdownMinutes}
               countdownSeconds={countdownSeconds}
               endHours={endHours}
