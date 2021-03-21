@@ -1,7 +1,7 @@
 import EndTime from './EndTime'
 
 export default {
-  title: 'EndTime',
+  title: 'Components/EndTime',
   components: EndTime,
 }
 
