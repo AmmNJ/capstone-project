@@ -5,8 +5,8 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 
 function App() {
   const { push } = useHistory()
-  const DURATION_TWENTY_FIVE = { minutes: 25, seconds: 0 }
-  const DURATION_FIFTY = { minutes: 50, seconds: 0 }
+  const DURATION_TWENTY_FIVE = { minutes: 0, seconds: 3 }
+  const DURATION_FIFTY = { minutes: 0, seconds: 5 }
 
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [isActive, setIsActive] = useState(false)
@@ -32,9 +32,11 @@ function App() {
           <StartScreen
             isActive={isActive}
             isDurationLong={isDurationLong}
+            isTimerExpired={isTimerExpired}
             handleStart={handleStart}
             handleDurationShort={handleDurationShort}
             handleDurationLong={handleDurationLong}
+            setIsTimerExpired={setIsTimerExpired}
           />
         </Route>
         {(isActive || isPaused) && (
@@ -61,7 +63,6 @@ function App() {
   function timer() {
     if (isTimerExpired) {
       setIsActive(false)
-      setIsTimerExpired(false)
       push('/')
       return alert('Congratulations! Time is up.')
     }
@@ -103,6 +104,7 @@ function App() {
 
   function handleStart() {
     setIsActive(true)
+    setIsTimerExpired(false)
     const currentDateObj = new Date()
     const endDateObj = new Date()
     const endTimeActive =
@@ -116,12 +118,22 @@ function App() {
     if (isPaused) {
       endDateObj.setTime(endTimeActive)
       setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
+    } else if (isDurationLong) {
+      setCounter([
+        parseInt(DURATION_FIFTY.minutes),
+        parseInt(DURATION_FIFTY.seconds),
+      ])
+      endDateObj.setTime(endTimeLong)
     } else {
-      isDurationLong
-        ? endDateObj.setTime(endTimeShort)
-        : endDateObj.setTime(endTimeLong)
-      setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
+      endDateObj.setTime(endTimeShort)
+      setCounter([
+        parseInt(DURATION_TWENTY_FIVE.minutes),
+        parseInt(DURATION_TWENTY_FIVE.seconds),
+      ])
     }
+
+    setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
+
     setIsPaused(false)
     push('/countdown')
   }

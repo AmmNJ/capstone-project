@@ -1,43 +1,76 @@
 import styled from 'styled-components/macro'
 import Header from '../components/Header/Header'
 import { ReactComponent as GetThingsDoneSVG } from '../assets/get-things-done.svg'
+import { ReactComponent as BreakSVG } from '../assets/break.svg'
+import { useState } from 'react'
 
 export default function StartScreen({
   isActive,
   isDurationLong,
+  isTimerExpired,
   handleStart,
   handleDurationShort,
   handleDurationLong,
+  setIsTimerExpired,
 }) {
+  const [isBreakTimerExpired, setIsBreakTimerExpired] = useState(false)
+
   return (
     <StartScreenGrid>
       <HeaderGrid>
         <Header text="Let’s get things done" />
       </HeaderGrid>
       <IllustrationGrid>
-        <GetThingsDoneSVG />
+        {isTimerExpired ? <BreakSVG /> : <GetThingsDoneSVG />}
       </IllustrationGrid>
       <ConfigutationGrid>
         <CountdownDuration
           onClick={handleDurationShort}
-          disabled={isActive}
           selected={!isDurationLong}
         >
           25:00
         </CountdownDuration>
         <CountdownDuration
           onClick={handleDurationLong}
-          disabled={isActive}
           selected={isDurationLong}
         >
           50:00
         </CountdownDuration>
       </ConfigutationGrid>
       <StartTimerGrid>
-        <StartTimerButton onClick={handleStart}>Start Timer</StartTimerButton>
+        {isTimerExpired ? (
+          <BreakTimerButton onClick={handleBreakAlert}>
+            Start Timer
+          </BreakTimerButton>
+        ) : (
+          <StartTimerButton onClick={handleStart}>Start Timer</StartTimerButton>
+        )}
       </StartTimerGrid>
     </StartScreenGrid>
   )
+  function handleBreakAlert() {
+    if (
+      window.confirm(
+        'Your break is not finished yet. Are you sure to continue?'
+      )
+    ) {
+      setIsTimerExpired(false)
+    }
+  }
+  // function breakTimer() {
+  //   if (isTimerExpired) {
+  //     setIsBreakTimerExpired(false)
+  //     return alert('Congratulations! Time is up.')
+  //   }
+  //   if (isPaused) return
+  //   if (countdownMinutes === 0 && countdownSeconds === 0)
+  //     setIsBreakTimerExpired(true)
+  //   else if (countdownSeconds === 0) {
+  //     setBreakCounter([countdownMinutes - 1, 59])
+  //   } else {
+  //     setBreakCounter([countdownMinutes, countdownSeconds - 1])
+  //   }
+  // }
 }
 
 const StartScreenGrid = styled.main`
@@ -95,6 +128,17 @@ const StartTimerButton = styled.button`
   font-size: 20px;
   color: white;
   background: linear-gradient(125deg, #a4e3cc, #56dfd1);
+  height: 50px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+`
+
+const BreakTimerButton = styled.button`
+  font-size: 20px;
+  color: white;
+  background: gray;
   height: 50px;
   width: 100%;
   border: none;
