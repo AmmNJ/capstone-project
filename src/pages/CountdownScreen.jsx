@@ -4,7 +4,6 @@ import EndTime from '../components/EndTime/EndTime'
 import { ReactComponent as PlayButton } from '../assets/play-icon.svg'
 import { ReactComponent as PauseButton } from '../assets/pause-icon.svg'
 import { ReactComponent as StopButton } from '../assets/stop-icon.svg'
-import { useEffect } from 'react'
 
 export default function CountdownScreen({
   DURATION_TWENTY_FIVE,
@@ -14,22 +13,11 @@ export default function CountdownScreen({
   endHours,
   endMinutes,
   isActive,
-  isPaused,
-  isTimerExpired,
   isDurationLong,
-  setCounter,
-  setIsActive,
-  setIsTimerExpired,
   handleStart,
   handleStop,
   handlePause,
 }) {
-  useEffect(() => {
-    if (isActive) {
-      const timeoutID = setTimeout(() => timer(), 1000)
-      return () => clearTimeout(timeoutID)
-    }
-  })
   return (
     <CountdownScreenGrid>
       <CountdownGrid>
@@ -58,31 +46,6 @@ export default function CountdownScreen({
       </ExecutionGrid>
     </CountdownScreenGrid>
   )
-
-  function timer() {
-    if (isTimerExpired) {
-      setIsActive(false)
-      isDurationLong
-        ? setCounter([
-            parseInt(DURATION_FIFTY.minutes),
-            parseInt(DURATION_FIFTY.seconds),
-          ])
-        : setCounter([
-            parseInt(DURATION_TWENTY_FIVE.minutes),
-            parseInt(DURATION_TWENTY_FIVE.seconds),
-          ])
-      setIsTimerExpired(false)
-      return alert('Congratulations! Time is up.')
-    }
-    if (isPaused) return
-    if (countdownMinutes === 0 && countdownSeconds === 0)
-      setIsTimerExpired(true)
-    else if (countdownSeconds === 0) {
-      setCounter([countdownMinutes - 1, 59])
-    } else {
-      setCounter([countdownMinutes, countdownSeconds - 1])
-    }
-  }
 }
 
 const CountdownScreenGrid = styled.main`

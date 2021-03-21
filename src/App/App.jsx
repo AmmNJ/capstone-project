@@ -1,12 +1,12 @@
 import CountdownScreen from '../pages/CountdownScreen'
 import StartScreen from '../pages/StartScreen'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 
 function App() {
   const { push } = useHistory()
-  const DURATION_TWENTY_FIVE = { minutes: 25, seconds: 0 }
-  const DURATION_FIFTY = { minutes: 50, seconds: 0 }
+  const DURATION_TWENTY_FIVE = { minutes: 0, seconds: 3 }
+  const DURATION_FIFTY = { minutes: 0, seconds: 5 }
 
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [isActive, setIsActive] = useState(false)
@@ -17,6 +17,13 @@ function App() {
     DURATION_TWENTY_FIVE.minutes,
     DURATION_TWENTY_FIVE.seconds,
   ])
+
+  useEffect(() => {
+    if (isActive) {
+      const timeoutID = setTimeout(() => timer(), 1000)
+      return () => clearTimeout(timeoutID)
+    }
+  })
 
   return (
     <>
@@ -40,12 +47,7 @@ function App() {
               endHours={endHours}
               endMinutes={endMinutes}
               isActive={isActive}
-              isPaused={isPaused}
               isDurationLong={isDurationLong}
-              isTimerExpired={isTimerExpired}
-              setCounter={setCounter}
-              setIsActive={setIsActive}
-              setIsTimerExpired={setIsTimerExpired}
               handleStart={handleStart}
               handleStop={handleStop}
               handlePause={handlePause}
@@ -55,6 +57,23 @@ function App() {
       </Switch>
     </>
   )
+
+  function timer() {
+    if (isTimerExpired) {
+      setIsActive(false)
+      setIsTimerExpired(false)
+      push('/')
+      return alert('Congratulations! Time is up.')
+    }
+    if (isPaused) return
+    if (countdownMinutes === 0 && countdownSeconds === 0)
+      setIsTimerExpired(true)
+    else if (countdownSeconds === 0) {
+      setCounter([countdownMinutes - 1, 59])
+    } else {
+      setCounter([countdownMinutes, countdownSeconds - 1])
+    }
+  }
 
   function handleDurationShort() {
     setIsDurationLong(false)
