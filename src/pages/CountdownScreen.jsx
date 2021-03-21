@@ -24,38 +24,12 @@ export default function CountdownScreen({
   handleStop,
   handlePause,
 }) {
-  function timer() {
-    if (isTimerExpired) {
-      setIsActive(false)
-      isDurationLong
-        ? setCounter([
-            parseInt(DURATION_FIFTY.minutes),
-            parseInt(DURATION_FIFTY.seconds),
-          ])
-        : setCounter([
-            parseInt(DURATION_TWENTY_FIVE.minutes),
-            parseInt(DURATION_TWENTY_FIVE.seconds),
-          ])
-      setIsTimerExpired(false)
-      return alert('Congratulations! Time is up.')
-    }
-    if (isPaused) return
-    if (countdownMinutes === 0 && countdownSeconds === 0)
-      setIsTimerExpired(true)
-    else if (countdownSeconds === 0) {
-      setCounter([countdownMinutes - 1, 59])
-    } else {
-      setCounter([countdownMinutes, countdownSeconds - 1])
-    }
-  }
-
   useEffect(() => {
     if (isActive) {
       const timeoutID = setTimeout(() => timer(), 1000)
       return () => clearTimeout(timeoutID)
     }
   })
-
   return (
     <CountdownScreenGrid>
       <CountdownGrid>
@@ -84,6 +58,31 @@ export default function CountdownScreen({
       </ExecutionGrid>
     </CountdownScreenGrid>
   )
+
+  function timer() {
+    if (isTimerExpired) {
+      setIsActive(false)
+      isDurationLong
+        ? setCounter([
+            parseInt(DURATION_FIFTY.minutes),
+            parseInt(DURATION_FIFTY.seconds),
+          ])
+        : setCounter([
+            parseInt(DURATION_TWENTY_FIVE.minutes),
+            parseInt(DURATION_TWENTY_FIVE.seconds),
+          ])
+      setIsTimerExpired(false)
+      return alert('Congratulations! Time is up.')
+    }
+    if (isPaused) return
+    if (countdownMinutes === 0 && countdownSeconds === 0)
+      setIsTimerExpired(true)
+    else if (countdownSeconds === 0) {
+      setCounter([countdownMinutes - 1, 59])
+    } else {
+      setCounter([countdownMinutes, countdownSeconds - 1])
+    }
+  }
 }
 
 const CountdownScreenGrid = styled.main`

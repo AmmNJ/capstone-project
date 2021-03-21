@@ -18,6 +18,46 @@ function App() {
     DURATION_TWENTY_FIVE.seconds,
   ])
 
+  return (
+    <>
+      <Switch>
+        <Route exact path="/">
+          <StartScreen
+            isActive={isActive}
+            isDurationLong={isDurationLong}
+            handleStart={handleStart}
+            handleDurationShort={handleDurationShort}
+            handleDurationLong={handleDurationLong}
+          />
+        </Route>
+      </Switch>
+      <Switch>
+        {(isActive || isPaused) && (
+          <Route path="/countdown">
+            <CountdownScreen
+              DURATION_TWENTY_FIVE={DURATION_TWENTY_FIVE}
+              DURATION_FIFTY={DURATION_FIFTY}
+              countdownMinutes={countdownMinutes}
+              countdownSeconds={countdownSeconds}
+              endHours={endHours}
+              endMinutes={endMinutes}
+              isActive={isActive}
+              isPaused={isPaused}
+              isDurationLong={isDurationLong}
+              isTimerExpired={isTimerExpired}
+              setCounter={setCounter}
+              setIsActive={setIsActive}
+              setIsTimerExpired={setIsTimerExpired}
+              handleStart={handleStart}
+              handleStop={handleStop}
+              handlePause={handlePause}
+            />
+          </Route>
+        )}
+      </Switch>
+    </>
+  )
+
   function handleDurationShort() {
     setIsDurationLong(false)
     setCounter([DURATION_TWENTY_FIVE.minutes, DURATION_TWENTY_FIVE.seconds])
@@ -77,45 +117,6 @@ function App() {
     setIsPaused(true)
     setIsActive(false)
   }
-  return (
-    <>
-      <Switch>
-        <Route exact path="/">
-          <StartScreen
-            isActive={isActive}
-            isDurationLong={isDurationLong}
-            handleStart={handleStart}
-            handleDurationShort={handleDurationShort}
-            handleDurationLong={handleDurationLong}
-          />
-        </Route>
-      </Switch>
-      <Switch>
-        {(isActive || isPaused) && (
-          <Route path="/countdown">
-            <CountdownScreen
-              DURATION_TWENTY_FIVE={DURATION_TWENTY_FIVE}
-              DURATION_FIFTY={DURATION_FIFTY}
-              countdownMinutes={countdownMinutes}
-              countdownSeconds={countdownSeconds}
-              endHours={endHours}
-              endMinutes={endMinutes}
-              isActive={isActive}
-              isPaused={isPaused}
-              isDurationLong={isDurationLong}
-              isTimerExpired={isTimerExpired}
-              setCounter={setCounter}
-              setIsActive={setIsActive}
-              setIsTimerExpired={setIsTimerExpired}
-              handleStart={handleStart}
-              handleStop={handleStop}
-              handlePause={handlePause}
-            />
-          </Route>
-        )}
-      </Switch>
-    </>
-  )
 }
 
 export default App
