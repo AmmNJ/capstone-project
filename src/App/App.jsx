@@ -5,8 +5,8 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 
 function App() {
   const { push } = useHistory()
-  const DURATION_TWENTY_FIVE = { minutes: 0, seconds: 3 }
-  const DURATION_FIFTY = { minutes: 0, seconds: 5 }
+  const DURATION_TWENTY_FIVE = { minutes: 25, seconds: 0 }
+  const DURATION_FIFTY = { minutes: 50, seconds: 0 }
 
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [isActive, setIsActive] = useState(false)
