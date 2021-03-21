@@ -30,8 +30,6 @@ function App() {
             handleDurationLong={handleDurationLong}
           />
         </Route>
-      </Switch>
-      <Switch>
         {(isActive || isPaused) && (
           <Route path="/countdown">
             <CountdownScreen
@@ -88,31 +86,27 @@ function App() {
     setIsActive(true)
     const currentDateObj = new Date()
     const endDateObj = new Date()
+    const endTimeActive =
+      currentDateObj.getTime() +
+      (countdownMinutes + countdownSeconds / 60) * 60 * 1000
+    const endTimeShort =
+      currentDateObj.getTime() + DURATION_FIFTY.minutes * 60 * 1000
+    const endTimeLong =
+      currentDateObj.getTime() + DURATION_TWENTY_FIVE.minutes * 60 * 1000
 
     if (isPaused) {
-      isDurationLong
-        ? endDateObj.setTime(
-            currentDateObj.getTime() +
-              (countdownMinutes + countdownSeconds / 60) * 60 * 1000
-          )
-        : endDateObj.setTime(
-            currentDateObj.getTime() +
-              (countdownMinutes + countdownSeconds / 60) * 60 * 1000
-          )
+      endDateObj.setTime(endTimeActive)
       setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
     } else {
       isDurationLong
-        ? endDateObj.setTime(
-            currentDateObj.getTime() + DURATION_FIFTY.minutes * 60 * 1000
-          )
-        : endDateObj.setTime(
-            currentDateObj.getTime() + DURATION_TWENTY_FIVE.minutes * 60 * 1000
-          )
+        ? endDateObj.setTime(endTimeShort)
+        : endDateObj.setTime(endTimeLong)
       setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
     }
     setIsPaused(false)
     push('/countdown')
   }
+
   function handlePause() {
     setIsPaused(true)
     setIsActive(false)
