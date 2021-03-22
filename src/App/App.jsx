@@ -6,16 +6,16 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 function App() {
   const { push } = useHistory()
   const DURATION_TWENTY_FIVE = {
-    minutes: 0,
-    seconds: 3,
-    breakMinutes: 0,
-    breakSeconds: 3,
+    minutes: 25,
+    seconds: 0,
+    breakMinutes: 5,
+    breakSeconds: 0,
   }
   const DURATION_FIFTY = {
-    minutes: 0,
-    seconds: 5,
-    breakMinutes: 0,
-    breakSeconds: 5,
+    minutes: 50,
+    seconds: 0,
+    breakMinutes: 10,
+    breakSeconds: 0,
   }
 
   const [isDurationLong, setIsDurationLong] = useState(false)
@@ -163,9 +163,9 @@ function App() {
       currentDateObj.getTime() +
       (countdownMinutes + countdownSeconds / 60) * 60 * 1000
     const endTimeShort =
-      currentDateObj.getTime() + DURATION_FIFTY.minutes * 60 * 1000
-    const endTimeLong =
       currentDateObj.getTime() + DURATION_TWENTY_FIVE.minutes * 60 * 1000
+    const endTimeLong =
+      currentDateObj.getTime() + DURATION_FIFTY.minutes * 60 * 1000
 
     if (isPaused) {
       endDateObj.setTime(endTimeActive)
