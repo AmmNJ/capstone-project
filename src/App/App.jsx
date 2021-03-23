@@ -6,16 +6,16 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 function App() {
   const { push } = useHistory()
   const DURATION_TWENTY_FIVE = {
-    minutes: 25,
-    seconds: 0,
-    breakMinutes: 5,
-    breakSeconds: 0,
+    minutes: 0,
+    seconds: 3,
+    breakMinutes: 0,
+    breakSeconds: 3,
   }
   const DURATION_FIFTY = {
-    minutes: 50,
-    seconds: 0,
-    breakMinutes: 10,
-    breakSeconds: 0,
+    minutes: 0,
+    seconds: 5,
+    breakMinutes: 0,
+    breakSeconds: 5,
   }
 
   const [isDurationLong, setIsDurationLong] = useState(false)
@@ -41,7 +41,7 @@ function App() {
       const timeoutID = setTimeout(() => timer(), 1000)
       return () => clearTimeout(timeoutID)
     }
-  })
+  }, [isActive, countdownMinutes, countdownSeconds, isTimerExpired])
 
   useEffect(() => {
     if (isTimerExpired) {
@@ -101,7 +101,7 @@ function App() {
             DURATION_TWENTY_FIVE.breakSeconds,
           ])
       push('/')
-      return alert('Congratulations! Time is up.')
+      return alert('yo')
     }
     if (isPaused) return
     if (countdownMinutes === 0 && countdownSeconds === 0) {
