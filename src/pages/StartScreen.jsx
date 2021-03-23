@@ -1,43 +1,71 @@
 import styled from 'styled-components/macro'
 import Header from '../components/Header/Header'
 import { ReactComponent as GetThingsDoneSVG } from '../assets/get-things-done.svg'
+import { ReactComponent as BreakSVG } from '../assets/break.svg'
 
 export default function StartScreen({
-  isActive,
+  DURATION_TWENTY_FIVE,
+  DURATION_FIFTY,
+  breakCountdownMinutes,
+  breakCountdownSeconds,
   isDurationLong,
+  isTimerExpired,
   handleStart,
   handleDurationShort,
   handleDurationLong,
+  setIsTimerExpired,
 }) {
   return (
     <StartScreenGrid>
       <HeaderGrid>
-        <Header text="Let’s get things done" />
+        {isTimerExpired ? (
+          <Header text="Time for a break" />
+        ) : (
+          <Header text="Let’s get things done" />
+        )}
       </HeaderGrid>
       <IllustrationGrid>
-        <GetThingsDoneSVG />
+        {isTimerExpired ? <BreakSVG /> : <GetThingsDoneSVG />}
       </IllustrationGrid>
       <ConfigutationGrid>
         <CountdownDuration
           onClick={handleDurationShort}
-          disabled={isActive}
           selected={!isDurationLong}
         >
-          25:00
+          {DURATION_TWENTY_FIVE.minutes.toString().padStart(2, '0') +
+            ':' +
+            DURATION_TWENTY_FIVE.seconds.toString().padStart(2, '0')}
         </CountdownDuration>
         <CountdownDuration
           onClick={handleDurationLong}
-          disabled={isActive}
           selected={isDurationLong}
         >
-          50:00
+          {DURATION_FIFTY.minutes.toString().padStart(2, '0') +
+            ':' +
+            DURATION_FIFTY.seconds.toString().padStart(2, '0')}
         </CountdownDuration>
       </ConfigutationGrid>
       <StartTimerGrid>
-        <StartTimerButton onClick={handleStart}>Start Timer</StartTimerButton>
+        {isTimerExpired ? (
+          <BreakTimerButton onClick={handleBreakAlert}>
+            {breakCountdownMinutes.toString().padStart(2, '0')}:
+            {breakCountdownSeconds.toString().padStart(2, '0')}
+          </BreakTimerButton>
+        ) : (
+          <StartTimerButton onClick={handleStart}>Start Timer</StartTimerButton>
+        )}
       </StartTimerGrid>
     </StartScreenGrid>
   )
+  function handleBreakAlert() {
+    if (
+      window.confirm(
+        'Your break is not finished yet. Are you sure to continue?'
+      )
+    ) {
+      setIsTimerExpired(false)
+    }
+  }
 }
 
 const StartScreenGrid = styled.main`
@@ -100,4 +128,17 @@ const StartTimerButton = styled.button`
   border: none;
   border-radius: 8px;
   padding: 0;
+  animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+`
+
+const BreakTimerButton = styled.button`
+  font-size: 20px;
+  color: white;
+  background: gray;
+  height: 50px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
