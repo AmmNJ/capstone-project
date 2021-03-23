@@ -2,20 +2,21 @@ import CountdownScreen from '../pages/CountdownScreen'
 import StartScreen from '../pages/StartScreen'
 import { useState, useEffect } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
+import { useCallback } from 'react'
 
 function App() {
   const { push } = useHistory()
   const DURATION_TWENTY_FIVE = {
-    minutes: 25,
-    seconds: 0,
-    breakMinutes: 5,
-    breakSeconds: 0,
+    minutes: 0,
+    seconds: 3,
+    breakMinutes: 0,
+    breakSeconds: 3,
   }
   const DURATION_FIFTY = {
-    minutes: 50,
-    seconds: 0,
-    breakMinutes: 10,
-    breakSeconds: 0,
+    minutes: 0,
+    seconds: 5,
+    breakMinutes: 0,
+    breakSeconds: 5,
   }
 
   const [isDurationLong, setIsDurationLong] = useState(false)
@@ -36,12 +37,48 @@ function App() {
     DURATION_TWENTY_FIVE.breakSeconds,
   ])
 
+  const timer = useCallback(() => {
+    if (isTimerExpired) {
+      setIsActive(false)
+      isDurationLong
+        ? setBreakCounter([
+            DURATION_FIFTY.breakMinutes,
+            DURATION_FIFTY.breakSeconds,
+          ])
+        : setBreakCounter([
+            DURATION_TWENTY_FIVE.breakMinutes,
+            DURATION_TWENTY_FIVE.breakSeconds,
+          ])
+      push('/')
+      return alert('Congratulations! Time is up.')
+    }
+    if (isPaused) return
+    if (countdownMinutes === 0 && countdownSeconds === 0) {
+      setIsTimerExpired(true)
+    } else if (countdownSeconds === 0) {
+      setCounter([countdownMinutes - 1, 59])
+    } else {
+      setCounter([countdownMinutes, countdownSeconds - 1])
+    }
+  }, [
+    DURATION_FIFTY.breakMinutes,
+    DURATION_FIFTY.breakSeconds,
+    DURATION_TWENTY_FIVE.breakMinutes,
+    DURATION_TWENTY_FIVE.breakSeconds,
+    countdownMinutes,
+    countdownSeconds,
+    isDurationLong,
+    isPaused,
+    isTimerExpired,
+    push,
+  ])
+
   useEffect(() => {
     if (isActive) {
       const timeoutID = setTimeout(() => timer(), 1000)
       return () => clearTimeout(timeoutID)
     }
-  })
+  }, [isActive, timer])
 
   useEffect(() => {
     if (isTimerExpired) {
@@ -87,31 +124,6 @@ function App() {
       </Switch>
     </>
   )
-
-  function timer() {
-    if (isTimerExpired) {
-      setIsActive(false)
-      isDurationLong
-        ? setBreakCounter([
-            DURATION_FIFTY.breakMinutes,
-            DURATION_FIFTY.breakSeconds,
-          ])
-        : setBreakCounter([
-            DURATION_TWENTY_FIVE.breakMinutes,
-            DURATION_TWENTY_FIVE.breakSeconds,
-          ])
-      push('/')
-      return alert('Congratulations! Time is up.')
-    }
-    if (isPaused) return
-    if (countdownMinutes === 0 && countdownSeconds === 0) {
-      setIsTimerExpired(true)
-    } else if (countdownSeconds === 0) {
-      setCounter([countdownMinutes - 1, 59])
-    } else {
-      setCounter([countdownMinutes, countdownSeconds - 1])
-    }
-  }
 
   function breakTimer() {
     if (isBreakTimerExpired) {
