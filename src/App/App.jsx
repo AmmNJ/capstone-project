@@ -1,6 +1,6 @@
 import CountdownScreen from '../pages/CountdownScreen'
 import StartScreen from '../pages/StartScreen'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 
 function App() {
@@ -37,11 +37,47 @@ function App() {
   ])
 
   useEffect(() => {
+    function timer() {
+      if (isTimerExpired) {
+        setIsActive(false)
+        isDurationLong
+          ? setBreakCounter([
+              DURATION_FIFTY.breakMinutes,
+              DURATION_FIFTY.breakSeconds,
+            ])
+          : setBreakCounter([
+              DURATION_TWENTY_FIVE.breakMinutes,
+              DURATION_TWENTY_FIVE.breakSeconds,
+            ])
+        push('/')
+        return alert('yo')
+      }
+      if (isPaused) return
+      if (countdownMinutes === 0 && countdownSeconds === 0) {
+        setIsTimerExpired(true)
+      } else if (countdownSeconds === 0) {
+        setCounter([countdownMinutes - 1, 59])
+      } else {
+        setCounter([countdownMinutes, countdownSeconds - 1])
+      }
+    }
     if (isActive) {
       const timeoutID = setTimeout(() => timer(), 1000)
       return () => clearTimeout(timeoutID)
     }
-  }, [isActive, countdownMinutes, countdownSeconds, isTimerExpired])
+  }, [
+    DURATION_FIFTY.breakMinutes,
+    DURATION_FIFTY.breakSeconds,
+    DURATION_TWENTY_FIVE.breakMinutes,
+    DURATION_TWENTY_FIVE.breakSeconds,
+    countdownMinutes,
+    countdownSeconds,
+    isActive,
+    isDurationLong,
+    isPaused,
+    isTimerExpired,
+    push,
+  ])
 
   useEffect(() => {
     if (isTimerExpired) {
@@ -87,31 +123,6 @@ function App() {
       </Switch>
     </>
   )
-
-  function timer() {
-    if (isTimerExpired) {
-      setIsActive(false)
-      isDurationLong
-        ? setBreakCounter([
-            DURATION_FIFTY.breakMinutes,
-            DURATION_FIFTY.breakSeconds,
-          ])
-        : setBreakCounter([
-            DURATION_TWENTY_FIVE.breakMinutes,
-            DURATION_TWENTY_FIVE.breakSeconds,
-          ])
-      push('/')
-      return alert('yo')
-    }
-    if (isPaused) return
-    if (countdownMinutes === 0 && countdownSeconds === 0) {
-      setIsTimerExpired(true)
-    } else if (countdownSeconds === 0) {
-      setCounter([countdownMinutes - 1, 59])
-    } else {
-      setCounter([countdownMinutes, countdownSeconds - 1])
-    }
-  }
 
   function breakTimer() {
     if (isBreakTimerExpired) {
