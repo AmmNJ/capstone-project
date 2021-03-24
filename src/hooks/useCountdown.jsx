@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 
-const useCountdown = (initialTimer, initialPlaying = false) => {
+export default function useCountdown(initialTimer, initialPlaying = false) {
   const milisecond = useRef(initialTimer * 1000)
   const previous = useRef(milisecond)
   const [timer, setTimer] = useState(initialTimer)

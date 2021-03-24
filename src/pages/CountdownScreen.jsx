@@ -4,6 +4,7 @@ import EndTime from '../components/EndTime/EndTime'
 import { ReactComponent as PlayButton } from '../assets/play-icon.svg'
 import { ReactComponent as PauseButton } from '../assets/pause-icon.svg'
 import { ReactComponent as StopButton } from '../assets/stop-icon.svg'
+import Timer from '../components/CountdownWorking'
 
 export default function CountdownScreen({
   DURATION_TWENTY_FIVE,
@@ -20,6 +21,7 @@ export default function CountdownScreen({
 }) {
   return (
     <CountdownScreenGrid>
+      <Timer />
       <CountdownGrid>
         <Countdown
           countdownMinutes={countdownMinutes}
