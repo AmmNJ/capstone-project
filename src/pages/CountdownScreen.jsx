@@ -12,7 +12,7 @@ export default function CountdownScreen({
   countdownSeconds,
   endHours,
   endMinutes,
-  isActive,
+  timerStatus,
   isDurationLong,
   handleStart,
   handleStop,
@@ -25,7 +25,9 @@ export default function CountdownScreen({
           countdownMinutes={countdownMinutes}
           countdownSeconds={countdownSeconds}
         />
-        {isActive && <EndTime endHours={endHours} endMinutes={endMinutes} />}
+        {timerStatus === 'active' && (
+          <EndTime endHours={endHours} endMinutes={endMinutes} />
+        )}
       </CountdownGrid>
       <CurrentConfigurationGrid>
         {isDurationLong
@@ -38,7 +40,7 @@ export default function CountdownScreen({
       </CurrentConfigurationGrid>
       <ExecutionGrid>
         <StopButton role="button" onClick={handleStop} />
-        {!isActive ? (
+        {timerStatus === 'paused' ? (
           <PlayButton role="button" onClick={handleStart} />
         ) : (
           <PauseButton role="button" onClick={handlePause} />

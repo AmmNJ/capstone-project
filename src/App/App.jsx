@@ -18,11 +18,17 @@ function App() {
     breakSeconds: 0,
   }
 
+  // active -> countdown active, countdown not paused, break not active, time not expired
+  // paused -> countdown not active, countdown paused, break not active, time not expired
+  // break -> countdown not active, countdown not paused, break active, time not expired
+  // default -> nothing active
+
+  const [timerStatus, setTimerStatus] = useState('')
+  // const [isActive, setIsActive] = useState(false)
+  // const [isPaused, setIsPaused] = useState(false)
+  // const [isTimerExpired, setIsTimerExpired] = useState(false)
+  // const [isBreakTimerExpired, setIsBreakTimerExpired] = useState(false)
   const [isDurationLong, setIsDurationLong] = useState(false)
-  const [isActive, setIsActive] = useState(false)
-  const [isPaused, setIsPaused] = useState(false)
-  const [isTimerExpired, setIsTimerExpired] = useState(false)
-  const [isBreakTimerExpired, setIsBreakTimerExpired] = useState(false)
   const [[endHours, endMinutes], setEndTime] = useState([])
   const [[countdownMinutes, countdownSeconds], setCounter] = useState([
     DURATION_TWENTY_FIVE.minutes,
@@ -37,14 +43,10 @@ function App() {
   ])
 
   useEffect(() => {
-    if (isActive) {
+    if (timerStatus === 'active') {
       const timeoutID = setTimeout(() => timer(), 1000)
       return () => clearTimeout(timeoutID)
-    }
-  })
-
-  useEffect(() => {
-    if (isTimerExpired) {
+    } else if (timerStatus === 'break') {
       const breakTimeoutID = setTimeout(() => breakTimer(), 1000)
       return () => clearTimeout(breakTimeoutID)
     }
@@ -60,14 +62,14 @@ function App() {
             breakCountdownMinutes={breakCountdownMinutes}
             breakCountdownSeconds={breakCountdownSeconds}
             isDurationLong={isDurationLong}
-            isTimerExpired={isTimerExpired}
-            setIsTimerExpired={setIsTimerExpired}
+            timerStatus={timerStatus}
+            setTimerStatus={setTimerStatus}
             handleStart={handleStart}
             handleDurationShort={handleDurationShort}
             handleDurationLong={handleDurationLong}
           />
         </Route>
-        {(isActive || isPaused) && (
+        {(timerStatus === 'active' || timerStatus === 'paused') && (
           <Route path="/countdown">
             <CountdownScreen
               DURATION_TWENTY_FIVE={DURATION_TWENTY_FIVE}
@@ -76,7 +78,7 @@ function App() {
               countdownSeconds={countdownSeconds}
               endHours={endHours}
               endMinutes={endMinutes}
-              isActive={isActive}
+              timerStatus={timerStatus}
               isDurationLong={isDurationLong}
               handleStart={handleStart}
               handleStop={handleStop}
@@ -89,8 +91,7 @@ function App() {
   )
 
   function timer() {
-    if (isTimerExpired) {
-      setIsActive(false)
+    if (timerStatus === 'break') {
       isDurationLong
         ? setBreakCounter([
             DURATION_FIFTY.breakMinutes,
@@ -103,9 +104,9 @@ function App() {
       push('/')
       return alert('Congratulations! Time is up.')
     }
-    if (isPaused) return
+    if (timerStatus === 'break') return
     if (countdownMinutes === 0 && countdownSeconds === 0) {
-      setIsTimerExpired(true)
+      setTimerStatus('break')
     } else if (countdownSeconds === 0) {
       setCounter([countdownMinutes - 1, 59])
     } else {
@@ -114,13 +115,11 @@ function App() {
   }
 
   function breakTimer() {
-    if (isBreakTimerExpired) {
-      setIsTimerExpired(false)
-      setIsBreakTimerExpired(false)
+    if (timerStatus === 'default') {
       return
     }
     if (breakCountdownMinutes === 0 && breakCountdownSeconds === 0)
-      setIsBreakTimerExpired(true)
+      setTimerStatus('default')
     else if (breakCountdownSeconds === 0) {
       setBreakCounter([breakCountdownMinutes - 1, 59])
     } else {
@@ -148,15 +147,12 @@ function App() {
           parseInt(DURATION_TWENTY_FIVE.minutes),
           parseInt(DURATION_TWENTY_FIVE.seconds),
         ])
-    setIsTimerExpired(false)
-    setIsActive(false)
-    setIsPaused(false)
+    setTimerStatus('default')
     push('/')
   }
 
   function handleStart() {
-    setIsActive(true)
-    setIsTimerExpired(false)
+    setTimerStatus('active')
     const currentDateObj = new Date()
     const endDateObj = new Date()
     const endTimeActive =
@@ -167,7 +163,7 @@ function App() {
     const endTimeLong =
       currentDateObj.getTime() + DURATION_FIFTY.minutes * 60 * 1000
 
-    if (isPaused) {
+    if (timerStatus === 'paused') {
       endDateObj.setTime(endTimeActive)
       setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
     } else if (isDurationLong) {
@@ -184,13 +180,12 @@ function App() {
       ])
     }
     setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
-    setIsPaused(false)
+    setTimerStatus('active')
     push('/countdown')
   }
 
   function handlePause() {
-    setIsPaused(true)
-    setIsActive(false)
+    setTimerStatus('paused')
   }
 }
 

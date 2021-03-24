@@ -9,23 +9,23 @@ export default function StartScreen({
   breakCountdownMinutes,
   breakCountdownSeconds,
   isDurationLong,
-  isTimerExpired,
+  timerStatus,
+  setTimerStatus,
   handleStart,
   handleDurationShort,
   handleDurationLong,
-  setIsTimerExpired,
 }) {
   return (
     <StartScreenGrid>
       <HeaderGrid>
-        {isTimerExpired ? (
+        {timerStatus === 'break' ? (
           <Header text="Time for a break" />
         ) : (
           <Header text="Let’s get things done" />
         )}
       </HeaderGrid>
       <IllustrationGrid>
-        {isTimerExpired ? <BreakSVG /> : <GetThingsDoneSVG />}
+        {timerStatus === 'break' ? <BreakSVG /> : <GetThingsDoneSVG />}
       </IllustrationGrid>
       <ConfigutationGrid>
         <CountdownDuration
@@ -46,7 +46,7 @@ export default function StartScreen({
         </CountdownDuration>
       </ConfigutationGrid>
       <StartTimerGrid>
-        {isTimerExpired ? (
+        {timerStatus === 'break' ? (
           <BreakTimerButton onClick={handleBreakAlert}>
             {breakCountdownMinutes.toString().padStart(2, '0')}:
             {breakCountdownSeconds.toString().padStart(2, '0')}
@@ -63,7 +63,7 @@ export default function StartScreen({
         'Your break is not finished yet. Are you sure to continue?'
       )
     ) {
-      setIsTimerExpired(false)
+      setTimerStatus('default')
     }
   }
 }
