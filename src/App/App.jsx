@@ -6,8 +6,8 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 function App() {
   const { push } = useHistory()
   const SHORT = {
-    minutes: 1,
-    breakMinutes: 1,
+    minutes: 2,
+    breakMinutes: 2,
   }
   const LONG = {
     minutes: 50,
@@ -44,20 +44,6 @@ function App() {
   return (
     <>
       <Switch>
-        <Route exact path="/">
-          <StartScreen
-            SHORT={SHORT}
-            LONG={LONG}
-            brTimerMin={brTimerMin}
-            brTimerSec={brTimerSec}
-            isDurationLong={isDurationLong}
-            timerStatus={timerStatus}
-            setTimerStatus={setTimerStatus}
-            handleStart={handleStart}
-            handleShort={handleShort}
-            handleLong={handleLong}
-          />
-        </Route>
         {(timerStatus === 'active' || timerStatus === 'paused') && (
           <Route path="/countdown">
             <CountdownScreen
@@ -75,6 +61,20 @@ function App() {
             />
           </Route>
         )}
+        <Route path="/*">
+          <StartScreen
+            SHORT={SHORT}
+            LONG={LONG}
+            brTimerMin={brTimerMin}
+            brTimerSec={brTimerSec}
+            isDurationLong={isDurationLong}
+            timerStatus={timerStatus}
+            setTimerStatus={setTimerStatus}
+            handleStart={handleStart}
+            handleShort={handleShort}
+            handleLong={handleLong}
+          />
+        </Route>
       </Switch>
     </>
   )

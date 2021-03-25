@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro'
 import Countdown from '../components/Countdown/Countdown'
 import EndTime from '../components/EndTime/EndTime'
+import { useHistory } from 'react-router-dom'
 import { ReactComponent as PlayButton } from '../assets/play-icon.svg'
 import { ReactComponent as PauseButton } from '../assets/pause-icon.svg'
 import { ReactComponent as StopButton } from '../assets/stop-icon.svg'
@@ -18,6 +19,8 @@ export default function CountdownScreen({
   handleStop,
   handlePause,
 }) {
+  const { push } = useHistory()
+
   return (
     <CountdownScreenGrid>
       <CountdownGrid>
