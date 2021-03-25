@@ -31,7 +31,7 @@ function App() {
   ])
 
   useEffect(() => {
-    if (timerStatus === 'active' || timerStatus === 'expired') {
+    if (timerStatus === 'active') {
       const timeoutID = setTimeout(() => timer(), 1000)
       return () => clearTimeout(timeoutID)
     }
@@ -80,17 +80,14 @@ function App() {
   )
 
   function timer() {
-    if (timerStatus === 'expired') {
+    if (timerStatus === 'paused') return
+    if (timerMin === 0 && timerSec === 0) {
       isDurationLong
         ? setBrTimer([LONG.breakMinutes, 0])
         : setBrTimer([SHORT.breakMinutes, 0])
       push('/')
       setTimerStatus('break')
       return alert('Congratulations! Time is up.')
-    }
-    if (timerStatus === 'paused') return
-    if (timerMin === 0 && timerSec === 0) {
-      setTimerStatus('expired')
     } else if (timerSec === 0) {
       setTimer([timerMin - 1, 59])
     } else {
