@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# Teal Pomodoro
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
 
-## Available Scripts
+- Countdown based on the Pomodoro Technique
+- 25:00 and 50:00 minutes option
+- Dedicated start screen
+- Dedicated break screen (5:00 / 10:00 minutes break)
+- Productivity time tracking with history and average values
 
-In the project directory, you can run:
+## About
 
-### `npm start`
+Teal Pomodoro is designed and developed to suit the needs of a user focusing on the things that matter.
+Your productivity app should not distract you from being productive. It should enhance it.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This objective was key in every step of the design and development process.
+An integral part to fulfill this objective is the selection of color - mainly **Teal**.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+As [Canva](https://www.canva.com/colors/color-meanings/teal/) states:
 
-### `npm test`
+> Teal combines the calming properties of blue with the renewal qualities of green.
+> It is a revitalizing and rejuvenating color that also represents open communication and clarity of thought.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+And due to the fact that it is such an essential ingredient of the app's recipe, I have called the app **Teal Pomodoro**.
 
-### `npm run build`
+## All About Tech
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Create React App
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and includes all common respective scripts.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Languages, Libraries and Tools Used
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- React
+- Javascript
+- Styled Components
+- Storybook
+- Node.js
+- mongoDB Atlas
+- mongoose
+- Express
+- Jest
+- Testing Library
+- Cypress

@@ -13,13 +13,6 @@ function App() {
     minutes: 50,
     breakMinutes: 10,
   }
-
-  // active -> countdown active, countdown not paused, break not active, time not expired
-  // expired -> time expired, rest not active
-  // paused -> countdown not active, countdown paused, break not active, time not expired
-  // break -> countdown not active, countdown not paused, break active, time not expired
-  // default -> nothing active
-
   const [timerStatus, setTimerStatus] = useState('')
 
   const [isDurationLong, setIsDurationLong] = useState(false)
