@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro'
 
-export default function Countdown({ countdownMinutes, countdownSeconds }) {
-  const displayMinutes = countdownMinutes.toString().padStart(2, '0')
-  const displaySeconds = countdownSeconds.toString().padStart(2, '0')
+export default function Countdown({ timerMin, timerSec }) {
+  const displayMinutes = timerMin.toString().padStart(2, '0')
+  const displaySeconds = timerSec.toString().padStart(2, '0')
 
   return (
     <CountdownWrapper>

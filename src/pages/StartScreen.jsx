@@ -4,16 +4,16 @@ import { ReactComponent as GetThingsDoneSVG } from '../assets/get-things-done.sv
 import { ReactComponent as BreakSVG } from '../assets/break.svg'
 
 export default function StartScreen({
-  DURATION_TWENTY_FIVE,
-  DURATION_FIFTY,
-  breakCountdownMinutes,
-  breakCountdownSeconds,
+  SHORT,
+  LONG,
+  brTimerMin,
+  brTimerSec,
   isDurationLong,
   timerStatus,
   setTimerStatus,
   handleStart,
-  handleDurationShort,
-  handleDurationLong,
+  handleShort,
+  handleLong,
 }) {
   return (
     <StartScreenGrid>
@@ -28,28 +28,18 @@ export default function StartScreen({
         {timerStatus === 'break' ? <BreakSVG /> : <GetThingsDoneSVG />}
       </IllustrationGrid>
       <ConfigutationGrid>
-        <CountdownDuration
-          onClick={handleDurationShort}
-          selected={!isDurationLong}
-        >
-          {DURATION_TWENTY_FIVE.minutes.toString().padStart(2, '0') +
-            ':' +
-            DURATION_TWENTY_FIVE.seconds.toString().padStart(2, '0')}
+        <CountdownDuration onClick={handleShort} selected={!isDurationLong}>
+          {SHORT.minutes.toString().padStart(2, '0') + ':00'}
         </CountdownDuration>
-        <CountdownDuration
-          onClick={handleDurationLong}
-          selected={isDurationLong}
-        >
-          {DURATION_FIFTY.minutes.toString().padStart(2, '0') +
-            ':' +
-            DURATION_FIFTY.seconds.toString().padStart(2, '0')}
+        <CountdownDuration onClick={handleLong} selected={isDurationLong}>
+          {LONG.minutes.toString().padStart(2, '0') + ':00'}
         </CountdownDuration>
       </ConfigutationGrid>
       <StartTimerGrid>
         {timerStatus === 'break' ? (
           <BreakTimerButton onClick={handleBreakAlert}>
-            {breakCountdownMinutes.toString().padStart(2, '0')}:
-            {breakCountdownSeconds.toString().padStart(2, '0')}
+            {brTimerMin.toString().padStart(2, '0')}:
+            {brTimerSec.toString().padStart(2, '0')}
           </BreakTimerButton>
         ) : (
           <StartTimerButton onClick={handleStart}>Start Timer</StartTimerButton>

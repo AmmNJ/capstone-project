@@ -6,12 +6,12 @@ import { ReactComponent as PauseButton } from '../assets/pause-icon.svg'
 import { ReactComponent as StopButton } from '../assets/stop-icon.svg'
 
 export default function CountdownScreen({
-  DURATION_TWENTY_FIVE,
-  DURATION_FIFTY,
-  countdownMinutes,
-  countdownSeconds,
-  endHours,
-  endMinutes,
+  SHORT,
+  LONG,
+  timerMin,
+  timerSec,
+  endHrs,
+  endMin,
   timerStatus,
   isDurationLong,
   handleStart,
@@ -21,22 +21,15 @@ export default function CountdownScreen({
   return (
     <CountdownScreenGrid>
       <CountdownGrid>
-        <Countdown
-          countdownMinutes={countdownMinutes}
-          countdownSeconds={countdownSeconds}
-        />
+        <Countdown timerMin={timerMin} timerSec={timerSec} />
         {timerStatus === 'active' && (
-          <EndTime endHours={endHours} endMinutes={endMinutes} />
+          <EndTime endHrs={endHrs} endMin={endMin} />
         )}
       </CountdownGrid>
       <CurrentConfigurationGrid>
         {isDurationLong
-          ? DURATION_FIFTY.minutes.toString().padStart(2, '0') +
-            ':' +
-            DURATION_FIFTY.seconds.toString().padStart(2, '0')
-          : DURATION_TWENTY_FIVE.minutes.toString().padStart(2, '0') +
-            ':' +
-            DURATION_TWENTY_FIVE.seconds.toString().padStart(2, '0')}
+          ? LONG.minutes.toString().padStart(2, '0') + ':00'
+          : SHORT.minutes.toString().padStart(2, '0') + ':00'}
       </CurrentConfigurationGrid>
       <ExecutionGrid>
         <StopButton role="button" onClick={handleStop} />
