@@ -1,4 +1,4 @@
-# Teal Pomodoro
+# TEAL
 
 ## Features
 
@@ -10,7 +10,7 @@
 
 ## About
 
-Teal Pomodoro is designed and developed to suit the needs of a user focusing on the things that matter.
+TEAL is designed and developed to suit the needs of a user focusing on the things that matter.
 Your productivity app should not distract you from being productive. It should enhance it.
 
 This objective was key in every step of the design and development process.
@@ -21,7 +21,9 @@ As [Canva](https://www.canva.com/colors/color-meanings/teal/) states:
 > Teal combines the calming properties of blue with the renewal qualities of green.
 > It is a revitalizing and rejuvenating color that also represents open communication and clarity of thought.
 
-And due to the fact that it is such an essential ingredient of the app's recipe, I have called the app **Teal Pomodoro**.
+And due to the fact that it is such an essential ingredient of the app's recipe, I have called the app **TEAL**.
+
+Last but not least, I would like to thank [unDraw](https://undraw.co/) for providing stunning illustrations truly open-source.
 
 ## All About Tech
 
