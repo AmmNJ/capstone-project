@@ -16,7 +16,7 @@ export default function StartScreen({
   handleLong,
 }) {
   return (
-    <StartScreenGrid>
+    <Grid>
       <HeaderGrid>
         {appStatus === 'break' ? (
           <Header text="Time for a break" />
@@ -24,28 +24,28 @@ export default function StartScreen({
           <Header text="Let’s get things done" />
         )}
       </HeaderGrid>
-      <IllustrationGrid>
+      <SVGGrid>
         {appStatus === 'break' ? <BreakSVG /> : <GetThingsDoneSVG />}
-      </IllustrationGrid>
-      <ConfigutationGrid>
-        <CountdownDuration onClick={handleShort} selected={!isDurationLong}>
+      </SVGGrid>
+      <ConfigGrid>
+        <Duration onClick={handleShort} selected={!isDurationLong}>
           {SHORT.min + ':00'}
-        </CountdownDuration>
-        <CountdownDuration onClick={handleLong} selected={isDurationLong}>
+        </Duration>
+        <Duration onClick={handleLong} selected={isDurationLong}>
           {LONG.min + ':00'}
-        </CountdownDuration>
-      </ConfigutationGrid>
-      <StartTimerGrid>
+        </Duration>
+      </ConfigGrid>
+      <StartGrid>
         {appStatus === 'break' ? (
-          <BreakTimerButton onClick={handleBreakAlert}>
+          <BreakButton onClick={handleBreakAlert}>
             {brTimerMin.toString().padStart(2, '0')}:
             {brTimerSec.toString().padStart(2, '0')}
-          </BreakTimerButton>
+          </BreakButton>
         ) : (
-          <StartTimerButton onClick={handleStart}>Start Timer</StartTimerButton>
+          <StartButton onClick={handleStart}>Start Timer</StartButton>
         )}
-      </StartTimerGrid>
-    </StartScreenGrid>
+      </StartGrid>
+    </Grid>
   )
   function handleBreakAlert() {
     if (
@@ -58,7 +58,7 @@ export default function StartScreen({
   }
 }
 
-const StartScreenGrid = styled.main`
+const Grid = styled.main`
   display: grid;
   grid-template-rows: 1fr 1fr 1fr auto;
   position: fixed;
@@ -76,14 +76,14 @@ const HeaderGrid = styled.section`
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
-const IllustrationGrid = styled.section`
+const SVGGrid = styled.section`
   display: grid;
   align-content: start;
   justify-content: center;
   animation: slide-opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
-const ConfigutationGrid = styled.section`
+const ConfigGrid = styled.section`
   display: grid;
   grid-template-columns: auto auto;
   gap: 10px;
@@ -93,13 +93,13 @@ const ConfigutationGrid = styled.section`
   padding: 0 0 40px;
 `
 
-const StartTimerGrid = styled.section`
+const StartGrid = styled.section`
   animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   align-content: end;
   justify-content: center;
 `
 
-const CountdownDuration = styled.button`
+const Duration = styled.button`
   color: ${props => (props.selected ? '#52DFD1' : '#585858')};
   border: none;
   background-color: transparent;
@@ -109,7 +109,7 @@ const CountdownDuration = styled.button`
   transition: 0.2s;
 `
 
-const StartTimerButton = styled.button`
+const StartButton = styled.button`
   font-size: 20px;
   color: white;
   background: linear-gradient(125deg, #a4e3cc, #56dfd1);
@@ -121,7 +121,7 @@ const StartTimerButton = styled.button`
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
-const BreakTimerButton = styled.button`
+const BreakButton = styled.button`
   font-size: 20px;
   color: white;
   background: gray;

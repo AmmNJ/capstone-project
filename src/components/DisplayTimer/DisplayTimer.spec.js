@@ -1,9 +1,9 @@
 import { screen, render } from '@testing-library/react'
-import Countdown from './Countdown'
+import DisplayTimer from './DisplayTimer'
 
-describe('Countdown', () => {
+describe('DisplayTimer', () => {
   it('renders the countdown display with given minutes and seconds', () => {
-    render(<Countdown countdownMinutes={25} countdownSeconds={0} />)
+    render(<DisplayTimer timerMin={25} timerSec={0} />)
     expect(screen.getByText('25:00')).toBeInTheDocument()
   })
 })

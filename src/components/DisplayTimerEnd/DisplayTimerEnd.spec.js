@@ -1,9 +1,9 @@
 import { screen, render } from '@testing-library/react'
-import EndTime from './EndTime'
+import DisplayTimerEnd from './DisplayTimerEnd'
 
-describe('EndTime', () => {
+describe('DisplayTimerEnd', () => {
   it('renders the prospective time for the end of the countdown', () => {
-    render(<EndTime endHours={8} endMinutes={10} />)
+    render(<DisplayTimerEnd endHrs={8} endMin={10} />)
     expect(screen.getByText('08:10')).toBeInTheDocument()
   })
 })

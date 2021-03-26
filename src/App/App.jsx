@@ -116,7 +116,6 @@ function App() {
   }
 
   function handleStart() {
-    setAppStatus('active')
     const currentDateObj = new Date()
     const endDateObj = new Date()
     const endTimeActive =
