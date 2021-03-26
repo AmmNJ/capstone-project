@@ -6,22 +6,19 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 function App() {
   const { push } = useHistory()
   const SHORT = {
-    minutes: 2,
-    breakMinutes: 2,
+    min: 2,
+    brMin: 2,
   }
   const LONG = {
-    minutes: 50,
-    breakMinutes: 10,
+    min: 50,
+    brMin: 10,
   }
   const [timerStatus, setTimerStatus] = useState('')
 
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [[endHrs, endMin], setEndTime] = useState([])
-  const [[timerMin, timerSec], setTimer] = useState([SHORT.minutes, 0])
-  const [[brTimerMin, brTimerSec], setBrTimer] = useState([
-    SHORT.breakMinutes,
-    0,
-  ])
+  const [[timerMin, timerSec], setTimer] = useState([SHORT.min, 0])
+  const [[brTimerMin, brTimerSec], setBrTimer] = useState([SHORT.brMin, 0])
 
   useEffect(() => {
     if (timerStatus === 'active') {
@@ -76,8 +73,8 @@ function App() {
     if (timerStatus === 'paused') return
     if (timerMin === 0 && timerSec === 0) {
       isDurationLong
-        ? setBrTimer([LONG.breakMinutes, 0])
-        : setBrTimer([SHORT.breakMinutes, 0])
+        ? setBrTimer([LONG.brMin, 0])
+        : setBrTimer([SHORT.brMin, 0])
       push('/')
       setTimerStatus('break')
       return alert('Congratulations! Time is up.')
@@ -102,18 +99,18 @@ function App() {
 
   function handleShort() {
     setIsDurationLong(false)
-    setTimer([SHORT.minutes, 0])
+    setTimer([SHORT.min, 0])
   }
 
   function handleLong() {
     setIsDurationLong(true)
-    setTimer([LONG.minutes, 0])
+    setTimer([LONG.min, 0])
   }
 
   function handleStop() {
     isDurationLong
-      ? setTimer([parseInt(LONG.minutes), 0])
-      : setTimer([parseInt(SHORT.minutes), 0])
+      ? setTimer([parseInt(LONG.min), 0])
+      : setTimer([parseInt(SHORT.min), 0])
     setTimerStatus('default')
     push('/')
   }
@@ -124,18 +121,18 @@ function App() {
     const endDateObj = new Date()
     const endTimeActive =
       currentDateObj.getTime() + (timerMin + timerSec / 60) * 60 * 1000
-    const endTimeShort = currentDateObj.getTime() + SHORT.minutes * 60 * 1000
-    const endTimeLong = currentDateObj.getTime() + LONG.minutes * 60 * 1000
+    const endTimeShort = currentDateObj.getTime() + SHORT.min * 60 * 1000
+    const endTimeLong = currentDateObj.getTime() + LONG.min * 60 * 1000
 
     if (timerStatus === 'paused') {
       endDateObj.setTime(endTimeActive)
       setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
     } else if (isDurationLong) {
-      setTimer([parseInt(LONG.minutes), 0])
+      setTimer([parseInt(LONG.min), 0])
       endDateObj.setTime(endTimeLong)
     } else {
       endDateObj.setTime(endTimeShort)
-      setTimer([parseInt(SHORT.minutes), 0])
+      setTimer([parseInt(SHORT.min), 0])
     }
     setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
     setTimerStatus('active')

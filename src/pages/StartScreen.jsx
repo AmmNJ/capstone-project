@@ -29,10 +29,10 @@ export default function StartScreen({
       </IllustrationGrid>
       <ConfigutationGrid>
         <CountdownDuration onClick={handleShort} selected={!isDurationLong}>
-          {SHORT.minutes + ':00'}
+          {SHORT.min + ':00'}
         </CountdownDuration>
         <CountdownDuration onClick={handleLong} selected={isDurationLong}>
-          {LONG.minutes + ':00'}
+          {LONG.min + ':00'}
         </CountdownDuration>
       </ConfigutationGrid>
       <StartTimerGrid>

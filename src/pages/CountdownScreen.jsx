@@ -28,8 +28,8 @@ export default function CountdownScreen({
       </CountdownGrid>
       <CurrentConfigurationGrid>
         {isDurationLong
-          ? LONG.minutes.toString().padStart(2, '0') + ':00'
-          : SHORT.minutes.toString().padStart(2, '0') + ':00'}
+          ? LONG.min.toString().padStart(2, '0') + ':00'
+          : SHORT.min.toString().padStart(2, '0') + ':00'}
       </CurrentConfigurationGrid>
       <ExecutionGrid>
         <StopButton role="button" onClick={handleStop} />
