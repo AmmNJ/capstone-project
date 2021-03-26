@@ -6,15 +6,14 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 function App() {
   const { push } = useHistory()
   const SHORT = {
-    min: 2,
-    brMin: 2,
+    min: 1,
+    brMin: 1,
   }
   const LONG = {
     min: 50,
     brMin: 10,
   }
   const [appStatus, setAppStatus] = useState('')
-
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [[endHrs, endMin], setEndTime] = useState([])
   const [[timerMin, timerSec], setTimer] = useState([SHORT.min, 0])
@@ -108,32 +107,28 @@ function App() {
   }
 
   function handleStop() {
-    isDurationLong
-      ? setTimer([parseInt(LONG.min), 0])
-      : setTimer([parseInt(SHORT.min), 0])
+    isDurationLong ? setTimer([LONG.min, 0]) : setTimer([SHORT.min, 0])
     setAppStatus('default')
     push('/')
   }
 
   function handleStart() {
-    const currentDateObj = new Date()
-    const endDateObj = new Date()
-    const endTimeActive =
-      currentDateObj.getTime() + (timerMin + timerSec / 60) * 60 * 1000
-    const endTimeShort = currentDateObj.getTime() + SHORT.min * 60 * 1000
-    const endTimeLong = currentDateObj.getTime() + LONG.min * 60 * 1000
+    const end = new Date()
+    const endTimeActive = end.getTime() + (timerMin + timerSec / 60) * 60 * 1000
+    const endTimeShort = end.getTime() + SHORT.min * 60 * 1000
+    const endTimeLong = end.getTime() + LONG.min * 60 * 1000
 
     if (appStatus === 'paused') {
-      endDateObj.setTime(endTimeActive)
-      setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
+      end.setTime(endTimeActive)
     } else if (isDurationLong) {
-      setTimer([parseInt(LONG.min), 0])
-      endDateObj.setTime(endTimeLong)
+      setTimer([LONG.min, 0])
+      end.setTime(endTimeLong)
     } else {
-      endDateObj.setTime(endTimeShort)
-      setTimer([parseInt(SHORT.min), 0])
+      end.setTime(endTimeShort)
+      setTimer([SHORT.min, 0])
     }
-    setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
+
+    setEndTime([end.getHours(), end.getMinutes()])
     setAppStatus('active')
     push('/countdown')
   }
