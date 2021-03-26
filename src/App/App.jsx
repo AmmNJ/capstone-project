@@ -6,8 +6,8 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 function App() {
   const { push } = useHistory()
   const SHORT = {
-    min: 1,
-    brMin: 1,
+    min: 25,
+    brMin: 5,
   }
   const LONG = {
     min: 50,
