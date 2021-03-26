@@ -5,46 +5,26 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 
 function App() {
   const { push } = useHistory()
-  const DURATION_TWENTY_FIVE = {
-    minutes: 25,
-    seconds: 0,
-    breakMinutes: 5,
-    breakSeconds: 0,
+  const SHORT = {
+    min: 25,
+    brMin: 5,
   }
-  const DURATION_FIFTY = {
-    minutes: 50,
-    seconds: 0,
-    breakMinutes: 10,
-    breakSeconds: 0,
+  const LONG = {
+    min: 50,
+    brMin: 10,
   }
-
+  const [appStatus, setAppStatus] = useState('')
   const [isDurationLong, setIsDurationLong] = useState(false)
-  const [isActive, setIsActive] = useState(false)
-  const [isPaused, setIsPaused] = useState(false)
-  const [isTimerExpired, setIsTimerExpired] = useState(false)
-  const [isBreakTimerExpired, setIsBreakTimerExpired] = useState(false)
-  const [[endHours, endMinutes], setEndTime] = useState([])
-  const [[countdownMinutes, countdownSeconds], setCounter] = useState([
-    DURATION_TWENTY_FIVE.minutes,
-    DURATION_TWENTY_FIVE.seconds,
-  ])
-  const [
-    [breakCountdownMinutes, breakCountdownSeconds],
-    setBreakCounter,
-  ] = useState([
-    DURATION_TWENTY_FIVE.breakMinutes,
-    DURATION_TWENTY_FIVE.breakSeconds,
-  ])
+  const [[endHrs, endMin], setEndTime] = useState([])
+  const [[timerMin, timerSec], setTimer] = useState([SHORT.min, 0])
+  const [[brTimerMin, brTimerSec], setBrTimer] = useState([SHORT.brMin, 0])
 
   useEffect(() => {
-    if (isActive) {
+    if (appStatus === 'active') {
       const timeoutID = setTimeout(() => timer(), 1000)
       return () => clearTimeout(timeoutID)
     }
-  })
-
-  useEffect(() => {
-    if (isTimerExpired) {
+    if (appStatus === 'break') {
       const breakTimeoutID = setTimeout(() => breakTimer(), 1000)
       return () => clearTimeout(breakTimeoutID)
     }
@@ -53,30 +33,16 @@ function App() {
   return (
     <>
       <Switch>
-        <Route exact path="/">
-          <StartScreen
-            DURATION_TWENTY_FIVE={DURATION_TWENTY_FIVE}
-            DURATION_FIFTY={DURATION_FIFTY}
-            breakCountdownMinutes={breakCountdownMinutes}
-            breakCountdownSeconds={breakCountdownSeconds}
-            isDurationLong={isDurationLong}
-            isTimerExpired={isTimerExpired}
-            setIsTimerExpired={setIsTimerExpired}
-            handleStart={handleStart}
-            handleDurationShort={handleDurationShort}
-            handleDurationLong={handleDurationLong}
-          />
-        </Route>
-        {(isActive || isPaused) && (
+        {(appStatus === 'active' || appStatus === 'paused') && (
           <Route path="/countdown">
             <CountdownScreen
-              DURATION_TWENTY_FIVE={DURATION_TWENTY_FIVE}
-              DURATION_FIFTY={DURATION_FIFTY}
-              countdownMinutes={countdownMinutes}
-              countdownSeconds={countdownSeconds}
-              endHours={endHours}
-              endMinutes={endMinutes}
-              isActive={isActive}
+              SHORT={SHORT}
+              LONG={LONG}
+              timerMin={timerMin}
+              timerSec={timerSec}
+              endHrs={endHrs}
+              endMin={endMin}
+              appStatus={appStatus}
               isDurationLong={isDurationLong}
               handleStart={handleStart}
               handleStop={handleStop}
@@ -84,113 +50,90 @@ function App() {
             />
           </Route>
         )}
+        <Route path="/*">
+          <StartScreen
+            SHORT={SHORT}
+            LONG={LONG}
+            brTimerMin={brTimerMin}
+            brTimerSec={brTimerSec}
+            isDurationLong={isDurationLong}
+            appStatus={appStatus}
+            setAppStatus={setAppStatus}
+            handleStart={handleStart}
+            handleShort={handleShort}
+            handleLong={handleLong}
+          />
+        </Route>
       </Switch>
     </>
   )
 
   function timer() {
-    if (isTimerExpired) {
-      setIsActive(false)
+    if (appStatus === 'paused') return
+    if (timerMin === 0 && timerSec === 0) {
       isDurationLong
-        ? setBreakCounter([
-            DURATION_FIFTY.breakMinutes,
-            DURATION_FIFTY.breakSeconds,
-          ])
-        : setBreakCounter([
-            DURATION_TWENTY_FIVE.breakMinutes,
-            DURATION_TWENTY_FIVE.breakSeconds,
-          ])
+        ? setBrTimer([LONG.brMin, 0])
+        : setBrTimer([SHORT.brMin, 0])
       push('/')
+      setAppStatus('break')
       return alert('Congratulations! Time is up.')
-    }
-    if (isPaused) return
-    if (countdownMinutes === 0 && countdownSeconds === 0) {
-      setIsTimerExpired(true)
-    } else if (countdownSeconds === 0) {
-      setCounter([countdownMinutes - 1, 59])
+    } else if (timerSec === 0) {
+      setTimer([timerMin - 1, 59])
     } else {
-      setCounter([countdownMinutes, countdownSeconds - 1])
+      setTimer([timerMin, timerSec - 1])
     }
   }
 
   function breakTimer() {
-    if (isBreakTimerExpired) {
-      setIsTimerExpired(false)
-      setIsBreakTimerExpired(false)
+    if (brTimerMin === 0 && brTimerSec === 0) {
+      setAppStatus('default')
       return
-    }
-    if (breakCountdownMinutes === 0 && breakCountdownSeconds === 0)
-      setIsBreakTimerExpired(true)
-    else if (breakCountdownSeconds === 0) {
-      setBreakCounter([breakCountdownMinutes - 1, 59])
+    } else if (brTimerSec === 0) {
+      setBrTimer([brTimerMin - 1, 59])
     } else {
-      setBreakCounter([breakCountdownMinutes, breakCountdownSeconds - 1])
+      setBrTimer([brTimerMin, brTimerSec - 1])
     }
   }
 
-  function handleDurationShort() {
+  function handleShort() {
     setIsDurationLong(false)
-    setCounter([DURATION_TWENTY_FIVE.minutes, DURATION_TWENTY_FIVE.seconds])
+    setTimer([SHORT.min, 0])
   }
 
-  function handleDurationLong() {
+  function handleLong() {
     setIsDurationLong(true)
-    setCounter([DURATION_FIFTY.minutes, DURATION_FIFTY.seconds])
+    setTimer([LONG.min, 0])
   }
 
   function handleStop() {
-    isDurationLong
-      ? setCounter([
-          parseInt(DURATION_FIFTY.minutes),
-          parseInt(DURATION_FIFTY.seconds),
-        ])
-      : setCounter([
-          parseInt(DURATION_TWENTY_FIVE.minutes),
-          parseInt(DURATION_TWENTY_FIVE.seconds),
-        ])
-    setIsTimerExpired(false)
-    setIsActive(false)
-    setIsPaused(false)
+    isDurationLong ? setTimer([LONG.min, 0]) : setTimer([SHORT.min, 0])
+    setAppStatus('default')
     push('/')
   }
 
   function handleStart() {
-    setIsActive(true)
-    setIsTimerExpired(false)
-    const currentDateObj = new Date()
-    const endDateObj = new Date()
-    const endTimeActive =
-      currentDateObj.getTime() +
-      (countdownMinutes + countdownSeconds / 60) * 60 * 1000
-    const endTimeShort =
-      currentDateObj.getTime() + DURATION_TWENTY_FIVE.minutes * 60 * 1000
-    const endTimeLong =
-      currentDateObj.getTime() + DURATION_FIFTY.minutes * 60 * 1000
+    const end = new Date()
+    const endTimeActive = end.getTime() + (timerMin + timerSec / 60) * 60 * 1000
+    const endTimeShort = end.getTime() + SHORT.min * 60 * 1000
+    const endTimeLong = end.getTime() + LONG.min * 60 * 1000
 
-    if (isPaused) {
-      endDateObj.setTime(endTimeActive)
-      setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
+    if (appStatus === 'paused') {
+      end.setTime(endTimeActive)
     } else if (isDurationLong) {
-      setCounter([
-        parseInt(DURATION_FIFTY.minutes),
-        parseInt(DURATION_FIFTY.seconds),
-      ])
-      endDateObj.setTime(endTimeLong)
+      setTimer([LONG.min, 0])
+      end.setTime(endTimeLong)
     } else {
-      endDateObj.setTime(endTimeShort)
-      setCounter([
-        parseInt(DURATION_TWENTY_FIVE.minutes),
-        parseInt(DURATION_TWENTY_FIVE.seconds),
-      ])
+      end.setTime(endTimeShort)
+      setTimer([SHORT.min, 0])
     }
-    setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
-    setIsPaused(false)
+
+    setEndTime([end.getHours(), end.getMinutes()])
+    setAppStatus('active')
     push('/countdown')
   }
 
   function handlePause() {
-    setIsPaused(true)
-    setIsActive(false)
+    setAppStatus('paused')
   }
 }
 

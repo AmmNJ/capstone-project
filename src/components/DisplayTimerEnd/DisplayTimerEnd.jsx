@@ -1,12 +1,12 @@
 import styled from 'styled-components/macro'
 
-export default function EndTime({ endHours, endMinutes }) {
-  const displayEndHours = endHours.toString().padStart(2, '0')
-  const displayEndMinutes = endMinutes.toString().padStart(2, '0')
+export default function DisplayTimerEnd({ endHrs, endMin }) {
+  const displayEndHrs = endHrs.toString().padStart(2, '0')
+  const displayEndMin = endMin.toString().padStart(2, '0')
 
   return (
     <TimeWrapper>
-      {displayEndHours}:{displayEndMinutes}
+      {displayEndHrs}:{displayEndMin}
     </TimeWrapper>
   )
 }

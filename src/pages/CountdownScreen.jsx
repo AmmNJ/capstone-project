@@ -1,54 +1,49 @@
 import styled from 'styled-components/macro'
-import Countdown from '../components/Countdown/Countdown'
-import EndTime from '../components/EndTime/EndTime'
+import DisplayTimer from '../components/DisplayTimer/DisplayTimer'
+import DisplayTimerEnd from '../components/DisplayTimerEnd/DisplayTimerEnd'
 import { ReactComponent as PlayButton } from '../assets/play-icon.svg'
 import { ReactComponent as PauseButton } from '../assets/pause-icon.svg'
 import { ReactComponent as StopButton } from '../assets/stop-icon.svg'
 
 export default function CountdownScreen({
-  DURATION_TWENTY_FIVE,
-  DURATION_FIFTY,
-  countdownMinutes,
-  countdownSeconds,
-  endHours,
-  endMinutes,
-  isActive,
+  SHORT,
+  LONG,
+  timerMin,
+  timerSec,
+  endHrs,
+  endMin,
+  appStatus,
   isDurationLong,
   handleStart,
   handleStop,
   handlePause,
 }) {
   return (
-    <CountdownScreenGrid>
-      <CountdownGrid>
-        <Countdown
-          countdownMinutes={countdownMinutes}
-          countdownSeconds={countdownSeconds}
-        />
-        {isActive && <EndTime endHours={endHours} endMinutes={endMinutes} />}
-      </CountdownGrid>
-      <CurrentConfigurationGrid>
+    <Grid>
+      <TimerGrid>
+        <DisplayTimer timerMin={timerMin} timerSec={timerSec} />
+        {appStatus === 'active' && (
+          <DisplayTimerEnd endHrs={endHrs} endMin={endMin} />
+        )}
+      </TimerGrid>
+      <ConfigGrid>
         {isDurationLong
-          ? DURATION_FIFTY.minutes.toString().padStart(2, '0') +
-            ':' +
-            DURATION_FIFTY.seconds.toString().padStart(2, '0')
-          : DURATION_TWENTY_FIVE.minutes.toString().padStart(2, '0') +
-            ':' +
-            DURATION_TWENTY_FIVE.seconds.toString().padStart(2, '0')}
-      </CurrentConfigurationGrid>
+          ? LONG.min.toString().padStart(2, '0') + ':00'
+          : SHORT.min.toString().padStart(2, '0') + ':00'}
+      </ConfigGrid>
       <ExecutionGrid>
         <StopButton role="button" onClick={handleStop} />
-        {!isActive ? (
+        {appStatus === 'paused' ? (
           <PlayButton role="button" onClick={handleStart} />
         ) : (
           <PauseButton role="button" onClick={handlePause} />
         )}
       </ExecutionGrid>
-    </CountdownScreenGrid>
+    </Grid>
   )
 }
 
-const CountdownScreenGrid = styled.main`
+const Grid = styled.main`
   display: grid;
   grid-template-rows: 1fr 1fr auto;
   position: fixed;
@@ -59,7 +54,7 @@ const CountdownScreenGrid = styled.main`
   padding: 70px 50px 60px;
 `
 
-const CountdownGrid = styled.section`
+const TimerGrid = styled.section`
   display: grid;
   gap: 10px;
   grid-template-rows: 1fr 30px;
@@ -69,7 +64,7 @@ const CountdownGrid = styled.section`
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
-const CurrentConfigurationGrid = styled.section`
+const ConfigGrid = styled.section`
   display: grid;
   color: #52dfd1;
   align-content: end;
