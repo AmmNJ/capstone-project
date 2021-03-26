@@ -9,8 +9,8 @@ export default function StartScreen({
   brTimerMin,
   brTimerSec,
   isDurationLong,
-  timerStatus,
-  setTimerStatus,
+  appStatus,
+  setAppStatus,
   handleStart,
   handleShort,
   handleLong,
@@ -18,14 +18,14 @@ export default function StartScreen({
   return (
     <StartScreenGrid>
       <HeaderGrid>
-        {timerStatus === 'break' ? (
+        {appStatus === 'break' ? (
           <Header text="Time for a break" />
         ) : (
           <Header text="Let’s get things done" />
         )}
       </HeaderGrid>
       <IllustrationGrid>
-        {timerStatus === 'break' ? <BreakSVG /> : <GetThingsDoneSVG />}
+        {appStatus === 'break' ? <BreakSVG /> : <GetThingsDoneSVG />}
       </IllustrationGrid>
       <ConfigutationGrid>
         <CountdownDuration onClick={handleShort} selected={!isDurationLong}>
@@ -36,7 +36,7 @@ export default function StartScreen({
         </CountdownDuration>
       </ConfigutationGrid>
       <StartTimerGrid>
-        {timerStatus === 'break' ? (
+        {appStatus === 'break' ? (
           <BreakTimerButton onClick={handleBreakAlert}>
             {brTimerMin.toString().padStart(2, '0')}:
             {brTimerSec.toString().padStart(2, '0')}
@@ -53,7 +53,7 @@ export default function StartScreen({
         'Your break is not finished yet. Are you sure to continue?'
       )
     ) {
-      setTimerStatus('default')
+      setAppStatus('default')
     }
   }
 }

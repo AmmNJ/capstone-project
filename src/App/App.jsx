@@ -13,7 +13,7 @@ function App() {
     min: 50,
     brMin: 10,
   }
-  const [timerStatus, setTimerStatus] = useState('')
+  const [appStatus, setAppStatus] = useState('')
 
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [[endHrs, endMin], setEndTime] = useState([])
@@ -21,11 +21,11 @@ function App() {
   const [[brTimerMin, brTimerSec], setBrTimer] = useState([SHORT.brMin, 0])
 
   useEffect(() => {
-    if (timerStatus === 'active') {
+    if (appStatus === 'active') {
       const timeoutID = setTimeout(() => timer(), 1000)
       return () => clearTimeout(timeoutID)
     }
-    if (timerStatus === 'break') {
+    if (appStatus === 'break') {
       const breakTimeoutID = setTimeout(() => breakTimer(), 1000)
       return () => clearTimeout(breakTimeoutID)
     }
@@ -34,7 +34,7 @@ function App() {
   return (
     <>
       <Switch>
-        {(timerStatus === 'active' || timerStatus === 'paused') && (
+        {(appStatus === 'active' || appStatus === 'paused') && (
           <Route path="/countdown">
             <CountdownScreen
               SHORT={SHORT}
@@ -43,7 +43,7 @@ function App() {
               timerSec={timerSec}
               endHrs={endHrs}
               endMin={endMin}
-              timerStatus={timerStatus}
+              appStatus={appStatus}
               isDurationLong={isDurationLong}
               handleStart={handleStart}
               handleStop={handleStop}
@@ -58,8 +58,8 @@ function App() {
             brTimerMin={brTimerMin}
             brTimerSec={brTimerSec}
             isDurationLong={isDurationLong}
-            timerStatus={timerStatus}
-            setTimerStatus={setTimerStatus}
+            appStatus={appStatus}
+            setAppStatus={setAppStatus}
             handleStart={handleStart}
             handleShort={handleShort}
             handleLong={handleLong}
@@ -70,13 +70,13 @@ function App() {
   )
 
   function timer() {
-    if (timerStatus === 'paused') return
+    if (appStatus === 'paused') return
     if (timerMin === 0 && timerSec === 0) {
       isDurationLong
         ? setBrTimer([LONG.brMin, 0])
         : setBrTimer([SHORT.brMin, 0])
       push('/')
-      setTimerStatus('break')
+      setAppStatus('break')
       return alert('Congratulations! Time is up.')
     } else if (timerSec === 0) {
       setTimer([timerMin - 1, 59])
@@ -86,10 +86,10 @@ function App() {
   }
 
   function breakTimer() {
-    if (timerStatus === 'default') {
+    if (appStatus === 'default') {
       return
     }
-    if (brTimerMin === 0 && brTimerSec === 0) setTimerStatus('default')
+    if (brTimerMin === 0 && brTimerSec === 0) setAppStatus('default')
     else if (brTimerSec === 0) {
       setBrTimer([brTimerMin - 1, 59])
     } else {
@@ -111,12 +111,12 @@ function App() {
     isDurationLong
       ? setTimer([parseInt(LONG.min), 0])
       : setTimer([parseInt(SHORT.min), 0])
-    setTimerStatus('default')
+    setAppStatus('default')
     push('/')
   }
 
   function handleStart() {
-    setTimerStatus('active')
+    setAppStatus('active')
     const currentDateObj = new Date()
     const endDateObj = new Date()
     const endTimeActive =
@@ -124,7 +124,7 @@ function App() {
     const endTimeShort = currentDateObj.getTime() + SHORT.min * 60 * 1000
     const endTimeLong = currentDateObj.getTime() + LONG.min * 60 * 1000
 
-    if (timerStatus === 'paused') {
+    if (appStatus === 'paused') {
       endDateObj.setTime(endTimeActive)
       setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
     } else if (isDurationLong) {
@@ -135,12 +135,12 @@ function App() {
       setTimer([parseInt(SHORT.min), 0])
     }
     setEndTime([endDateObj.getHours(), endDateObj.getMinutes()])
-    setTimerStatus('active')
+    setAppStatus('active')
     push('/countdown')
   }
 
   function handlePause() {
-    setTimerStatus('paused')
+    setAppStatus('paused')
   }
 }
 
