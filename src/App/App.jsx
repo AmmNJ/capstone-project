@@ -6,8 +6,8 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 function App() {
   const { push } = useHistory()
   const SHORT = {
-    min: 25,
-    brMin: 5,
+    min: 1,
+    brMin: 1,
   }
   const LONG = {
     min: 50,
@@ -85,11 +85,10 @@ function App() {
   }
 
   function breakTimer() {
-    if (appStatus === 'default') {
+    if (brTimerMin === 0 && brTimerSec === 0) {
+      setAppStatus('default')
       return
-    }
-    if (brTimerMin === 0 && brTimerSec === 0) setAppStatus('default')
-    else if (brTimerSec === 0) {
+    } else if (brTimerSec === 0) {
       setBrTimer([brTimerMin - 1, 59])
     } else {
       setBrTimer([brTimerMin, brTimerSec - 1])
