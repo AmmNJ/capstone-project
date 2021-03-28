@@ -1,4 +1,5 @@
 # TEAL
+Focus on what matters
 
 ## Features
 
