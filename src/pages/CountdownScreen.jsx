@@ -1,9 +1,6 @@
 import styled from 'styled-components/macro'
 import DisplayTimer from '../components/DisplayTimer/DisplayTimer'
 import DisplayTimerEnd from '../components/DisplayTimerEnd/DisplayTimerEnd'
-import { ReactComponent as PlayButton } from '../assets/play-icon.svg'
-import { ReactComponent as PauseButton } from '../assets/pause-icon.svg'
-import { ReactComponent as StopButton } from '../assets/stop-icon.svg'
 
 export default function CountdownScreen({
   SHORT,
@@ -14,9 +11,7 @@ export default function CountdownScreen({
   endMin,
   appStatus,
   isDurationLong,
-  handleStart,
   handleStop,
-  handlePause,
 }) {
   return (
     <Grid>
@@ -32,12 +27,9 @@ export default function CountdownScreen({
           : SHORT.min.toString().padStart(2, '0') + ':00'}
       </ConfigGrid>
       <ExecutionGrid>
-        <StopButton role="button" onClick={handleStop} />
-        {appStatus === 'paused' ? (
-          <PlayButton role="button" onClick={handleStart} />
-        ) : (
-          <PauseButton role="button" onClick={handlePause} />
-        )}
+        <StopButton role="button" onClick={handleStop}>
+          Stop Timer
+        </StopButton>
       </ExecutionGrid>
     </Grid>
   )
@@ -76,9 +68,20 @@ const ConfigGrid = styled.section`
 
 const ExecutionGrid = styled.section`
   display: grid;
-  grid-template-columns: auto auto;
-  gap: 40px;
   align-content: start;
   justify-content: center;
   animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  justify-content: stretch;
+`
+
+const StopButton = styled.button`
+  font-size: 18px;
+  color: white;
+  background: linear-gradient(125deg, #a4e3cc, #56dfd1);
+  height: 50px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `

@@ -47,7 +47,7 @@ function App() {
   return (
     <>
       <Switch>
-        {(appStatus === 'active' || appStatus === 'paused') && (
+        {appStatus === 'active' && (
           <Route path="/countdown">
             <CountdownScreen
               SHORT={SHORT}
@@ -60,7 +60,6 @@ function App() {
               isDurationLong={isDurationLong}
               handleStart={handleStart}
               handleStop={handleStop}
-              handlePause={handlePause}
             />
           </Route>
         )}
@@ -91,7 +90,6 @@ function App() {
   }
 
   function timer() {
-    if (appStatus === 'paused') return
     if (timerMin === 0 && timerSec === 0) {
       isDurationLong
         ? setBrTimer([LONG.brMin, 0])
@@ -135,13 +133,10 @@ function App() {
 
   function handleStart() {
     const end = new Date()
-    const endTimeActive = end.getTime() + (timerMin + timerSec / 60) * 60 * 1000
     const endTimeShort = end.getTime() + SHORT.min * 60 * 1000
     const endTimeLong = end.getTime() + LONG.min * 60 * 1000
 
-    if (appStatus === 'paused') {
-      end.setTime(endTimeActive)
-    } else if (isDurationLong) {
+    if (isDurationLong) {
       setTimer([LONG.min, 0])
       end.setTime(endTimeLong)
     } else {
@@ -152,10 +147,6 @@ function App() {
     setEndTime([end.getHours(), end.getMinutes()])
     setAppStatus('active')
     push('/countdown')
-  }
-
-  function handlePause() {
-    setAppStatus('paused')
   }
 }
 
