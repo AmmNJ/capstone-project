@@ -19,7 +19,18 @@ function App() {
   const [[endHrs, endMin], setEndTime] = useState([])
   const [[timerMin, timerSec], setTimer] = useState([SHORT.min, 0])
   const [[brTimerMin, brTimerSec], setBrTimer] = useState([SHORT.brMin, 0])
-
+  const [bars, setBars] = useState([
+    { height: 10, day: 'Mo' },
+    { height: 100, day: 'Tu' },
+    { height: 30, day: 'We' },
+    { height: 30, day: 'Th' },
+    { height: 100, day: 'Tu' },
+    { height: 30, day: 'We' },
+    { height: 30, day: 'Th' },
+    { height: 100, day: 'Tu' },
+    { height: 30, day: 'We' },
+    { height: 30, day: 'Th' },
+  ])
   useEffect(() => {
     if (appStatus === 'active') {
       const timeoutID = setTimeout(() => timer(), 1000)
@@ -52,7 +63,7 @@ function App() {
           </Route>
         )}
         <Route path="/history">
-          <HistoryScreen />
+          <HistoryScreen bars={bars} />
         </Route>
         <Route path="/*">
           <StartScreen

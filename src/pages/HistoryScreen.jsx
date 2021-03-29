@@ -2,14 +2,14 @@ import styled from 'styled-components/macro'
 import Header from '../components/Header/Header'
 import Chart from '../components/Chart/Chart'
 
-export default function HistoryScreen() {
+export default function HistoryScreen({ bars }) {
   return (
     <Grid>
       <HeaderGrid>
         <Header text="Productive time" />
       </HeaderGrid>
       <ChartGrid>
-        <Chart />
+        <Chart bars={bars} />
       </ChartGrid>
     </Grid>
   )
@@ -23,7 +23,7 @@ const Grid = styled.main`
   top: 0;
   width: 100%;
   height: 100%;
-  padding: 70px 50px 60px;
+  padding: 70px 60px 60px;
 `
 
 const HeaderGrid = styled.section`
@@ -40,4 +40,5 @@ const ChartGrid = styled.section`
   justify-content: center;
   animation: slide-opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   width: 100%;
+  justify-content: stretch;
 `

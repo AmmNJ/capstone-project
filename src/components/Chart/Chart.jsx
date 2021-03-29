@@ -1,20 +1,6 @@
-import { useState } from 'react'
 import styled from 'styled-components/macro'
 
-export default function Chart() {
-  const [bars, setBars] = useState([
-    { height: 10, day: 'Mo' },
-    { height: 100, day: 'Tu' },
-    { height: 30, day: 'We' },
-    { height: 30, day: 'Th' },
-    { height: 20, day: 'Fr' },
-    { height: 70, day: 'Sa' },
-    { height: 30, day: 'Su' },
-    { height: 20, day: 'Mo' },
-    { height: 70, day: 'Tu' },
-    { height: 30, day: 'We' },
-  ])
-
+export default function Chart({ bars }) {
   return (
     <Container>
       <InfoBox>
@@ -44,24 +30,13 @@ const Container = styled.section`
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 20px;
-  height: 200px;
-  width: 100%;
 `
 
 const InfoBox = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-content: space-between;
-  gap: 40px;
-  width: 100%;
   padding: 0 0 20px;
-`
-
-const Graph = styled.div`
-  display: grid;
-  grid-template-rows: 120px min-content;
-  height: 150px;
-  width: 100%;
 `
 
 const TodayBox = styled.div`
@@ -69,6 +44,7 @@ const TodayBox = styled.div`
 `
 
 const TodayValue = styled.div`
+  display: grid;
   justify-content: start;
   font-weight: 600;
   font-size: 16px;
@@ -76,19 +52,26 @@ const TodayValue = styled.div`
 `
 
 const TodayLabel = styled.div`
+  display: grid;
   justify-content: start;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 12px;
   color: #a3a3a3;
-  width: 100%;
 `
 
 const LastTenDays = styled.div`
+  display: grid;
   justify-content: end;
   font-weight: 600;
   font-size: 12px;
   color: #a3a3a3;
-  width: 100%;
+`
+
+const Graph = styled.div`
+  display: grid;
+  grid-template-rows: 120px min-content;
+  height: 150px;
+  justify-content: center;
 `
 
 const Bars = styled.div`
@@ -96,7 +79,6 @@ const Bars = styled.div`
   grid-auto-flow: column;
   grid-auto-columns: 10px;
   align-items: end;
-  justify-content: start;
   gap: 15px;
   padding: 0 0 3px;
 `
@@ -111,7 +93,6 @@ const XAxis = styled.div`
   grid-auto-flow: column;
   grid-auto-columns: 10px;
   align-items: end;
-  justify-content: start;
   gap: 15px;
 `
 
