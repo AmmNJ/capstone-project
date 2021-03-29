@@ -14,6 +14,7 @@ function App() {
     min: 50,
     brMin: 10,
   }
+
   const [appStatus, setAppStatus] = useState('')
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [[endHrs, endMin], setEndTime] = useState([])
@@ -31,6 +32,7 @@ function App() {
     { height: 30, day: 'We' },
     { height: 30, day: 'Th' },
   ])
+
   useEffect(() => {
     if (appStatus === 'active') {
       const timeoutID = setTimeout(() => timer(), 1000)

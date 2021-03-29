@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function Chart({ bars }) {
   return (
@@ -13,12 +14,12 @@ export default function Chart({ bars }) {
       <Graph>
         <Bars>
           {bars.map(bar => (
-            <Bar style={{ height: `${bar.height}%` }} />
+            <Bar key={uuidv4()} style={{ height: `${bar.height}%` }} />
           ))}
         </Bars>
         <XAxis>
           {bars.map(bar => (
-            <AxisEl>{bar.day}</AxisEl>
+            <AxisEl key={uuidv4()}>{bar.day}</AxisEl>
           ))}
         </XAxis>
       </Graph>
