@@ -11,6 +11,7 @@ export default function StartScreen({
   isDurationLong,
   appStatus,
   setAppStatus,
+  handleHistory,
   handleStart,
   handleShort,
   handleLong,
@@ -44,6 +45,7 @@ export default function StartScreen({
         ) : (
           <StartButton onClick={handleStart}>Start Timer</StartButton>
         )}
+        <HistoryButton onClick={handleHistory}>History</HistoryButton>
       </StartGrid>
     </Grid>
   )
@@ -97,6 +99,9 @@ const StartGrid = styled.section`
   animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   align-content: end;
   justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 `
 
 const Duration = styled.button`
@@ -110,7 +115,7 @@ const Duration = styled.button`
 `
 
 const StartButton = styled.button`
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   background: linear-gradient(125deg, #a4e3cc, #56dfd1);
   height: 50px;
@@ -122,9 +127,21 @@ const StartButton = styled.button`
 `
 
 const BreakButton = styled.button`
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   background: gray;
+  height: 50px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+`
+
+const HistoryButton = styled.button`
+  font-size: 16px;
+  color: white;
+  background: linear-gradient(125deg, #a4e3cc, #56dfd1);
   height: 50px;
   width: 100%;
   border: none;

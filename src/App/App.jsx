@@ -1,5 +1,6 @@
 import CountdownScreen from '../pages/CountdownScreen'
 import StartScreen from '../pages/StartScreen'
+import HistoryScreen from '../pages/HistoryScreen'
 import { useState, useEffect } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 
@@ -50,6 +51,9 @@ function App() {
             />
           </Route>
         )}
+        <Route path="/history">
+          <HistoryScreen />
+        </Route>
         <Route path="/*">
           <StartScreen
             SHORT={SHORT}
@@ -59,6 +63,7 @@ function App() {
             isDurationLong={isDurationLong}
             appStatus={appStatus}
             setAppStatus={setAppStatus}
+            handleHistory={handleHistory}
             handleStart={handleStart}
             handleShort={handleShort}
             handleLong={handleLong}
@@ -67,6 +72,10 @@ function App() {
       </Switch>
     </>
   )
+
+  function handleHistory() {
+    push('/history')
+  }
 
   function timer() {
     if (appStatus === 'paused') return
