@@ -1,4 +1,4 @@
-export function toIntPercent(a, b) {
+export function toPercent(a, b) {
   return Math.round((a / b) * 100)
 }
 

@@ -45,8 +45,12 @@ export default function StartScreen({
         ) : (
           <StartButton onClick={handleStart}>Start Timer</StartButton>
         )}
-        <HistoryButton onClick={handleHistory}>History</HistoryButton>
       </StartGrid>
+      <HistoryGrid>
+        <HistoryButton onClick={handleHistory}>
+          Take a look at your History
+        </HistoryButton>
+      </HistoryGrid>
     </Grid>
   )
   function handleBreakAlert() {
@@ -62,13 +66,13 @@ export default function StartScreen({
 
 const Grid = styled.main`
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr auto;
+  grid-template-rows: 1fr 1fr 1fr auto auto;
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  padding: 70px 50px 60px;
+  padding: 70px 50px 30px;
 `
 
 const HeaderGrid = styled.section`
@@ -97,11 +101,17 @@ const ConfigGrid = styled.section`
 
 const StartGrid = styled.section`
   animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  display: grid;
+  align-content: end;
+  justify-content: stretch;
+`
+
+const HistoryGrid = styled.section`
+  animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  display: grid;
   align-content: end;
   justify-content: center;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  padding: 10px 0 10px;
 `
 
 const Duration = styled.button`
@@ -139,13 +149,12 @@ const BreakButton = styled.button`
 `
 
 const HistoryButton = styled.button`
-  font-size: 16px;
-  color: white;
-  background: linear-gradient(125deg, #a4e3cc, #56dfd1);
-  height: 50px;
-  width: 100%;
+  font-size: 12px;
+  color: #585858;
+  background: white;
   border: none;
-  border-radius: 8px;
-  padding: 0;
+  border-bottom: 1px solid #a4e3cc;
+  height: 30px;
+  padding: 5px;
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
