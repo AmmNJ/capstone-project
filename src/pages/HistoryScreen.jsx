@@ -6,7 +6,7 @@ export default function HistoryScreen({ bars }) {
   return (
     <Grid>
       <HeaderGrid>
-        <Header text="Productive time" />
+        <Header text="Productive history" />
       </HeaderGrid>
       <ChartGrid>
         <Chart bars={bars} />

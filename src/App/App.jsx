@@ -1,6 +1,7 @@
 import CountdownScreen from '../pages/CountdownScreen'
 import StartScreen from '../pages/StartScreen'
 import HistoryScreen from '../pages/HistoryScreen'
+import { addMinToDate } from '../services/math'
 import { useState, useEffect } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 
@@ -132,19 +133,20 @@ function App() {
   }
 
   function handleStart() {
-    const end = new Date()
-    const endTimeShort = end.getTime() + SHORT.min * 60 * 1000
-    const endTimeLong = end.getTime() + LONG.min * 60 * 1000
+    const now = new Date()
+    const nowMS = now.getTime()
+    const endTimeShort = addMinToDate(nowMS, SHORT.min)
+    const endTimeLong = addMinToDate(nowMS, LONG.min)
 
     if (isDurationLong) {
       setTimer([LONG.min, 0])
-      end.setTime(endTimeLong)
+      now.setTime(endTimeLong)
     } else {
-      end.setTime(endTimeShort)
+      now.setTime(endTimeShort)
       setTimer([SHORT.min, 0])
     }
 
-    setEndTime([end.getHours(), end.getMinutes()])
+    setEndTime([now.getHours(), now.getMinutes()])
     setAppStatus('active')
     push('/countdown')
   }
