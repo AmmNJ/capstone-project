@@ -48,7 +48,7 @@ export default function StartScreen({
       </StartGrid>
       <HistoryGrid>
         <HistoryButton onClick={handleHistory}>
-          Take a look at your History
+          Take a look at your history
         </HistoryButton>
       </HistoryGrid>
     </Grid>

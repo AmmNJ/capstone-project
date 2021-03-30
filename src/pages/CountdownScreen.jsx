@@ -75,7 +75,7 @@ const ExecutionGrid = styled.section`
 `
 
 const StopButton = styled.button`
-  font-size: 18px;
+  font-size: 16px;
   color: white;
   background: linear-gradient(125deg, #a4e3cc, #56dfd1);
   height: 50px;
