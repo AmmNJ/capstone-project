@@ -35,9 +35,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ### Languages, Libraries and Tools Used
 
 - React
-- Javascript
+- React-Router
 - Styled Components
 - Storybook
+- PropTypes
 - Node.js
 - mongoDB Atlas
 - mongoose
