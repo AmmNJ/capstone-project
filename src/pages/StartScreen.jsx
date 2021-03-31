@@ -43,7 +43,7 @@ export default function StartScreen({
             {brTimerSec.toString().padStart(2, '0')}
           </BreakButton>
         ) : (
-          <StartButton onClick={handleStart}>Start Timer</StartButton>
+          <StartButton onClick={handleStart}>Start timer</StartButton>
         )}
       </StartGrid>
       <HistoryGrid>
@@ -53,6 +53,7 @@ export default function StartScreen({
       </HistoryGrid>
     </Grid>
   )
+
   function handleBreakAlert() {
     if (
       window.confirm(

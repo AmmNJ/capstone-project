@@ -1,25 +1,25 @@
 import styled from 'styled-components/macro'
 import { v4 as uuidv4 } from 'uuid'
 
-export default function Chart({ bars }) {
+export default function Chart({ chartData, todayValue, timeFrame }) {
   return (
     <Container>
       <InfoBox>
         <TodayBox>
-          <TodayValue>5h 49min</TodayValue>
+          <TodayValue>{todayValue}</TodayValue>
           <TodayLabel>Today</TodayLabel>
         </TodayBox>
-        <LastTenDays>01/03 - 10/03</LastTenDays>
+        <LastTenDays>{timeFrame}</LastTenDays>
       </InfoBox>
       <Graph>
         <Bars>
-          {bars.map(bar => (
-            <Bar key={uuidv4()} style={{ height: `${bar.height}%` }} />
+          {chartData.map(data => (
+            <Bar key={uuidv4()} style={{ height: `${data.height}%` }} />
           ))}
         </Bars>
         <XAxis>
-          {bars.map(bar => (
-            <AxisEl key={uuidv4()}>{bar.day}</AxisEl>
+          {chartData.map(data => (
+            <AxisEl key={uuidv4()}>{data.weekday}</AxisEl>
           ))}
         </XAxis>
       </Graph>

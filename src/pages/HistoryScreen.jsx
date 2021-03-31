@@ -1,18 +1,47 @@
 import styled from 'styled-components/macro'
 import Header from '../components/Header/Header'
 import Chart from '../components/Chart/Chart'
+import { allocateData, calcHeight, msToHoursMin } from '../services/math'
+import { useState } from 'react'
 
-export default function HistoryScreen({ bars }) {
+export default function HistoryScreen({ historyData }) {
+  const [chartData, setChartData] = useState(
+    calcHeight(allocateData(historyData))
+  )
+  const [todayValue, setTodayValue] = useState(
+    msToHoursMin(chartData[0].duration)
+  )
+
+  const [timeFrame, setTimeFrame] = useState(
+    chartData[chartData.length - 1].date + '-' + chartData[0].date
+  )
   return (
     <Grid>
       <HeaderGrid>
         <Header text="Productive history" />
       </HeaderGrid>
       <ChartGrid>
-        <Chart bars={bars} />
+        <Chart
+          chartData={chartData}
+          todayValue={todayValue}
+          timeFrame={timeFrame}
+        />
       </ChartGrid>
     </Grid>
   )
+  function updateChart() {
+    setChartData(calcHeight(allocateData(historyData)))
+  }
+
+  function updateTodayValue() {
+    setTodayValue(msToHoursMin(chartData[0].duration))
+  }
+
+  function updateTimeFrame() {
+    const timeFrameDisplay =
+      chartData[chartData.length - 1].date + '-' + chartData[0].date
+    setTimeFrame(timeFrameDisplay)
+  }
 }
 
 const Grid = styled.main`

@@ -28,7 +28,7 @@ export default function CountdownScreen({
       </ConfigGrid>
       <ExecutionGrid>
         <StopButton role="button" onClick={handleStop}>
-          Stop Timer
+          Stop timer
         </StopButton>
       </ExecutionGrid>
     </Grid>

@@ -1,9 +1,11 @@
 import CountdownScreen from '../pages/CountdownScreen'
 import StartScreen from '../pages/StartScreen'
 import HistoryScreen from '../pages/HistoryScreen'
-import { addMinToDate } from '../services/math'
+import useLocalStorage from '../hooks/useLocalStorage'
 import { useState, useEffect } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
+import { addMinToDate, allocateData, calcHeight } from '../services/math'
 
 function App() {
   const { push } = useHistory()
@@ -21,18 +23,8 @@ function App() {
   const [[endHrs, endMin], setEndTime] = useState([])
   const [[timerMin, timerSec], setTimer] = useState([SHORT.min, 0])
   const [[brTimerMin, brTimerSec], setBrTimer] = useState([SHORT.brMin, 0])
-  const [bars, setBars] = useState([
-    { height: 10, day: 'Mo' },
-    { height: 100, day: 'Tu' },
-    { height: 30, day: 'We' },
-    { height: 30, day: 'Th' },
-    { height: 100, day: 'Tu' },
-    { height: 30, day: 'We' },
-    { height: 30, day: 'Th' },
-    { height: 100, day: 'Tu' },
-    { height: 30, day: 'We' },
-    { height: 30, day: 'Th' },
-  ])
+  const [startDate, setStartDate] = useState(0)
+  const [historyData, setHistoryData] = useLocalStorage('historyData', [])
 
   useEffect(() => {
     if (appStatus === 'active') {
@@ -65,7 +57,7 @@ function App() {
           </Route>
         )}
         <Route path="/history">
-          <HistoryScreen bars={bars} />
+          <HistoryScreen historyData={historyData} />
         </Route>
         <Route path="/*">
           <StartScreen
@@ -76,25 +68,22 @@ function App() {
             isDurationLong={isDurationLong}
             appStatus={appStatus}
             setAppStatus={setAppStatus}
-            handleHistory={handleHistory}
             handleStart={handleStart}
             handleShort={handleShort}
             handleLong={handleLong}
+            handleHistory={handleHistory}
           />
         </Route>
       </Switch>
     </>
   )
 
-  function handleHistory() {
-    push('/history')
-  }
-
   function timer() {
     if (timerMin === 0 && timerSec === 0) {
       isDurationLong
         ? setBrTimer([LONG.brMin, 0])
         : setBrTimer([SHORT.brMin, 0])
+      updateHistory()
       push('/')
       setAppStatus('break')
       return alert('Congratulations! Time is up.')
@@ -116,6 +105,12 @@ function App() {
     }
   }
 
+  function handleHistory() {
+    // setChartData(calcHeight(allocateData(historyData)))
+    console.log(calcHeight(allocateData(historyData)))
+    push('/history')
+  }
+
   function handleShort() {
     setIsDurationLong(false)
     setTimer([SHORT.min, 0])
@@ -129,11 +124,25 @@ function App() {
   function handleStop() {
     isDurationLong ? setTimer([LONG.min, 0]) : setTimer([SHORT.min, 0])
     setAppStatus('default')
+    updateHistory()
     push('/')
+  }
+
+  function updateHistory() {
+    setHistoryData([
+      {
+        id: uuidv4(),
+        start: startDate,
+        end: new Date(),
+        duration: new Date().getTime() - startDate.getTime(),
+      },
+      ...historyData,
+    ])
   }
 
   function handleStart() {
     const now = new Date()
+    setStartDate(new Date())
     const nowMS = now.getTime()
     const endTimeShort = addMinToDate(nowMS, SHORT.min)
     const endTimeLong = addMinToDate(nowMS, LONG.min)
