@@ -1,22 +1,19 @@
 import styled from 'styled-components/macro'
 import Header from '../components/Header/Header'
 import Chart from '../components/Chart/Chart'
-import { allocateData, calcHeight, msToHoursMin } from '../services/math'
-import { useState } from 'react'
+import { ReactComponent as ArrowLeftSVG } from '../assets/arrow-left.svg'
 
-export default function HistoryScreen({ historyData }) {
-  const [chartData, setChartData] = useState(
-    calcHeight(allocateData(historyData))
-  )
-  const [todayValue, setTodayValue] = useState(
-    msToHoursMin(chartData[0].duration)
-  )
-
-  const [timeFrame, setTimeFrame] = useState(
-    chartData[chartData.length - 1].date + '-' + chartData[0].date
-  )
+export default function HistoryScreen({
+  chartData,
+  todayValue,
+  timeFrame,
+  returnHomeScreen,
+}) {
   return (
     <Grid>
+      <ReturnArrow>
+        <ArrowLeftSVG role="button" onClick={returnHomeScreen} />
+      </ReturnArrow>
       <HeaderGrid>
         <Header text="Productive history" />
       </HeaderGrid>
@@ -29,19 +26,6 @@ export default function HistoryScreen({ historyData }) {
       </ChartGrid>
     </Grid>
   )
-  function updateChart() {
-    setChartData(calcHeight(allocateData(historyData)))
-  }
-
-  function updateTodayValue() {
-    setTodayValue(msToHoursMin(chartData[0].duration))
-  }
-
-  function updateTimeFrame() {
-    const timeFrameDisplay =
-      chartData[chartData.length - 1].date + '-' + chartData[0].date
-    setTimeFrame(timeFrameDisplay)
-  }
 }
 
 const Grid = styled.main`
@@ -61,6 +45,7 @@ const HeaderGrid = styled.section`
   justify-items: center;
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   padding: 0 0 50px;
+  position: relative;
 `
 
 const ChartGrid = styled.section`
@@ -70,4 +55,11 @@ const ChartGrid = styled.section`
   animation: slide-opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   width: 100%;
   justify-content: stretch;
+`
+
+const ReturnArrow = styled.div`
+  position: absolute;
+  left: 34px;
+  top: 35px;
+  animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `

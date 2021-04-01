@@ -5,7 +5,12 @@ import useLocalStorage from '../hooks/useLocalStorage'
 import { useState, useEffect } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
-import { addMinToDate, allocateData, calcHeight } from '../services/math'
+import {
+  addMinToDate,
+  allocateData,
+  calcHeight,
+  msToHoursMin,
+} from '../services/math'
 
 function App() {
   const { push } = useHistory()
@@ -25,6 +30,13 @@ function App() {
   const [[brTimerMin, brTimerSec], setBrTimer] = useState([SHORT.brMin, 0])
   const [startDate, setStartDate] = useState(0)
   const [historyData, setHistoryData] = useLocalStorage('historyData', [])
+  const [chartData, setChartData] = useState(
+    calcHeight(allocateData(historyData))
+  )
+  const [todayValue, setTodayValue] = useState(
+    msToHoursMin(chartData[0].duration)
+  )
+  const [timeFrame, setTimeFrame] = useState(updateTimeFrame())
 
   useEffect(() => {
     if (appStatus === 'active') {
@@ -57,7 +69,12 @@ function App() {
           </Route>
         )}
         <Route path="/history">
-          <HistoryScreen historyData={historyData} />
+          <HistoryScreen
+            chartData={chartData}
+            todayValue={todayValue}
+            timeFrame={timeFrame}
+            returnHomeScreen={returnHomeScreen}
+          />
         </Route>
         <Route path="/*">
           <StartScreen
@@ -103,12 +120,6 @@ function App() {
     } else {
       setBrTimer([brTimerMin, brTimerSec - 1])
     }
-  }
-
-  function handleHistory() {
-    // setChartData(calcHeight(allocateData(historyData)))
-    console.log(calcHeight(allocateData(historyData)))
-    push('/history')
   }
 
   function handleShort() {
@@ -158,6 +169,42 @@ function App() {
     setEndTime([now.getHours(), now.getMinutes()])
     setAppStatus('active')
     push('/countdown')
+  }
+
+  function updateChart() {
+    setChartData(calcHeight(allocateData(historyData)))
+  }
+
+  function updateTodayValue() {
+    setTodayValue(msToHoursMin(chartData[0].duration))
+  }
+
+  function updateTimeFrame() {
+    const fromDate =
+      chartData[chartData.length - 1].date.slice(8, 10).padStart(2, '0') +
+      '/' +
+      chartData[chartData.length - 1].date.slice(5, 7)
+
+    const toDate =
+      chartData[0].date.slice(8, 10).padStart(2, '0') +
+      '/' +
+      chartData[0].date.slice(5, 7)
+
+    const timeFrameDisplay = fromDate + ' - ' + toDate
+
+    return timeFrameDisplay
+  }
+
+  function handleHistory() {
+    updateChart()
+    updateTodayValue()
+    setTimeFrame(updateTimeFrame())
+    console.log(calcHeight(allocateData(historyData)))
+    push('/history')
+  }
+
+  function returnHomeScreen() {
+    push('/')
   }
 }
 
