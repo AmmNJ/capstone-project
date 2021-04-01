@@ -19,8 +19,8 @@ export function objToDate(dateObj) {
   return year + '/' + month + '/' + day
 }
 
-function toPercentInteger(share, sum) {
-  return Math.round((share / sum) * 100)
+function relativeShare(input, min, max) {
+  return ((input - min) * 100) / (max - min)
 }
 
 export function calcHeight(data) {
@@ -28,11 +28,9 @@ export function calcHeight(data) {
 
   data.forEach(element => array.push(element.duration))
 
-  let sum = array.reduce((pv, cv) => {
-    return pv + cv
-  }, 0)
+  const maxValue = Math.max(...array)
 
-  data.forEach(el => (el.height = toPercentInteger(el.duration, sum)))
+  data.forEach(el => (el.height = relativeShare(el.duration, 0, maxValue)))
   return data
 }
 
