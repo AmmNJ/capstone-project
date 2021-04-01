@@ -30,4 +30,14 @@ export default createGlobalStyle`
       opacity: 1;
     }
   }
+
+  @keyframes shrink {
+    -100% {
+      height: 0%;
+    }
+    0% {
+      height: 100%;
+    }
+  }
+
 `

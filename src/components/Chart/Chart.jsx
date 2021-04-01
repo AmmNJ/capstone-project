@@ -87,6 +87,7 @@ const Bars = styled.div`
 const Bar = styled.div`
   background: linear-gradient(125deg, #a4e3cc, #56dfd1);
   border-radius: 5px;
+  animation: shrink 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
 const XAxis = styled.div`

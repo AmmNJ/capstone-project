@@ -36,43 +36,6 @@ export function calcHeight(data) {
   return data
 }
 
-// TO-DO
-// 1. convert date to comparable key - DONE
-// 2. use .reduce ? - NOT NEEDED
-// 3. height = JS - In PROGRESS
-// 4. tests
-// 5. storybook
-// 6. delete console.log & comments
-
-// function previousTenDays() {
-//   const goBackDays = 10
-//   const previousTenDays = {}
-
-//   for (let i = 0; i < goBackDays; i++) {
-//     let today = new Date()
-
-//     previousTenDays[
-//       objToDate(new Date(today.setDate(today.getDate() - 1 * i)))
-//     ] = 0
-//   }
-//   return previousTenDays
-// }
-
-// export function allocateDuration(data) {
-//   const prevTenDays = previousTenDays()
-
-//   Object.keys(prevTenDays).map(item => {
-//     data.map(entry => {
-//       if (objToDate(new Date(entry.start)) === item) {
-//         prevTenDays[item] = prevTenDays[item] + entry.duration
-//       }
-//       return prevTenDays
-//     })
-//     return prevTenDays
-//   })
-//   return prevTenDays
-// }
-
 function getWeekDay(dateObj) {
   let weekdays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
   return weekdays[dateObj.getDay()]
