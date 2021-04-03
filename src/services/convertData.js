@@ -1,5 +1,3 @@
-// TODO rename file to date-sth
-
 export function addMinToDate(timeInMs, min) {
   return timeInMs + min * 60 * 1000
 }
@@ -21,19 +19,31 @@ export function objToDate(dateObj) {
   return year + '/' + month + '/' + day
 }
 
-function relativeShare(input, min, max) {
-  return ((input - min) * 100) / (max - min)
-}
-
 export function calcHeight(data) {
   let array = []
-
   data.forEach(element => array.push(element.duration))
-
   const maxValue = Math.max(...array)
 
   data.forEach(el => (el.height = relativeShare(el.duration, 0, maxValue)))
   return data
+}
+
+export function allocateData(data) {
+  const targetData = prepareChartData()
+  targetData.map(item => {
+    data.map(entry => {
+      if (objToDate(new Date(entry.start)) === item.date) {
+        item.duration = item.duration + entry.duration
+      }
+      return targetData
+    })
+    return targetData
+  })
+  return targetData
+}
+
+function relativeShare(input, min, max) {
+  return ((input - min) * 100) / (max - min)
 }
 
 function getWeekDay(dateObj) {
@@ -58,20 +68,4 @@ function prepareChartData() {
     })
   }
   return previousTenDays.reverse()
-}
-
-// TODO sort data reverse
-
-export function allocateData(data) {
-  const targetData = prepareChartData()
-  targetData.map(item => {
-    data.map(entry => {
-      if (objToDate(new Date(entry.start)) === item.date) {
-        item.duration = item.duration + entry.duration
-      }
-      return targetData
-    })
-    return targetData
-  })
-  return targetData
 }

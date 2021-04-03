@@ -10,7 +10,7 @@ import {
   allocateData,
   calcHeight,
   msToHoursMin,
-} from '../services/math'
+} from '../services/convertData'
 
 function App() {
   const { push } = useHistory()
@@ -139,18 +139,6 @@ function App() {
     push('/')
   }
 
-  function updateHistory() {
-    setHistoryData([
-      {
-        id: uuidv4(),
-        start: startDate,
-        end: new Date(),
-        duration: new Date().getTime() - startDate.getTime(),
-      },
-      ...historyData,
-    ])
-  }
-
   function handleStart() {
     const now = new Date()
     setStartDate(new Date())
@@ -167,8 +155,23 @@ function App() {
     }
 
     setEndTime([now.getHours(), now.getMinutes()])
+    updateChart()
+    updateTodayValue()
+    setTimeFrame(updateTimeFrame())
     setAppStatus('active')
     push('/countdown')
+  }
+
+  function updateHistory() {
+    setHistoryData([
+      {
+        id: uuidv4(),
+        start: startDate,
+        end: new Date(),
+        duration: new Date().getTime() - startDate.getTime(),
+      },
+      ...historyData,
+    ])
   }
 
   function updateChart() {
@@ -196,9 +199,6 @@ function App() {
   }
 
   function handleHistory() {
-    updateChart()
-    updateTodayValue()
-    setTimeFrame(updateTimeFrame())
     console.log(calcHeight(allocateData(historyData)))
     push('/history')
   }
