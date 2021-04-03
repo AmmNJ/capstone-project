@@ -153,9 +153,6 @@ function App() {
     }
 
     setEndTime([now.getHours(), now.getMinutes()])
-    updateChart()
-    updateTodayValue()
-    setTimeFrame(updateTimeFrame())
     setAppStatus('active')
     push('/countdown')
   }
@@ -197,6 +194,9 @@ function App() {
   }
 
   function handleHistory() {
+    updateChart()
+    updateTodayValue()
+    setTimeFrame(updateTimeFrame())
     push('/history')
   }
 
