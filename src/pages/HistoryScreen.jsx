@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro'
 import Header from '../components/Header/Header'
 import Chart from '../components/Chart/Chart'
+import Kpi from '../components/Kpi/Kpi'
 import { ReactComponent as ArrowLeftSVG } from '../assets/arrow-left.svg'
 
 export default function HistoryScreen({
@@ -24,6 +25,7 @@ export default function HistoryScreen({
           timeFrame={timeFrame}
         />
       </ChartGrid>
+      <Kpi />
     </Grid>
   )
 }

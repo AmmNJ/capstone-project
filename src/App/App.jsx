@@ -193,6 +193,7 @@ function App() {
     return timeFrameDisplay
   }
 
+  // TODO Fix today value update timing
   function handleHistory() {
     updateChart()
     updateTodayValue()
