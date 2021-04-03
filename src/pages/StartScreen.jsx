@@ -11,6 +11,7 @@ export default function StartScreen({
   isDurationLong,
   appStatus,
   setAppStatus,
+  handleHistory,
   handleStart,
   handleShort,
   handleLong,
@@ -42,11 +43,17 @@ export default function StartScreen({
             {brTimerSec.toString().padStart(2, '0')}
           </BreakButton>
         ) : (
-          <StartButton onClick={handleStart}>Start Timer</StartButton>
+          <StartButton onClick={handleStart}>Start timer</StartButton>
         )}
       </StartGrid>
+      <HistoryGrid>
+        <HistoryButton onClick={handleHistory}>
+          Take a look at your history
+        </HistoryButton>
+      </HistoryGrid>
     </Grid>
   )
+
   function handleBreakAlert() {
     if (
       window.confirm(
@@ -60,13 +67,13 @@ export default function StartScreen({
 
 const Grid = styled.main`
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr auto;
+  grid-template-rows: 1fr 1fr 1fr auto auto;
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  padding: 70px 50px 60px;
+  padding: 70px 50px 30px;
 `
 
 const HeaderGrid = styled.section`
@@ -95,8 +102,17 @@ const ConfigGrid = styled.section`
 
 const StartGrid = styled.section`
   animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  display: grid;
+  align-content: end;
+  justify-content: stretch;
+`
+
+const HistoryGrid = styled.section`
+  animation: slide-opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  display: grid;
   align-content: end;
   justify-content: center;
+  padding: 10px 0 10px;
 `
 
 const Duration = styled.button`
@@ -110,7 +126,7 @@ const Duration = styled.button`
 `
 
 const StartButton = styled.button`
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   background: linear-gradient(125deg, #a4e3cc, #56dfd1);
   height: 50px;
@@ -122,7 +138,7 @@ const StartButton = styled.button`
 `
 
 const BreakButton = styled.button`
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   background: gray;
   height: 50px;
@@ -130,5 +146,16 @@ const BreakButton = styled.button`
   border: none;
   border-radius: 8px;
   padding: 0;
+  animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+`
+
+const HistoryButton = styled.button`
+  font-size: 12px;
+  color: #585858;
+  background: white;
+  border: none;
+  border-bottom: 1px solid #a4e3cc;
+  height: 30px;
+  padding: 5px;
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `

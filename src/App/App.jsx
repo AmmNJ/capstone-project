@@ -1,7 +1,16 @@
 import CountdownScreen from '../pages/CountdownScreen'
 import StartScreen from '../pages/StartScreen'
+import HistoryScreen from '../pages/HistoryScreen'
+import useLocalStorage from '../hooks/useLocalStorage'
 import { useState, useEffect } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
+import {
+  addMinToDate,
+  allocateData,
+  calcHeight,
+  msToHoursMin,
+} from '../services/convertData'
 
 function App() {
   const { push } = useHistory()
@@ -13,11 +22,21 @@ function App() {
     min: 50,
     brMin: 10,
   }
+
   const [appStatus, setAppStatus] = useState('')
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [[endHrs, endMin], setEndTime] = useState([])
   const [[timerMin, timerSec], setTimer] = useState([SHORT.min, 0])
   const [[brTimerMin, brTimerSec], setBrTimer] = useState([SHORT.brMin, 0])
+  const [startDate, setStartDate] = useState(0)
+  const [historyData, setHistoryData] = useLocalStorage('historyData', [])
+  const [chartData, setChartData] = useState(
+    calcHeight(allocateData(historyData))
+  )
+  const [todayValue, setTodayValue] = useState(
+    msToHoursMin(chartData[chartData.length - 1].duration)
+  )
+  const [timeFrame, setTimeFrame] = useState(updateTimeFrame())
 
   useEffect(() => {
     if (appStatus === 'active') {
@@ -33,7 +52,7 @@ function App() {
   return (
     <>
       <Switch>
-        {(appStatus === 'active' || appStatus === 'paused') && (
+        {appStatus === 'active' && (
           <Route path="/countdown">
             <CountdownScreen
               SHORT={SHORT}
@@ -46,10 +65,17 @@ function App() {
               isDurationLong={isDurationLong}
               handleStart={handleStart}
               handleStop={handleStop}
-              handlePause={handlePause}
             />
           </Route>
         )}
+        <Route path="/history">
+          <HistoryScreen
+            chartData={chartData}
+            todayValue={todayValue}
+            timeFrame={timeFrame}
+            returnHomeScreen={returnHomeScreen}
+          />
+        </Route>
         <Route path="/*">
           <StartScreen
             SHORT={SHORT}
@@ -62,6 +88,7 @@ function App() {
             handleStart={handleStart}
             handleShort={handleShort}
             handleLong={handleLong}
+            handleHistory={handleHistory}
           />
         </Route>
       </Switch>
@@ -69,11 +96,8 @@ function App() {
   )
 
   function timer() {
-    if (appStatus === 'paused') return
     if (timerMin === 0 && timerSec === 0) {
-      isDurationLong
-        ? setBrTimer([LONG.brMin, 0])
-        : setBrTimer([SHORT.brMin, 0])
+      updateHistory()
       push('/')
       setAppStatus('break')
       return alert('Congratulations! Time is up.')
@@ -98,42 +122,86 @@ function App() {
   function handleShort() {
     setIsDurationLong(false)
     setTimer([SHORT.min, 0])
+    setBrTimer([SHORT.brMin, 0])
   }
 
   function handleLong() {
     setIsDurationLong(true)
     setTimer([LONG.min, 0])
+    setBrTimer([LONG.brMin, 0])
   }
 
   function handleStop() {
-    isDurationLong ? setTimer([LONG.min, 0]) : setTimer([SHORT.min, 0])
     setAppStatus('default')
+    updateHistory()
     push('/')
   }
 
   function handleStart() {
-    const end = new Date()
-    const endTimeActive = end.getTime() + (timerMin + timerSec / 60) * 60 * 1000
-    const endTimeShort = end.getTime() + SHORT.min * 60 * 1000
-    const endTimeLong = end.getTime() + LONG.min * 60 * 1000
+    const now = new Date()
+    setStartDate(new Date())
+    const nowMS = now.getTime()
+    const endTimeShort = addMinToDate(nowMS, SHORT.min)
+    const endTimeLong = addMinToDate(nowMS, LONG.min)
 
-    if (appStatus === 'paused') {
-      end.setTime(endTimeActive)
-    } else if (isDurationLong) {
+    if (isDurationLong) {
       setTimer([LONG.min, 0])
-      end.setTime(endTimeLong)
+      now.setTime(endTimeLong)
     } else {
-      end.setTime(endTimeShort)
+      now.setTime(endTimeShort)
       setTimer([SHORT.min, 0])
     }
 
-    setEndTime([end.getHours(), end.getMinutes()])
+    setEndTime([now.getHours(), now.getMinutes()])
+    updateChart()
+    updateTodayValue()
+    setTimeFrame(updateTimeFrame())
     setAppStatus('active')
     push('/countdown')
   }
 
-  function handlePause() {
-    setAppStatus('paused')
+  function updateHistory() {
+    setHistoryData([
+      {
+        id: uuidv4(),
+        start: startDate,
+        end: new Date(),
+        duration: new Date().getTime() - startDate.getTime(),
+      },
+      ...historyData,
+    ])
+  }
+
+  function updateChart() {
+    setChartData(calcHeight(allocateData(historyData)))
+  }
+
+  function updateTodayValue() {
+    setTodayValue(msToHoursMin(chartData[chartData.length - 1].duration))
+  }
+
+  function updateTimeFrame() {
+    const fromDate =
+      chartData[0].date.slice(8, 10).padStart(2, '0') +
+      '/' +
+      chartData[0].date.slice(5, 7)
+
+    const toDate =
+      chartData[chartData.length - 1].date.slice(8, 10).padStart(2, '0') +
+      '/' +
+      chartData[chartData.length - 1].date.slice(5, 7)
+
+    const timeFrameDisplay = fromDate + ' - ' + toDate
+
+    return timeFrameDisplay
+  }
+
+  function handleHistory() {
+    push('/history')
+  }
+
+  function returnHomeScreen() {
+    push('/')
   }
 }
 
