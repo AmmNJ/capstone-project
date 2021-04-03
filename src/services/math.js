@@ -1,3 +1,5 @@
+// TODO rename file to date-sth
+
 export function addMinToDate(timeInMs, min) {
   return timeInMs + min * 60 * 1000
 }
@@ -55,8 +57,10 @@ function prepareChartData() {
       height: 0,
     })
   }
-  return previousTenDays
+  return previousTenDays.reverse()
 }
+
+// TODO sort data reverse
 
 export function allocateData(data) {
   const targetData = prepareChartData()

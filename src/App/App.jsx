@@ -34,7 +34,7 @@ function App() {
     calcHeight(allocateData(historyData))
   )
   const [todayValue, setTodayValue] = useState(
-    msToHoursMin(chartData[0].duration)
+    msToHoursMin(chartData[chartData.length - 1].duration)
   )
   const [timeFrame, setTimeFrame] = useState(updateTimeFrame())
 
@@ -176,19 +176,19 @@ function App() {
   }
 
   function updateTodayValue() {
-    setTodayValue(msToHoursMin(chartData[0].duration))
+    setTodayValue(msToHoursMin(chartData[chartData.length - 1].duration))
   }
 
   function updateTimeFrame() {
     const fromDate =
-      chartData[chartData.length - 1].date.slice(8, 10).padStart(2, '0') +
-      '/' +
-      chartData[chartData.length - 1].date.slice(5, 7)
-
-    const toDate =
       chartData[0].date.slice(8, 10).padStart(2, '0') +
       '/' +
       chartData[0].date.slice(5, 7)
+
+    const toDate =
+      chartData[chartData.length - 1].date.slice(8, 10).padStart(2, '0') +
+      '/' +
+      chartData[chartData.length - 1].date.slice(5, 7)
 
     const timeFrameDisplay = fromDate + ' - ' + toDate
 

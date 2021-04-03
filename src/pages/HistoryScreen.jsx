@@ -28,6 +28,8 @@ export default function HistoryScreen({
   )
 }
 
+// TODO Average vs last month
+
 const Grid = styled.main`
   display: grid;
   grid-template-rows: auto 1fr 1fr;
@@ -60,6 +62,6 @@ const ChartGrid = styled.section`
 const ReturnArrow = styled.div`
   position: absolute;
   left: 34px;
-  top: 35px;
+  top: 34px;
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
