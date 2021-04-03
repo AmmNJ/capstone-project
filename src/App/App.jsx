@@ -97,9 +97,6 @@ function App() {
 
   function timer() {
     if (timerMin === 0 && timerSec === 0) {
-      isDurationLong
-        ? setBrTimer([LONG.brMin, 0])
-        : setBrTimer([SHORT.brMin, 0])
       updateHistory()
       push('/')
       setAppStatus('break')
@@ -125,15 +122,16 @@ function App() {
   function handleShort() {
     setIsDurationLong(false)
     setTimer([SHORT.min, 0])
+    setBrTimer([SHORT.brMin, 0])
   }
 
   function handleLong() {
     setIsDurationLong(true)
     setTimer([LONG.min, 0])
+    setBrTimer([LONG.brMin, 0])
   }
 
   function handleStop() {
-    isDurationLong ? setTimer([LONG.min, 0]) : setTimer([SHORT.min, 0])
     setAppStatus('default')
     updateHistory()
     push('/')
@@ -199,7 +197,6 @@ function App() {
   }
 
   function handleHistory() {
-    console.log(calcHeight(allocateData(historyData)))
     push('/history')
   }
 

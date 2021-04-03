@@ -28,8 +28,6 @@ export default function HistoryScreen({
   )
 }
 
-// TODO Average vs last month
-
 const Grid = styled.main`
   display: grid;
   grid-template-rows: auto 1fr 1fr;
