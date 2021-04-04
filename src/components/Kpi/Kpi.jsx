@@ -6,6 +6,21 @@ export default function Kpi() {
       <Heading>Avg. Last Month</Heading>
       <SubContainer>
         <ValueBox>
+          <Value>4h</Value>
+          <InfoEl>Day</InfoEl>
+        </ValueBox>
+        <ValueBox>
+          <Value>30h</Value>
+          <InfoEl>Week</InfoEl>
+        </ValueBox>
+        <ValueBox>
+          <Value>134h</Value>
+          <InfoEl>Month</InfoEl>
+        </ValueBox>
+      </SubContainer>
+      <Heading>Avg. Total</Heading>
+      <SubContainer>
+        <ValueBox>
           <Value>5h</Value>
           <InfoEl>Day</InfoEl>
         </ValueBox>
@@ -14,22 +29,7 @@ export default function Kpi() {
           <InfoEl>Week</InfoEl>
         </ValueBox>
         <ValueBox>
-          <Value>140h</Value>
-          <InfoEl>Month</InfoEl>
-        </ValueBox>
-      </SubContainer>
-      <Heading>Avg. Total</Heading>
-      <SubContainer>
-        <ValueBox>
-          <Value>4h</Value>
-          <InfoEl>Day</InfoEl>
-        </ValueBox>
-        <ValueBox>
-          <Value>28h</Value>
-          <InfoEl>Week</InfoEl>
-        </ValueBox>
-        <ValueBox>
-          <Value>112h</Value>
+          <Value>157h</Value>
           <InfoEl>Month</InfoEl>
         </ValueBox>
       </SubContainer>
