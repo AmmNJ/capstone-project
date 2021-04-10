@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro'
 import Kpi from './Kpi'
 
-export default function KpiBoard({ totalHrs }) {
+export default function KpiBoard({ totalAvg }) {
   return (
     <Container>
       <Heading>Avg. Last Month</Heading>
@@ -12,7 +12,7 @@ export default function KpiBoard({ totalHrs }) {
       </SubContainer>
       <Heading>Avg. Total</Heading>
       <SubContainer>
-        <Kpi value={totalHrs} info={'Day'} />
+        <Kpi value={totalAvg + 'h'} info={'Day'} />
         <Kpi value={'35h'} info={'Week'} />
         <Kpi value={'157h'} info={'Month'} />
       </SubContainer>

@@ -5,9 +5,9 @@ import useLocalStorage from '../hooks/useLocalStorage'
 import { useState, useEffect } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
-import { toHoursMin, addMinToMs } from '../services/time'
+import { toHoursMin, addMinToMs, toHours } from '../services/time'
 import { allocateData, calcHeight } from '../services/convertData'
-import { toHours } from '../services/time'
+import { uniqueDates } from '../services/date'
 import { sumKeyData } from '../services/math'
 
 function App() {
@@ -35,9 +35,7 @@ function App() {
     toHoursMin(chartData[chartData.length - 1].duration)
   )
   const [timeFrame, setTimeFrame] = useState(updateTimeFrame())
-  const [totalHrs, setTotalHrs] = useState(
-    toHours(sumKeyData(historyData, 'duration'))
-  )
+  const [totalAvg, setTotalAvg] = useState(avgTotal())
 
   useEffect(() => {
     if (appStatus === 'active') {
@@ -76,7 +74,7 @@ function App() {
             timeFrame={timeFrame}
             returnHomeScreen={returnHomeScreen}
             historyData={historyData}
-            totalHrs={totalHrs}
+            totalAvg={totalAvg}
           />
         </Route>
         <Route path="/*">
@@ -201,12 +199,20 @@ function App() {
     updateChart()
     updateTodayValue()
     setTimeFrame(updateTimeFrame())
-    updateTotalHrs()
+    updateTotalAvg()
     push('/history')
   }
 
-  function updateTotalHrs() {
-    setTotalHrs(sumKeyData(historyData))
+  function avgTotal() {
+    const uniqueDayCount = uniqueDates(historyData, 'start').size
+    const totalHrs = toHours(sumKeyData(historyData, 'duration'))
+    const avgTotal = Math.round(totalHrs / uniqueDayCount)
+
+    return avgTotal
+  }
+
+  function updateTotalAvg() {
+    setTotalAvg(avgTotal)
   }
 
   function returnHomeScreen() {

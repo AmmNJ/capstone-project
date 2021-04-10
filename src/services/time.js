@@ -2,10 +2,6 @@ export function toHours(ms) {
   return Math.round(ms / (1000 * 60 * 60))
 }
 
-export function toMinutes(ms) {
-  return Math.round(ms / (1000 * 60))
-}
-
 export function toHoursMin(ms) {
   const date = new Date(ms)
   const hours = date.toISOString().substr(11, 2)

@@ -11,3 +11,11 @@ export function getWeekDay(dateObj) {
   let weekdays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
   return weekdays[dateObj.getDay()]
 }
+
+export function uniqueDates(rawData, key) {
+  let array = []
+  rawData.forEach(entry => array.push(toShortDate(new Date(entry[key]))))
+
+  let uniqueArray = new Set(array)
+  return uniqueArray
+}

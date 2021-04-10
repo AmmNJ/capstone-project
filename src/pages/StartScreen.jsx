@@ -79,7 +79,6 @@ const Grid = styled.main`
 const HeaderGrid = styled.section`
   display: grid;
   align-items: start;
-  justify-items: center;
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
