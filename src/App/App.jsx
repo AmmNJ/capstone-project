@@ -5,12 +5,10 @@ import useLocalStorage from '../hooks/useLocalStorage'
 import { useState, useEffect } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
-import {
-  addMinToDate,
-  allocateData,
-  calcHeight,
-  msToHoursMin,
-} from '../services/convertData'
+import { toHoursMin, addMinToMs } from '../services/time'
+import { allocateData, calcHeight } from '../services/convertData'
+import { toHours } from '../services/time'
+import { sumKeyData } from '../services/math'
 
 function App() {
   const { push } = useHistory()
@@ -34,9 +32,12 @@ function App() {
     calcHeight(allocateData(historyData))
   )
   const [todayValue, setTodayValue] = useState(
-    msToHoursMin(chartData[chartData.length - 1].duration)
+    toHoursMin(chartData[chartData.length - 1].duration)
   )
   const [timeFrame, setTimeFrame] = useState(updateTimeFrame())
+  const [totalHrs, setTotalHrs] = useState(
+    toHours(sumKeyData(historyData, 'duration'))
+  )
 
   useEffect(() => {
     if (appStatus === 'active') {
@@ -74,6 +75,8 @@ function App() {
             todayValue={todayValue}
             timeFrame={timeFrame}
             returnHomeScreen={returnHomeScreen}
+            historyData={historyData}
+            totalHrs={totalHrs}
           />
         </Route>
         <Route path="/*">
@@ -141,8 +144,8 @@ function App() {
     const now = new Date()
     setStartDate(new Date())
     const nowMS = now.getTime()
-    const endTimeShort = addMinToDate(nowMS, SHORT.min)
-    const endTimeLong = addMinToDate(nowMS, LONG.min)
+    const endTimeShort = addMinToMs(nowMS, SHORT.min)
+    const endTimeLong = addMinToMs(nowMS, LONG.min)
 
     if (isDurationLong) {
       setTimer([LONG.min, 0])
@@ -174,7 +177,7 @@ function App() {
   }
 
   function updateTodayValue() {
-    setTodayValue(msToHoursMin(chartData[chartData.length - 1].duration))
+    setTodayValue(toHoursMin(chartData[chartData.length - 1].duration))
   }
 
   function updateTimeFrame() {
@@ -198,7 +201,12 @@ function App() {
     updateChart()
     updateTodayValue()
     setTimeFrame(updateTimeFrame())
+    updateTotalHrs()
     push('/history')
+  }
+
+  function updateTotalHrs() {
+    setTotalHrs(sumKeyData(historyData))
   }
 
   function returnHomeScreen() {
