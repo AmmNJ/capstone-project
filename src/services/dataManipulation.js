@@ -1,30 +1,28 @@
 import { toShortDate, getWeekDay } from './date'
 import { relativeShare } from './math'
 
+export function getKeyDateValues(array, key) {
+  return array.map(entry => new Date(entry[key]))
+}
+
+export function getMinValue(array) {
+  return Math.min(...array)
+}
+
+function getMaxValue(array) {
+  return Math.max(...array)
+}
+
 export function calcHeight(data) {
   let array = []
   data.forEach(element => array.push(element.duration))
-  const maxValue = Math.max(...array)
+  const maxValue = getMaxValue(array)
 
   data.forEach(el => (el.height = relativeShare(el.duration, 0, maxValue)))
   return data
 }
 
 export function allocateData(rawData) {
-  const targetData = prepareChartData()
-  targetData.map(targetEntry => {
-    rawData.map(rawEntry => {
-      if (toShortDate(new Date(rawEntry.start)) === targetEntry.date) {
-        targetEntry.duration = targetEntry.duration + rawEntry.duration
-      }
-      return targetData
-    })
-    return targetData
-  })
-  return targetData
-}
-
-function prepareChartData() {
   const goBackDays = 10
   const previousTenDays = []
 
@@ -40,5 +38,17 @@ function prepareChartData() {
       height: 0,
     })
   }
-  return previousTenDays.reverse()
+
+  const targetData = previousTenDays.reverse()
+
+  targetData.map(targetEntry => {
+    rawData.map(rawEntry => {
+      if (toShortDate(new Date(rawEntry.start)) === targetEntry.date) {
+        targetEntry.duration = targetEntry.duration + rawEntry.duration
+      }
+      return targetData
+    })
+    return targetData
+  })
+  return targetData
 }

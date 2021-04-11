@@ -12,10 +12,20 @@ export function getWeekDay(dateObj) {
   return weekdays[dateObj.getDay()]
 }
 
-export function uniqueDates(rawData, key) {
-  let array = []
-  rawData.forEach(entry => array.push(toShortDate(new Date(entry[key]))))
+// TODO remove this comment below
+// export function uniqueDates(rawData, key) {
+//   let array = []
+//   rawData.forEach(entry => array.push(toShortDate(new Date(entry[key]))))
 
-  let uniqueArray = new Set(array)
-  return uniqueArray
+//   let uniqueArray = new Set(array)
+//   return uniqueArray
+// }
+
+export function daysDifference(startDate, endDate) {
+  let dayDifference = Math.ceil(
+    (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
+  )
+  if (dayDifference === 0 || isNaN(dayDifference)) return 0
+
+  return dayDifference
 }
