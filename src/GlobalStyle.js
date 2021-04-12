@@ -16,6 +16,10 @@ export default createGlobalStyle`
     color: #585858;
   }
 
+  button:focus {
+    outline: none;
+  }
+
   @keyframes slide-opacity {
     -50% {
       transform: translateY(0);

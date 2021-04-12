@@ -71,7 +71,7 @@ const LastTenDays = styled.div`
 const Graph = styled.div`
   display: grid;
   grid-template-rows: 120px min-content;
-  height: 150px;
+  height: 120px;
   justify-content: center;
 `
 

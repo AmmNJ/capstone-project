@@ -2,20 +2,30 @@ import styled from 'styled-components/macro'
 import Header from '../components/Header/Header'
 import { ReactComponent as GetThingsDoneSVG } from '../assets/get-things-done.svg'
 import { ReactComponent as BreakSVG } from '../assets/break.svg'
+import { useEffect, useState } from 'react'
+import { addMinToMs } from '../services/time'
 
 export default function StartScreen({
   SHORT,
   LONG,
-  brTimerMin,
-  brTimerSec,
   isDurationLong,
+  setIsDurationLong,
   appStatus,
   setAppStatus,
-  handleHistory,
-  handleStart,
-  handleShort,
-  handleLong,
+  navigateHistory,
+  navigateCountdown,
+  setStartDate,
+  setEndTime,
+  setTimer,
 }) {
+  const [[brTimerMin, brTimerSec], setBrTimer] = useState([SHORT.brMin, 0])
+
+  useEffect(() => {
+    if (appStatus === 'break') {
+      const breakTimeoutID = setTimeout(() => breakTimer(), 1000)
+      return () => clearTimeout(breakTimeoutID)
+    }
+  })
   return (
     <Grid>
       <HeaderGrid>
@@ -47,12 +57,55 @@ export default function StartScreen({
         )}
       </StartGrid>
       <HistoryGrid>
-        <HistoryButton onClick={handleHistory}>
+        <HistoryButton onClick={navigateHistory}>
           Take a look at your history
         </HistoryButton>
       </HistoryGrid>
     </Grid>
   )
+
+  function breakTimer() {
+    if (brTimerMin === 0 && brTimerSec === 0) {
+      setAppStatus('default')
+      return
+    } else if (brTimerSec === 0) {
+      setBrTimer([brTimerMin - 1, 59])
+    } else {
+      setBrTimer([brTimerMin, brTimerSec - 1])
+    }
+  }
+
+  function handleStart() {
+    const now = new Date()
+    setStartDate(new Date())
+    const nowMS = now.getTime()
+    const endTimeShort = addMinToMs(nowMS, SHORT.min)
+    const endTimeLong = addMinToMs(nowMS, LONG.min)
+
+    if (isDurationLong) {
+      setTimer([LONG.min, 0])
+      now.setTime(endTimeLong)
+    } else {
+      now.setTime(endTimeShort)
+      setTimer([SHORT.min, 0])
+    }
+
+    setEndTime([now.getHours(), now.getMinutes()])
+    setAppStatus('active')
+    navigateCountdown()
+  }
+
+  function handleShort() {
+    setIsDurationLong(false)
+    setTimer([SHORT.min, 0])
+    setBrTimer([SHORT.brMin, 0])
+  }
+
+  function handleLong() {
+    setIsDurationLong(true)
+    setTimer([LONG.min, 0])
+    setBrTimer([LONG.brMin, 0])
+  }
 
   function handleBreakAlert() {
     if (
@@ -79,7 +132,6 @@ const Grid = styled.main`
 const HeaderGrid = styled.section`
   display: grid;
   align-items: start;
-  justify-items: center;
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 
