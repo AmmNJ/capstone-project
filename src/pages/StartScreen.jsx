@@ -3,7 +3,7 @@ import Header from '../components/Header/Header'
 import { ReactComponent as GetThingsDoneSVG } from '../assets/get-things-done.svg'
 import { ReactComponent as BreakSVG } from '../assets/break.svg'
 import { useEffect } from 'react'
-import { addMinToMs } from '../services/time'
+import { addMinToMs } from '../lib/time'
 
 export default function StartScreen({
   SHORT,

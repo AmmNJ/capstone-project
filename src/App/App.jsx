@@ -5,9 +5,9 @@ import useLocalStorage from '../hooks/useLocalStorage'
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { Route, Switch, useHistory } from 'react-router-dom'
-import { getMaxValue } from '../services/dataManipulation'
-import { toShortDate, getWeekDay } from '../services/date'
-import { relativeShare } from '../services/math'
+import { getMaxValue } from '../lib/dataManipulation'
+import { toShortDate, getWeekDay } from '../lib/date'
+import { relativeShare } from '../lib/math'
 
 function App() {
   const { push } = useHistory()

@@ -3,10 +3,10 @@ import Header from '../components/Header/Header'
 import Chart from '../components/Chart/Chart'
 import KpiBoard from '../components/KpiBoard/KpiBoard'
 import { ReactComponent as ArrowLeftSVG } from '../assets/arrow-left.svg'
-import { getMinValue, getDateValues } from '../services/dataManipulation'
-import { toHoursMin, toHours } from '../services/time'
-import { daysDifference } from '../services/date'
-import { sumKeyData, roundOneDecimal } from '../services/math'
+import { getMinValue, getDateValues } from '../lib/dataManipulation'
+import { toHoursMin, toHours } from '../lib/time'
+import { daysDifference } from '../lib/date'
+import { sumKeyData, roundOneDecimal } from '../lib/math'
 
 export default function HistoryScreen({
   chartData,
