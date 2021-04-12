@@ -50,7 +50,6 @@ function App() {
       return () => clearTimeout(breakTimeoutID)
     }
   })
-
   return (
     <>
       <Switch>
@@ -134,12 +133,6 @@ function App() {
     setBrTimer([LONG.brMin, 0])
   }
 
-  function handleStop() {
-    setAppStatus('default')
-    updateData()
-    push('/')
-  }
-
   function handleStart() {
     const now = new Date()
     setStartDate(new Date())
@@ -158,6 +151,19 @@ function App() {
     setEndTime([now.getHours(), now.getMinutes()])
     setAppStatus('active')
     push('/countdown')
+  }
+
+  function handleStop() {
+    setAppStatus('default')
+    updateData()
+    push('/')
+  }
+
+  function handleHistory() {
+    setTodayValue(updateTodayValue(chartData))
+    setTimeFrame(updateTimeFrame(chartData))
+    setKpiData(updateKpiData(historyData, chartData))
+    push('/history')
   }
 
   function updateData() {
@@ -198,13 +204,6 @@ function App() {
     return timeFrameDisplay
   }
 
-  function handleHistory() {
-    setTodayValue(updateTodayValue(chartData))
-    setTimeFrame(updateTimeFrame(chartData))
-    setKpiData(updateKpiData(historyData, chartData))
-    push('/history')
-  }
-
   function updateKpiData(hData, cData) {
     const now = new Date()
     const startOfAppUsage = new Date(getMinValue(getDateValues(hData, 'start')))
@@ -212,12 +211,14 @@ function App() {
     const totalHoursUsage = toHours(sumKeyData(hData, 'duration'))
     const totalAvg = Math.round((totalHoursUsage / daysOfAppUsage) * 10) / 10
     const lastTenDaysTotal = toHours(sumKeyData(cData, 'duration'))
+
     const kpiData = {
       lastTenDaysAvg: lastTenDaysTotal / cData.length,
       lastTenDaysTotal: lastTenDaysTotal,
       totalAvg: totalAvg,
       total: totalHoursUsage,
     }
+
     return kpiData
   }
 
