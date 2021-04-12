@@ -3,9 +3,11 @@ import StartScreen from '../pages/StartScreen'
 import HistoryScreen from '../pages/HistoryScreen'
 import useLocalStorage from '../hooks/useLocalStorage'
 import { useState } from 'react'
-import { Route, Switch, useHistory } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
-import { allocateData, calcHeight } from '../services/dataManipulation'
+import { Route, Switch, useHistory } from 'react-router-dom'
+import { getMaxValue } from '../services/dataManipulation'
+import { toShortDate, getWeekDay } from '../services/date'
+import { relativeShare } from '../services/math'
 
 function App() {
   const { push } = useHistory()
@@ -36,16 +38,16 @@ function App() {
               SHORT={SHORT}
               LONG={LONG}
               appStatus={appStatus}
+              setAppStatus={setAppStatus}
               isDurationLong={isDurationLong}
-              updateData={updateData}
-              navigateStart={navigateStart}
-              startDate={startDate}
-              endHrs={endHrs}
-              endMin={endMin}
               timerMin={timerMin}
               timerSec={timerSec}
               setTimer={setTimer}
-              setAppStatus={setAppStatus}
+              endHrs={endHrs}
+              endMin={endMin}
+              startDate={startDate}
+              updateData={updateData}
+              navigateStart={navigateStart}
             />
           </Route>
         )}
@@ -60,16 +62,16 @@ function App() {
           <StartScreen
             SHORT={SHORT}
             LONG={LONG}
-            isDurationLong={isDurationLong}
-            setIsDurationLong={setIsDurationLong}
             appStatus={appStatus}
             setAppStatus={setAppStatus}
-            navigateHistory={navigateHistory}
-            navigateCountdown={navigateCountdown}
-            updateData={updateData}
-            setStartDate={setStartDate}
-            setEndTime={setEndTime}
+            isDurationLong={isDurationLong}
+            setIsDurationLong={setIsDurationLong}
             setTimer={setTimer}
+            setEndTime={setEndTime}
+            setStartDate={setStartDate}
+            updateData={updateData}
+            navigateCountdown={navigateCountdown}
+            navigateHistory={navigateHistory}
           />
         </Route>
       </Switch>
@@ -88,6 +90,46 @@ function App() {
     push('/history')
   }
 
+  function calcHeight(chartData) {
+    let array = []
+    chartData.forEach(element => array.push(element.duration))
+    const maxValue = getMaxValue(array)
+
+    chartData.forEach(
+      el => (el.height = relativeShare(el.duration, 0, maxValue))
+    )
+    return chartData
+  }
+
+  function allocateData(historyData) {
+    const goBackDays = 10
+    const previousTenDays = []
+
+    for (let i = 0; i < goBackDays; i++) {
+      let today = new Date()
+      let date = new Date(today.setDate(today.getDate() - 1 * i))
+      let formattedDate = toShortDate(date)
+
+      previousTenDays.push({
+        date: formattedDate,
+        duration: 0,
+        weekday: getWeekDay(date),
+        height: 0,
+      })
+    }
+    const targetData = previousTenDays.reverse()
+    targetData.map(targetEntry => {
+      historyData.map(rawEntry => {
+        if (toShortDate(new Date(rawEntry.start)) === targetEntry.date) {
+          targetEntry.duration = targetEntry.duration + rawEntry.duration
+        }
+        return targetData
+      })
+      return targetData
+    })
+    return targetData
+  }
+
   function updateData() {
     const updatedHistoryData = [
       {
@@ -98,9 +140,9 @@ function App() {
       },
       ...historyData,
     ]
-    const cData = calcHeight(allocateData(updatedHistoryData))
+    const updateChartData = calcHeight(allocateData(updatedHistoryData))
     setHistoryData(updatedHistoryData)
-    setChartData(cData)
+    setChartData(updateChartData)
   }
 }
 

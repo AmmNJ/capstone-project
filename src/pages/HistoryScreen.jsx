@@ -3,9 +3,8 @@ import Header from '../components/Header/Header'
 import Chart from '../components/Chart/Chart'
 import KpiBoard from '../components/KpiBoard/KpiBoard'
 import { ReactComponent as ArrowLeftSVG } from '../assets/arrow-left.svg'
-import { toHoursMin } from '../services/time'
-import { toHours } from '../services/time'
 import { getMinValue, getDateValues } from '../services/dataManipulation'
+import { toHoursMin, toHours } from '../services/time'
 import { daysDifference } from '../services/date'
 import { sumKeyData } from '../services/math'
 
@@ -60,7 +59,8 @@ export default function HistoryScreen({
     )
     const daysOfAppUsage = daysDifference(startOfAppUsage, now)
     const totalHoursUsage = toHours(sumKeyData(historyData, 'duration'))
-    const totalAvg = Math.round((totalHoursUsage / daysOfAppUsage) * 10) / 10
+    const totalAvg =
+      Math.round((totalHoursUsage / daysOfAppUsage) * 10) / 10 || 0
     const lastTenDaysTotal = toHours(sumKeyData(chartData, 'duration'))
 
     const kpiData = {
