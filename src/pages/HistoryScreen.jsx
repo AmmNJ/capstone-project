@@ -6,7 +6,7 @@ import { ReactComponent as ArrowLeftSVG } from '../assets/arrow-left.svg'
 import { getMinValue, getDateValues } from '../services/dataManipulation'
 import { toHoursMin, toHours } from '../services/time'
 import { daysDifference } from '../services/date'
-import { sumKeyData } from '../services/math'
+import { sumKeyData, roundOneDecimal } from '../services/math'
 
 export default function HistoryScreen({
   chartData,
@@ -58,13 +58,17 @@ export default function HistoryScreen({
       getMinValue(getDateValues(historyData, 'start'))
     )
     const daysOfAppUsage = daysDifference(startOfAppUsage, now)
-    const totalHoursUsage = toHours(sumKeyData(historyData, 'duration'))
-    const totalAvg =
-      Math.round((totalHoursUsage / daysOfAppUsage) * 10) / 10 || 0
-    const lastTenDaysTotal = toHours(sumKeyData(chartData, 'duration'))
+    const totalHoursUsage = Math.round(
+      toHours(sumKeyData(historyData, 'duration'))
+    )
+    const totalAvg = roundOneDecimal(totalHoursUsage / daysOfAppUsage)
+    const lastTenDaysTotal = roundOneDecimal(
+      toHours(sumKeyData(chartData, 'duration'))
+    )
+    const lastTenDaysAvg = roundOneDecimal(lastTenDaysTotal / chartData.length)
 
     const kpiData = {
-      lastTenDaysAvg: lastTenDaysTotal / chartData.length,
+      lastTenDaysAvg: lastTenDaysAvg,
       lastTenDaysTotal: lastTenDaysTotal,
       totalAvg: totalAvg,
       total: totalHoursUsage,
