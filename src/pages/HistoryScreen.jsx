@@ -9,7 +9,7 @@ export default function HistoryScreen({
   todayValue,
   timeFrame,
   returnHomeScreen,
-  kpiValues,
+  kpiData,
 }) {
   return (
     <Grid>
@@ -26,7 +26,7 @@ export default function HistoryScreen({
           timeFrame={timeFrame}
         />
       </ChartGrid>
-      <KpiBoard kpiValues={kpiValues} />
+      <KpiBoard kpiData={kpiData} />
     </Grid>
   )
 }

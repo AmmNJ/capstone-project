@@ -10,9 +10,9 @@ import {
   allocateData,
   calcHeight,
   getMinValue,
-  getKeyDateValues,
+  getDateValues,
 } from '../services/dataManipulation'
-import { uniqueDates, daysDifference } from '../services/date'
+import { daysDifference } from '../services/date'
 import { sumKeyData } from '../services/math'
 
 function App() {
@@ -26,8 +26,6 @@ function App() {
     brMin: 10,
   }
 
-  // TODO refactor all states to each screen component and make navigation path dynamic
-
   const [appStatus, setAppStatus] = useState('')
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [[endHrs, endMin], setEndTime] = useState([])
@@ -38,11 +36,9 @@ function App() {
   const [chartData, setChartData] = useState(
     calcHeight(allocateData(historyData))
   )
-  const [todayValue, setTodayValue] = useState(
-    toHoursMin(chartData[chartData.length - 1].duration)
-  )
+  const [todayValue, setTodayValue] = useState()
   const [timeFrame, setTimeFrame] = useState()
-  const [kpiValues, setKpiValues] = useState({})
+  const [kpiData, setKpiData] = useState({})
 
   useEffect(() => {
     if (appStatus === 'active') {
@@ -80,7 +76,7 @@ function App() {
             todayValue={todayValue}
             timeFrame={timeFrame}
             returnHomeScreen={returnHomeScreen}
-            kpiValues={kpiValues}
+            kpiData={kpiData}
           />
         </Route>
         <Route path="/*">
@@ -177,9 +173,13 @@ function App() {
     const cData = calcHeight(allocateData(updatedHistoryData))
     setHistoryData(updatedHistoryData)
     setChartData(cData)
-    setTodayValue(toHoursMin(cData[cData.length - 1].duration))
+    setTodayValue(updateTodayValue(cData))
     setTimeFrame(updateTimeFrame(cData))
-    setKpiValues(updateKpiValues(updatedHistoryData))
+    setKpiData(updateKpiData(updatedHistoryData, cData))
+  }
+
+  function updateTodayValue(data) {
+    return toHoursMin(data[data.length - 1].duration)
   }
 
   function updateTimeFrame(data) {
@@ -198,30 +198,27 @@ function App() {
     return timeFrameDisplay
   }
 
-  // TODO Fix today value update timing
   function handleHistory() {
+    setTodayValue(updateTodayValue(chartData))
+    setTimeFrame(updateTimeFrame(chartData))
+    setKpiData(updateKpiData(historyData, chartData))
     push('/history')
   }
 
-  function updateKpiValues(rawData) {
+  function updateKpiData(hData, cData) {
     const now = new Date()
-    const startOfAppUsage = new Date(
-      getMinValue(getKeyDateValues(rawData, 'start'))
-    )
+    const startOfAppUsage = new Date(getMinValue(getDateValues(hData, 'start')))
     const daysOfAppUsage = daysDifference(startOfAppUsage, now)
-    const totalHoursUsage = toHours(sumKeyData(rawData, 'duration'))
+    const totalHoursUsage = toHours(sumKeyData(hData, 'duration'))
     const totalAvg = Math.round((totalHoursUsage / daysOfAppUsage) * 10) / 10
-    console.log(totalAvg)
-    console.log(totalHoursUsage)
-
-    // TODO find min start value of all with reduce
-    const kpiValues = {
-      lastTenDaysAvg: 0,
-      lastTenDaysTotal: 0,
+    const lastTenDaysTotal = toHours(sumKeyData(cData, 'duration'))
+    const kpiData = {
+      lastTenDaysAvg: lastTenDaysTotal / cData.length,
+      lastTenDaysTotal: lastTenDaysTotal,
       totalAvg: totalAvg,
       total: totalHoursUsage,
     }
-    return kpiValues
+    return kpiData
   }
 
   function returnHomeScreen() {

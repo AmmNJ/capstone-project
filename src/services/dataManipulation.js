@@ -1,7 +1,7 @@
 import { toShortDate, getWeekDay } from './date'
 import { relativeShare } from './math'
 
-export function getKeyDateValues(array, key) {
+export function getDateValues(array, key) {
   return array.map(entry => new Date(entry[key]))
 }
 
@@ -40,7 +40,6 @@ export function allocateData(rawData) {
   }
 
   const targetData = previousTenDays.reverse()
-
   targetData.map(targetEntry => {
     rawData.map(rawEntry => {
       if (toShortDate(new Date(rawEntry.start)) === targetEntry.date) {

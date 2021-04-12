@@ -1,18 +1,18 @@
 import styled from 'styled-components/macro'
 import Kpi from './Kpi'
 
-export default function KpiBoard({ kpiValues }) {
+export default function KpiBoard({ kpiData }) {
   return (
     <Container>
       <Heading>Last Ten Days</Heading>
       <SubContainer>
-        <Kpi value={'4h'} info={'Average per Day'} />
-        <Kpi value={'134h'} info={'Total'} />
+        <Kpi value={kpiData.lastTenDaysAvg + 'h'} info={'Average per Day'} />
+        <Kpi value={kpiData.lastTenDaysTotal + 'h'} info={'Total'} />
       </SubContainer>
       <Heading>Total</Heading>
       <SubContainer>
-        <Kpi value={kpiValues.totalAvg + 'h'} info={'Average per Day'} />
-        <Kpi value={kpiValues.total + 'h'} info={'Total'} />
+        <Kpi value={kpiData.totalAvg + 'h'} info={'Average per Day'} />
+        <Kpi value={kpiData.total + 'h'} info={'Total'} />
       </SubContainer>
     </Container>
   )
@@ -35,6 +35,6 @@ const Heading = styled.h2`
 
 const SubContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   justify-content: space-between;
 `
