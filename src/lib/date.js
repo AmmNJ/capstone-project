@@ -1,9 +1,7 @@
 export function toShortDate(dateObj) {
   let year = dateObj.getFullYear()
-  let month = parseInt(dateObj.getMonth() + 1)
-    .toString()
-    .padStart(2, 0)
-  let day = parseInt(dateObj.getDate().toString().padStart(2, 0))
+  let month = (dateObj.getMonth() + 1).toString().padStart(2, '0')
+  let day = dateObj.getDate().toString().padStart(2, '0')
   return year + '/' + month + '/' + day
 }
 

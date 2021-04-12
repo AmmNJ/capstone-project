@@ -41,5 +41,10 @@ describe('lib/math', () => {
       const result = roundOneDecimal(-17.938947)
       expect(result).toBe(-17.9)
     })
+
+    it('returns 0 rounded if the input is 0', () => {
+      const result = roundOneDecimal(0)
+      expect(result).toBe(0)
+    })
   })
 })

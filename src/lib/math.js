@@ -7,5 +7,5 @@ export function relativeShare(input, min, max) {
 }
 
 export function roundOneDecimal(value) {
-  return Math.round(value * 10) / 10
+  return Math.round(value * 10) / 10 || 0
 }
