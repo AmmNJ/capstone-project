@@ -184,20 +184,20 @@ function App() {
     setKpiData(updateKpiData(updatedHistoryData, cData))
   }
 
-  function updateTodayValue(data) {
-    return toHoursMin(data[data.length - 1].duration)
+  function updateTodayValue(cData) {
+    return toHoursMin(cData[cData.length - 1].duration)
   }
 
-  function updateTimeFrame(data) {
+  function updateTimeFrame(cData) {
     const fromDate =
-      data[0].date.slice(8, 10).padStart(2, '0') +
+      cData[0].date.slice(8, 10).padStart(2, '0') +
       '/' +
-      data[0].date.slice(5, 7)
+      cData[0].date.slice(5, 7)
 
     const toDate =
-      data[data.length - 1].date.slice(8, 10).padStart(2, '0') +
+      cData[cData.length - 1].date.slice(8, 10).padStart(2, '0') +
       '/' +
-      data[data.length - 1].date.slice(5, 7)
+      cData[cData.length - 1].date.slice(5, 7)
 
     const timeFrameDisplay = fromDate + ' - ' + toDate
 
