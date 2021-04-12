@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import styled from 'styled-components/macro'
 import DisplayTimer from '../components/DisplayTimer/DisplayTimer'
 import DisplayTimerEnd from '../components/DisplayTimerEnd/DisplayTimerEnd'
@@ -5,14 +6,23 @@ import DisplayTimerEnd from '../components/DisplayTimerEnd/DisplayTimerEnd'
 export default function CountdownScreen({
   SHORT,
   LONG,
-  timerMin,
-  timerSec,
-  endHrs,
-  endMin,
   appStatus,
   isDurationLong,
-  handleStop,
+  setAppStatus,
+  updateData,
+  navigateStart,
+  timerMin,
+  timerSec,
+  setTimer,
+  endHrs,
+  endMin,
 }) {
+  useEffect(() => {
+    if (appStatus === 'active') {
+      const timeoutID = setTimeout(() => timer(), 1000)
+      return () => clearTimeout(timeoutID)
+    }
+  })
   return (
     <Grid>
       <TimerGrid>
@@ -33,6 +43,25 @@ export default function CountdownScreen({
       </ExecutionGrid>
     </Grid>
   )
+
+  function handleStop() {
+    setAppStatus('default')
+    updateData()
+    navigateStart()
+  }
+
+  function timer() {
+    if (timerMin === 0 && timerSec === 0) {
+      updateData()
+      navigateStart()
+      setAppStatus('break')
+      return alert('Congratulations! Time is up.')
+    } else if (timerSec === 0) {
+      setTimer([timerMin - 1, 59])
+    } else {
+      setTimer([timerMin, timerSec - 1])
+    }
+  }
 }
 
 const Grid = styled.main`

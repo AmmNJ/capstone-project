@@ -3,18 +3,21 @@ import Header from '../components/Header/Header'
 import Chart from '../components/Chart/Chart'
 import KpiBoard from '../components/KpiBoard/KpiBoard'
 import { ReactComponent as ArrowLeftSVG } from '../assets/arrow-left.svg'
+import { toHoursMin } from '../services/time'
+import { toHours } from '../services/time'
+import { getMinValue, getDateValues } from '../services/dataManipulation'
+import { daysDifference } from '../services/date'
+import { sumKeyData } from '../services/math'
 
 export default function HistoryScreen({
   chartData,
-  todayValue,
-  timeFrame,
-  returnHomeScreen,
-  kpiData,
+  historyData,
+  navigateStart,
 }) {
   return (
     <Grid>
       <ReturnArrow>
-        <ArrowLeftSVG role="button" onClick={returnHomeScreen} />
+        <ArrowLeftSVG role="button" onClick={navigateStart} />
       </ReturnArrow>
       <HeaderGrid>
         <Header text="Productive history" />
@@ -22,13 +25,53 @@ export default function HistoryScreen({
       <ChartGrid>
         <Chart
           chartData={chartData}
-          todayValue={todayValue}
-          timeFrame={timeFrame}
+          todayValue={updateTodayValue(chartData)}
+          timeFrame={updateTimeFrame(chartData)}
         />
       </ChartGrid>
-      <KpiBoard kpiData={kpiData} />
+      <KpiBoard kpiData={updateKpiData(historyData, chartData)} />
     </Grid>
   )
+
+  function updateTodayValue(chartData) {
+    return toHoursMin(chartData[chartData.length - 1].duration)
+  }
+
+  function updateTimeFrame(chartData) {
+    const fromDate =
+      chartData[0].date.slice(8, 10).padStart(2, '0') +
+      '/' +
+      chartData[0].date.slice(5, 7)
+
+    const toDate =
+      chartData[chartData.length - 1].date.slice(8, 10).padStart(2, '0') +
+      '/' +
+      chartData[chartData.length - 1].date.slice(5, 7)
+
+    const timeFrameDisplay = fromDate + ' - ' + toDate
+
+    return timeFrameDisplay
+  }
+
+  function updateKpiData(historyData, chartData) {
+    const now = new Date()
+    const startOfAppUsage = new Date(
+      getMinValue(getDateValues(historyData, 'start'))
+    )
+    const daysOfAppUsage = daysDifference(startOfAppUsage, now)
+    const totalHoursUsage = toHours(sumKeyData(historyData, 'duration'))
+    const totalAvg = Math.round((totalHoursUsage / daysOfAppUsage) * 10) / 10
+    const lastTenDaysTotal = toHours(sumKeyData(chartData, 'duration'))
+
+    const kpiData = {
+      lastTenDaysAvg: lastTenDaysTotal / chartData.length,
+      lastTenDaysTotal: lastTenDaysTotal,
+      totalAvg: totalAvg,
+      total: totalHoursUsage,
+    }
+
+    return kpiData
+  }
 }
 
 const Grid = styled.main`
