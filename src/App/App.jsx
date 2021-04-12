@@ -12,12 +12,12 @@ import { relativeShare } from '../services/math'
 function App() {
   const { push } = useHistory()
   const SHORT = {
-    min: 1,
-    brMin: 1,
+    min: 25,
+    brMin: 5,
   }
   const LONG = {
-    min: 2,
-    brMin: 2,
+    min: 50,
+    brMin: 10,
   }
 
   const [appStatus, setAppStatus] = useState('')
