@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro'
 import Kpi from '../Kpi/Kpi'
+import PropTypes from 'prop-types'
 
 export default function KpiBoard({ kpiData }) {
   return (
@@ -16,6 +17,10 @@ export default function KpiBoard({ kpiData }) {
       </SubContainer>
     </Container>
   )
+}
+
+KpiBoard.propTypes = {
+  kpiData: PropTypes.object,
 }
 
 const Container = styled.section`

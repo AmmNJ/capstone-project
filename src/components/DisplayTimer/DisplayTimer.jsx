@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro'
+import PropTypes from 'prop-types'
 
 export default function DisplayTimer({ timerMin, timerSec }) {
   const displayMinutes = timerMin.toString().padStart(2, '0')
@@ -9,6 +10,11 @@ export default function DisplayTimer({ timerMin, timerSec }) {
       {displayMinutes}:{displaySeconds}
     </TimerWrapper>
   )
+}
+
+DisplayTimer.propTypes = {
+  timerMin: PropTypes.number,
+  timerSec: PropTypes.number,
 }
 
 const TimerWrapper = styled.span`
