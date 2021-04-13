@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import styled from 'styled-components/macro'
 import DisplayTimer from '../components/DisplayTimer/DisplayTimer'
 import DisplayTimerEnd from '../components/DisplayTimerEnd/DisplayTimerEnd'
+import PropTypes from 'prop-types'
 
 export default function CountdownScreen({
   SHORT,
@@ -68,6 +69,22 @@ export default function CountdownScreen({
   function updateBrTimer(isDurationLong) {
     isDurationLong ? setBrTimer([LONG.brMin, 0]) : setBrTimer([SHORT.brMin, 0])
   }
+}
+
+CountdownScreen.propTypes = {
+  SHORT: PropTypes.object,
+  LONG: PropTypes.object,
+  appStatus: PropTypes.string,
+  isDurationLong: PropTypes.bool,
+  setAppStatus: PropTypes.func,
+  updateData: PropTypes.func,
+  navigateStart: PropTypes.func,
+  timerMin: PropTypes.number,
+  timerSec: PropTypes.number,
+  setTimer: PropTypes.func,
+  endHrs: PropTypes.number,
+  endMin: PropTypes.number,
+  setBrTimer: PropTypes.func,
 }
 
 const Grid = styled.main`

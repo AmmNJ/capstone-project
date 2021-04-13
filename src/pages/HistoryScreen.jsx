@@ -7,6 +7,7 @@ import { getMinValue, getDateValues } from '../lib/dataExtraction'
 import { toHoursMin, toHours } from '../lib/time'
 import { daysDifference } from '../lib/date'
 import { sumKeyData, roundOneDecimal } from '../lib/math'
+import PropTypes from 'prop-types'
 
 export default function HistoryScreen({
   chartData,
@@ -33,7 +34,6 @@ export default function HistoryScreen({
   )
 
   function updateTodayValue(chartData) {
-    console.log(chartData)
     return toHoursMin(chartData[chartData.length - 1].duration)
   }
 
@@ -77,6 +77,12 @@ export default function HistoryScreen({
 
     return kpiData
   }
+}
+
+HistoryScreen.propTypes = {
+  chartData: PropTypes.array,
+  historyData: PropTypes.array,
+  navigateStart: PropTypes.func,
 }
 
 const Grid = styled.main`
