@@ -5,7 +5,7 @@ import useLocalStorage from '../hooks/useLocalStorage'
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { Route, Switch, useHistory } from 'react-router-dom'
-import { getMaxValue } from '../lib/dataManipulation'
+import { getMaxValue } from '../lib/dataExtraction'
 import { toShortDate, getWeekDay } from '../lib/date'
 import { relativeShare } from '../lib/math'
 
