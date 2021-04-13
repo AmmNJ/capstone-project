@@ -5,4 +5,4 @@ export default {
   components: DisplayTimerEnd,
 }
 
-export const Time = () => <DisplayTimerEnd endHrs={8} endMin={10} />
+export const Default = () => <DisplayTimerEnd endHrs={8} endMin={10} />

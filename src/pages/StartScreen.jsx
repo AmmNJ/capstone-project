@@ -2,8 +2,8 @@ import styled from 'styled-components/macro'
 import Header from '../components/Header/Header'
 import { ReactComponent as GetThingsDoneSVG } from '../assets/get-things-done.svg'
 import { ReactComponent as BreakSVG } from '../assets/break.svg'
-import { useEffect, useState } from 'react'
-import { addMinToMs } from '../services/time'
+import { useEffect } from 'react'
+import { addMinToMs } from '../lib/time'
 
 export default function StartScreen({
   SHORT,
@@ -17,9 +17,10 @@ export default function StartScreen({
   setStartDate,
   setEndTime,
   setTimer,
+  brTimerMin,
+  brTimerSec,
+  setBrTimer,
 }) {
-  const [[brTimerMin, brTimerSec], setBrTimer] = useState([SHORT.brMin, 0])
-
   useEffect(() => {
     if (appStatus === 'break') {
       const breakTimeoutID = setTimeout(() => breakTimer(), 1000)
@@ -97,14 +98,10 @@ export default function StartScreen({
 
   function handleShort() {
     setIsDurationLong(false)
-    setTimer([SHORT.min, 0])
-    setBrTimer([SHORT.brMin, 0])
   }
 
   function handleLong() {
     setIsDurationLong(true)
-    setTimer([LONG.min, 0])
-    setBrTimer([LONG.brMin, 0])
   }
 
   function handleBreakAlert() {

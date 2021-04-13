@@ -16,6 +16,7 @@ export default function CountdownScreen({
   setTimer,
   endHrs,
   endMin,
+  setBrTimer,
 }) {
   useEffect(() => {
     if (appStatus === 'active') {
@@ -53,6 +54,7 @@ export default function CountdownScreen({
   function timer() {
     if (timerMin === 0 && timerSec === 0) {
       updateData()
+      updateBrTimer(isDurationLong)
       navigateStart()
       setAppStatus('break')
       return alert('Congratulations! Time is up.')
@@ -61,6 +63,10 @@ export default function CountdownScreen({
     } else {
       setTimer([timerMin, timerSec - 1])
     }
+  }
+
+  function updateBrTimer(isDurationLong) {
+    isDurationLong ? setBrTimer([LONG.brMin, 0]) : setBrTimer([SHORT.brMin, 0])
   }
 }
 

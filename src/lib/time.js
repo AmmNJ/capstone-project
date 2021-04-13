@@ -1,5 +1,5 @@
 export function toHours(ms) {
-  return Math.round(ms / (1000 * 60 * 60))
+  return ms / (1000 * 60 * 60)
 }
 
 export function toHoursMin(ms) {

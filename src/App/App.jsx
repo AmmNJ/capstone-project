@@ -5,9 +5,9 @@ import useLocalStorage from '../hooks/useLocalStorage'
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { Route, Switch, useHistory } from 'react-router-dom'
-import { getMaxValue } from '../services/dataManipulation'
-import { toShortDate, getWeekDay } from '../services/date'
-import { relativeShare } from '../services/math'
+import { getMaxValue } from '../lib/dataExtraction'
+import { toShortDate, getWeekDay } from '../lib/date'
+import { relativeShare } from '../lib/math'
 
 function App() {
   const { push } = useHistory()
@@ -21,9 +21,10 @@ function App() {
   }
 
   const [appStatus, setAppStatus] = useState('')
-  const [[timerMin, timerSec], setTimer] = useState([SHORT.min, 0])
-  const [startDate, setStartDate] = useState(0)
+  const [[timerMin, timerSec], setTimer] = useState([])
+  const [[brTimerMin, brTimerSec], setBrTimer] = useState([])
   const [[endHrs, endMin], setEndTime] = useState([])
+  const [startDate, setStartDate] = useState(0)
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [historyData, setHistoryData] = useLocalStorage('historyData', [])
   const [chartData, setChartData] = useState(
@@ -48,6 +49,7 @@ function App() {
               startDate={startDate}
               updateData={updateData}
               navigateStart={navigateStart}
+              setBrTimer={setBrTimer}
             />
           </Route>
         )}
@@ -72,6 +74,9 @@ function App() {
             updateData={updateData}
             navigateCountdown={navigateCountdown}
             navigateHistory={navigateHistory}
+            brTimerMin={brTimerMin}
+            brTimerSec={brTimerSec}
+            setBrTimer={setBrTimer}
           />
         </Route>
       </Switch>
