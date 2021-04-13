@@ -5,4 +5,4 @@ export default {
   components: DisplayTimer,
 }
 
-export const Timer = () => <DisplayTimer timerMin={25} timerSec={0} />
+export const Default = () => <DisplayTimer timerMin={25} timerSec={0} />

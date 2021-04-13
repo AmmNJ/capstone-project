@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro'
-import Kpi from './Kpi'
+import Kpi from '../Kpi/Kpi'
 
 export default function KpiBoard({ kpiData }) {
   return (

@@ -33,6 +33,7 @@ export default function HistoryScreen({
   )
 
   function updateTodayValue(chartData) {
+    console.log(chartData)
     return toHoursMin(chartData[chartData.length - 1].duration)
   }
 
