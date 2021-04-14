@@ -1,4 +1,4 @@
-# TEAL
+# teal
 Focus on what matters
 
 ## Features
@@ -11,11 +11,11 @@ Focus on what matters
 
 ## About
 
-TEAL is a productivity app based on the Pomodoro Technique. It is developed to help you focus on one of the most valuable resources - time. With its countdown, break and history features, this app provides you with all tools necessary to enhance your time management.
+**teal** is a productivity app based on the Pomodoro Technique. It is developed to help you focus on one of the most valuable resources - time. With its countdown, break and history features, this app provides you with all tools necessary to enhance your time management.
 Your productivity app should not distract you from being productive. It should enhance it.
 
 This objective was key in every step of the design and development process.
-An integral part to fulfill this objective is the selection of color - mainly **Teal**.
+An integral part to fulfill this objective is the selection of color - mainly **teal**.
 
 As [Canva](https://www.canva.com/colors/color-meanings/teal/) states:
 
