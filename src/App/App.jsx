@@ -28,7 +28,7 @@ function App() {
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [historyData, setHistoryData] = useLocalStorage('historyData', [])
   const [chartData, setChartData] = useState(
-    calcHeight(allocateData(historyData))
+    calcHeight(createChartData(historyData))
   )
   return (
     <>
@@ -106,33 +106,34 @@ function App() {
     return chartData
   }
 
-  function allocateData(historyData) {
+  function createChartData(historyData) {
     const goBackDays = 10
-    const previousTenDays = []
+    const setupArray = []
 
     for (let i = 0; i < goBackDays; i++) {
       let today = new Date()
       let date = new Date(today.setDate(today.getDate() - 1 * i))
       let formattedDate = toShortDate(date)
 
-      previousTenDays.push({
+      setupArray.push({
         date: formattedDate,
         duration: 0,
         weekday: getWeekDay(date),
         height: 0,
       })
     }
-    const targetData = previousTenDays.reverse()
-    targetData.map(targetEntry => {
+
+    const chartData = setupArray.reverse()
+    chartData.map(targetEntry => {
       historyData.map(rawEntry => {
         if (toShortDate(new Date(rawEntry.start)) === targetEntry.date) {
           targetEntry.duration = targetEntry.duration + rawEntry.duration
         }
-        return targetData
+        return chartData
       })
-      return targetData
+      return chartData
     })
-    return targetData
+    return chartData
   }
 
   function updateData() {
@@ -145,7 +146,7 @@ function App() {
       },
       ...historyData,
     ]
-    const updateChartData = calcHeight(allocateData(updatedHistoryData))
+    const updateChartData = calcHeight(createChartData(updatedHistoryData))
     setHistoryData(updatedHistoryData)
     setChartData(updateChartData)
   }
