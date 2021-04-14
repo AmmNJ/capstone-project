@@ -108,14 +108,14 @@ function App() {
 
   function createChartData(historyData) {
     const goBackDays = 10
-    const previousTenDays = []
+    const setupArray = []
 
     for (let i = 0; i < goBackDays; i++) {
       let today = new Date()
       let date = new Date(today.setDate(today.getDate() - 1 * i))
       let formattedDate = toShortDate(date)
 
-      previousTenDays.push({
+      setupArray.push({
         date: formattedDate,
         duration: 0,
         weekday: getWeekDay(date),
@@ -123,7 +123,7 @@ function App() {
       })
     }
 
-    const chartData = previousTenDays.reverse()
+    const chartData = setupArray.reverse()
     chartData.map(targetEntry => {
       historyData.map(rawEntry => {
         if (toShortDate(new Date(rawEntry.start)) === targetEntry.date) {
