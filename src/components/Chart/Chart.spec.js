@@ -3,7 +3,7 @@ import Chart from './Chart'
 
 describe('Chart', () => {
   const chartData = [
-    { date: '2021/04/04', duration: 10000, weekday: 'Su', height: 1000 },
+    { date: '2021/04/04', duration: 10000, weekday: 'Su', height: 100 },
   ]
   const todayValue = '05h 34min'
   const timeFrame = '04/04 - 13/04'
