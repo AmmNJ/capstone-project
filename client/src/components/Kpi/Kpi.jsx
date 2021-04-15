@@ -17,6 +17,7 @@ Kpi.propTypes = {
 
 const ValueBox = styled.div`
   display: grid;
+  grid-template-rows: min-content auto;
 `
 
 const Value = styled.span`

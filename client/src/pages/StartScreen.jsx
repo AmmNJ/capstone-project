@@ -141,7 +141,7 @@ const Grid = styled.main`
   top: 0;
   width: 100%;
   height: 100%;
-  padding: 70px 50px 30px;
+  padding: 10.5vh 13vw 4.5vh;
 `
 
 const HeaderGrid = styled.section`

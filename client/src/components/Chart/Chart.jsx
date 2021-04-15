@@ -37,14 +37,13 @@ Chart.propTypes = {
 const Container = styled.section`
   display: grid;
   grid-template-rows: auto 1fr;
-  gap: 20px;
 `
 
 const InfoBox = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-content: space-between;
-  padding: 0 0 20px;
+  padding: 0 0 10px;
 `
 
 const TodayBox = styled.div`
@@ -77,8 +76,8 @@ const LastTenDays = styled.div`
 
 const Graph = styled.div`
   display: grid;
-  grid-template-rows: 120px min-content;
-  height: 120px;
+  grid-template-rows: 20vh min-content;
+  height: 20vh;
   justify-content: center;
 `
 

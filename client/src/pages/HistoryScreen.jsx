@@ -93,13 +93,13 @@ const Grid = styled.main`
   top: 0;
   width: 100%;
   height: 100%;
-  padding: 70px 60px 60px;
+  padding: 10.5vh 16vw 9vh;
 `
 
 const HeaderGrid = styled.section`
   display: grid;
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  padding: 0 0 50px;
+  padding: 0 0 min(50px, 7vh);
   position: relative;
 `
 

@@ -26,7 +26,6 @@ KpiBoard.propTypes = {
 const Container = styled.section`
   display: grid;
   grid-template-rows: auto 1fr auto 1fr;
-  padding: 20px 0 0px;
   gap: 5px;
   animation: slide-opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
