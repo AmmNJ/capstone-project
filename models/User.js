@@ -6,12 +6,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
-    history_entries: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'History',
-      },
-    ],
   },
   { timestamps: true, versionKey: false }
 )

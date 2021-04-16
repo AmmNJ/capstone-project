@@ -9,7 +9,7 @@ const app = express()
 app.use('/', express.json())
 app.use(express.static('./client/build'))
 app.use('/api/users', require('./routes/users'))
-app.use('/api/history_entries', require('./routes/historyEntries'))
+app.use('/api/history-entries', require('./routes/historyEntries'))
 
 app.use(require('./routes/error'))
 

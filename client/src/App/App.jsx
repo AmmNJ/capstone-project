@@ -2,7 +2,11 @@ import CountdownScreen from '../pages/CountdownScreen'
 import StartScreen from '../pages/StartScreen'
 import HistoryScreen from '../pages/HistoryScreen'
 import useLocalStorage from '../hooks/useLocalStorage'
-import { useState } from 'react'
+import getHistory from '../services/getHistory'
+import postHistory from '../services/postHistory'
+import getUsers from '../services/getUsers'
+import postUser from '../services/postUser'
+import { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import { getMaxValue } from '../lib/dataExtraction'
@@ -20,6 +24,9 @@ function App() {
     brMin: 10,
   }
 
+  const [user, setUser] = useLocalStorage('user', uuidv4())
+  const [history, setHistory] = useLocalStorage('historyData', [])
+
   const [appStatus, setAppStatus] = useState('')
   const [[timerMin, timerSec], setTimer] = useState([])
   const [[brTimerMin, brTimerSec], setBrTimer] = useState([])
@@ -30,6 +37,11 @@ function App() {
   const [chartData, setChartData] = useState(
     calcHeight(createChartData(historyData))
   )
+
+  useEffect(() => {
+    getHistory().then(data => setHistory([...data]))
+  }, [setHistory])
+
   return (
     <>
       <Switch>
@@ -85,6 +97,7 @@ function App() {
 
   function navigateStart() {
     push('/')
+    console.log(history)
   }
 
   function navigateCountdown() {

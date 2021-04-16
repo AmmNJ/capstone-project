@@ -8,14 +8,14 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params
-  res.json(await User.findById(id).populate('history-entries').catch(next))
+  res.json(await User.findById(id).catch(next))
 })
 
 router.post('/', async (req, res, next) => {
-  res
-    .json(await User.create(req.body))
-    .populate('history-entries')
-    .catch(next)
+  res.json(await User.create(req.body)).catch(next)
 })
 
 module.exports = router
+
+//TODO check populate and model of User again -> goal: search for user and get all history entries
+// SOLUTION -> (see MDN docs) search for user ID in all history entries

@@ -2,10 +2,6 @@ const mongoose = require('mongoose')
 
 const HistorySchema = new mongoose.Schema(
   {
-    historyId: {
-      type: Number,
-      required: true,
-    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -26,4 +22,6 @@ const HistorySchema = new mongoose.Schema(
   { timestamps: true, versionKey: false }
 )
 
-module.exports = mongoose.model('History', HistorySchema, 'history_entries')
+module.exports = mongoose.model('History', HistorySchema, 'history-entries')
+
+//TODO refer the id to the user in the post request

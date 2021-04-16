@@ -8,11 +8,16 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params
-  res.json(await History.findById(id).populate('user').catch(next))
+  res.json(await History.find({ user: id }).populate('user').catch(next))
 })
 
-router.post('/:id', async (req, res, next) => {
-  res.json(await History.create(req.body).catch(next)).populate('user')
+router.post('/', async (req, res, next) => {
+  res.json(
+    await (await History.create(req.body).catch(next))
+      .populate('user')
+      .execPopulate()
+      .catch(next)
+  )
 })
 
 module.exports = router
