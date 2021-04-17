@@ -4,7 +4,6 @@ import HistoryScreen from '../pages/HistoryScreen'
 import useLocalStorage from '../hooks/useLocalStorage'
 import getHistory from '../services/getHistory'
 import postHistory from '../services/postHistory'
-import getUsers from '../services/getUsers'
 import postUser from '../services/postUser'
 import { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -24,8 +23,9 @@ function App() {
     brMin: 10,
   }
 
-  const [user, setUser] = useLocalStorage('user', uuidv4())
-  const [history, setHistory] = useLocalStorage('historyData', [])
+  const [error, setError] = useState(null)
+  const [localUser, setLocalUser] = useLocalStorage('localUser')
+  const [history, setHistory] = useState([])
 
   const [appStatus, setAppStatus] = useState('')
   const [[timerMin, timerSec], setTimer] = useState([])
@@ -39,11 +39,17 @@ function App() {
   )
 
   useEffect(() => {
-    getHistory().then(data => setHistory([...data]))
-  }, [setHistory])
+    if (!localUser) {
+      const newUser = uuidv4()
+      postUser(newUser).then(setLocalUser).catch(setError)
+    } else {
+      const userObjectId = localUser._id
+      getHistory(userObjectId).then(data => setHistory([...data]))
+    }
+  }, [localUser, setLocalUser])
 
   return (
-    <>
+    error || (
       <Switch>
         {appStatus === 'active' && (
           <Route path="/countdown">
@@ -92,11 +98,20 @@ function App() {
           />
         </Route>
       </Switch>
-    </>
+    )
   )
 
   function navigateStart() {
     push('/')
+
+    const newHistory = {
+      start: new Date(),
+      end: new Date(),
+      duration: 2000,
+      user: localUser._id,
+    }
+    setHistory([...history, newHistory])
+    postHistory(newHistory)
     console.log(history)
   }
 

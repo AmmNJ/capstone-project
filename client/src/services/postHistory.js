@@ -1,10 +1,10 @@
-export default function postHistory(id, history) {
-  return fetch(`'/api/history-entries/${id}'`, {
+export default function postHistory(history) {
+  return fetch('/api/history-entries/', {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
     },
-    body: JSON.stringify(id, history),
+    body: JSON.stringify(history),
   })
     .then(res => res.json())
     .then(data => (data.error ? Promise.reject(data) : data))

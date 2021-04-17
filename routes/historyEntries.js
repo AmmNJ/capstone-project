@@ -8,7 +8,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params
-  res.json(await History.find({ user: id }).populate('user').catch(next))
+  res.json(await History.find({ user: id }).catch(next))
 })
 
 router.post('/', async (req, res, next) => {
