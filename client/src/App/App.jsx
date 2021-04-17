@@ -1,6 +1,7 @@
 import CountdownScreen from '../pages/CountdownScreen'
 import StartScreen from '../pages/StartScreen'
 import HistoryScreen from '../pages/HistoryScreen'
+import WelcomeScreen from '../pages/WelcomeScreen'
 import useLocalStorage from '../hooks/useLocalStorage'
 import getHistory from '../services/getHistory'
 import postHistory from '../services/postHistory'
@@ -15,8 +16,8 @@ import { relativeShare } from '../lib/math'
 function App() {
   const { push } = useHistory()
   const SHORT = {
-    min: 25,
-    brMin: 5,
+    min: 1,
+    brMin: 1,
   }
   const LONG = {
     min: 50,
@@ -27,30 +28,30 @@ function App() {
   const [localUser, setLocalUser] = useLocalStorage('localUser')
   const [history, setHistory] = useState([])
 
-  const [appStatus, setAppStatus] = useState('')
+  const [appStart, setAppStart] = useState(true)
+  const [appStatus, setAppStatus] = useState('default')
   const [[timerMin, timerSec], setTimer] = useState([])
   const [[brTimerMin, brTimerSec], setBrTimer] = useState([])
   const [[endHrs, endMin], setEndTime] = useState([])
   const [startDate, setStartDate] = useState(0)
   const [isDurationLong, setIsDurationLong] = useState(false)
-  const [chartData, setChartData] = useState(
-    calcHeight(createChartData(history))
-  )
+  const [chartData, setChartData] = useState([])
 
   useEffect(() => {
     if (!localUser) {
-      const newUser = uuidv4()
-      postUser(newUser).then(setLocalUser).catch(setError)
+      push('/welcome')
     } else {
-      getHistory(localUser._id).then(data => setHistory([...data]))
+      getHistory(localUser._id).then(data => {
+        setHistory([...data])
+        setChartData(calcHeight(createChartData(data)))
+      })
     }
-  }, [localUser, setLocalUser])
+  }, [localUser, push])
 
-  // TODO WHEN NOT LOGGED IN => DONT SHOW OTHER STUFF
   return (
     error || (
       <Switch>
-        {appStatus === 'active' && (
+        {!appStart && (
           <Route path="/countdown">
             <CountdownScreen
               SHORT={SHORT}
@@ -70,12 +71,19 @@ function App() {
             />
           </Route>
         )}
-        <Route path="/history">
-          <HistoryScreen
-            history={history}
-            chartData={chartData}
-            navigateStart={navigateStart}
-          />
+        ,
+        {!appStart && (
+          <Route path="/history">
+            <HistoryScreen
+              setAppStatus={setAppStatus}
+              history={history}
+              chartData={chartData}
+              navigateStart={navigateStart}
+            />
+          </Route>
+        )}
+        <Route path="/welcome">
+          <WelcomeScreen login={login} />
         </Route>
         <Route path="/*">
           <StartScreen
@@ -100,15 +108,27 @@ function App() {
     )
   )
 
+  function createUser() {
+    const newUser = uuidv4()
+    postUser(newUser).then(setLocalUser).catch(setError)
+  }
+
+  function login() {
+    navigateStart()
+    createUser()
+  }
+
   function navigateStart() {
     push('/')
   }
 
   function navigateCountdown() {
+    setAppStart(false)
     push('/countdown')
   }
 
   function navigateHistory() {
+    setAppStart(false)
     push('/history')
   }
 
@@ -154,19 +174,17 @@ function App() {
   }
 
   function updateData() {
-    const updatedHistory = [
-      {
-        id: uuidv4(),
-        start: startDate,
-        end: new Date(),
-        duration: new Date().getTime() - startDate.getTime(),
-        user: localUser._id,
-      },
-      ...history,
-    ]
-    const updateChartData = calcHeight(createChartData(updatedHistory))
-    setHistory(updatedHistory)
-    postHistory(updatedHistory)
+    const historyEntry = {
+      start: startDate,
+      end: new Date(),
+      duration: new Date().getTime() - startDate.getTime(),
+      user: localUser._id,
+    }
+
+    const fullHistory = [historyEntry, ...history]
+    const updateChartData = calcHeight(createChartData(fullHistory))
+    setHistory(fullHistory)
+    postHistory(historyEntry)
     setChartData(updateChartData)
   }
 }

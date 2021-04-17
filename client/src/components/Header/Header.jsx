@@ -16,6 +16,7 @@ Header.propTypes = {
 const Heading = styled.header`
   display: grid;
   place-items: center;
+  animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `
 const HeadingText = styled.h1`
   font-size: 26px;

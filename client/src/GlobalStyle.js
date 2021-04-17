@@ -35,6 +35,15 @@ export default createGlobalStyle`
     }
   }
 
+  @keyframes opacity {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   @keyframes shrink {
     -100% {
       height: 0%;

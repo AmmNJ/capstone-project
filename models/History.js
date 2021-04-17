@@ -23,5 +23,3 @@ const HistorySchema = new mongoose.Schema(
 )
 
 module.exports = mongoose.model('History', HistorySchema, 'history-entries')
-
-//TODO refer the id to the user in the post request
