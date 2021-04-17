@@ -33,9 +33,8 @@ function App() {
   const [[endHrs, endMin], setEndTime] = useState([])
   const [startDate, setStartDate] = useState(0)
   const [isDurationLong, setIsDurationLong] = useState(false)
-  const [historyData, setHistoryData] = useLocalStorage('historyData', [])
   const [chartData, setChartData] = useState(
-    calcHeight(createChartData(historyData))
+    calcHeight(createChartData(history))
   )
 
   useEffect(() => {
@@ -43,11 +42,11 @@ function App() {
       const newUser = uuidv4()
       postUser(newUser).then(setLocalUser).catch(setError)
     } else {
-      const userObjectId = localUser._id
-      getHistory(userObjectId).then(data => setHistory([...data]))
+      getHistory(localUser._id).then(data => setHistory([...data]))
     }
   }, [localUser, setLocalUser])
 
+  // TODO WHEN NOT LOGGED IN => DONT SHOW OTHER STUFF
   return (
     error || (
       <Switch>
@@ -73,7 +72,7 @@ function App() {
         )}
         <Route path="/history">
           <HistoryScreen
-            historyData={historyData}
+            history={history}
             chartData={chartData}
             navigateStart={navigateStart}
           />
@@ -103,16 +102,6 @@ function App() {
 
   function navigateStart() {
     push('/')
-
-    const newHistory = {
-      start: new Date(),
-      end: new Date(),
-      duration: 2000,
-      user: localUser._id,
-    }
-    setHistory([...history, newHistory])
-    postHistory(newHistory)
-    console.log(history)
   }
 
   function navigateCountdown() {
@@ -134,7 +123,7 @@ function App() {
     return chartData
   }
 
-  function createChartData(historyData) {
+  function createChartData(history) {
     const goBackDays = 10
     const setupArray = []
 
@@ -153,7 +142,7 @@ function App() {
 
     const chartData = setupArray.reverse()
     chartData.map(targetEntry => {
-      historyData.map(rawEntry => {
+      history.map(rawEntry => {
         if (toShortDate(new Date(rawEntry.start)) === targetEntry.date) {
           targetEntry.duration = targetEntry.duration + rawEntry.duration
         }
@@ -165,17 +154,19 @@ function App() {
   }
 
   function updateData() {
-    const updatedHistoryData = [
+    const updatedHistory = [
       {
         id: uuidv4(),
         start: startDate,
         end: new Date(),
         duration: new Date().getTime() - startDate.getTime(),
+        user: localUser._id,
       },
-      ...historyData,
+      ...history,
     ]
-    const updateChartData = calcHeight(createChartData(updatedHistoryData))
-    setHistoryData(updatedHistoryData)
+    const updateChartData = calcHeight(createChartData(updatedHistory))
+    setHistory(updatedHistory)
+    postHistory(updatedHistory)
     setChartData(updateChartData)
   }
 }

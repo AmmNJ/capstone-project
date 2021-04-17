@@ -9,11 +9,7 @@ import { daysDifference } from '../lib/date'
 import { sumKeyData, roundOneDecimal } from '../lib/math'
 import PropTypes from 'prop-types'
 
-export default function HistoryScreen({
-  chartData,
-  historyData,
-  navigateStart,
-}) {
+export default function HistoryScreen({ chartData, history, navigateStart }) {
   return (
     <Grid>
       <ReturnArrow>
@@ -29,7 +25,7 @@ export default function HistoryScreen({
           timeFrame={updateTimeFrame(chartData)}
         />
       </ChartGrid>
-      <KpiBoard kpiData={updateKpiData(historyData, chartData)} />
+      <KpiBoard kpiData={updateKpiData(history, chartData)} />
     </Grid>
   )
 
@@ -53,15 +49,13 @@ export default function HistoryScreen({
     return timeFrameDisplay
   }
 
-  function updateKpiData(historyData, chartData) {
+  function updateKpiData(history, chartData) {
     const now = new Date()
     const startOfAppUsage = new Date(
-      getMinValue(getDateValues(historyData, 'start'))
+      getMinValue(getDateValues(history, 'start'))
     )
     const daysOfAppUsage = daysDifference(startOfAppUsage, now)
-    const totalHoursUsage = Math.round(
-      toHours(sumKeyData(historyData, 'duration'))
-    )
+    const totalHoursUsage = Math.round(toHours(sumKeyData(history, 'duration')))
     const totalAvg = roundOneDecimal(totalHoursUsage / daysOfAppUsage)
     const lastTenDaysTotal = roundOneDecimal(
       toHours(sumKeyData(chartData, 'duration'))
@@ -81,7 +75,7 @@ export default function HistoryScreen({
 
 HistoryScreen.propTypes = {
   chartData: PropTypes.array,
-  historyData: PropTypes.array,
+  history: PropTypes.array,
   navigateStart: PropTypes.func,
 }
 
