@@ -58,25 +58,35 @@ export default function StartScreen({
         {appStatus === 'break' ? <BreakSVG /> : <GetThingsDoneSVG />}
       </SVGGrid>
       <ConfigGrid>
-        <Duration onClick={handleShort} selected={!isDurationLong}>
+        <Duration
+          onClick={handleShort}
+          selected={!isDurationLong}
+          name="shortButton"
+        >
           {SHORT.min + ':00'}
         </Duration>
-        <Duration onClick={handleLong} selected={isDurationLong}>
+        <Duration
+          onClick={handleLong}
+          selected={isDurationLong}
+          name="longButton"
+        >
           {LONG.min + ':00'}
         </Duration>
       </ConfigGrid>
       <StartGrid>
         {appStatus === 'break' ? (
-          <BreakButton onClick={handleBreakAlert}>
+          <BreakButton onClick={handleBreakAlert} name="breakButton">
             {brTimerMin.toString().padStart(2, '0')}:
             {brTimerSec.toString().padStart(2, '0')}
           </BreakButton>
         ) : (
-          <StartButton onClick={handleStart}>Start timer</StartButton>
+          <StartButton onClick={handleStart} name="startButton">
+            Start timer
+          </StartButton>
         )}
       </StartGrid>
       <HistoryGrid>
-        <HistoryButton onClick={navigateHistory}>
+        <HistoryButton onClick={navigateHistory} name="historyButton">
           Take a look at your history
         </HistoryButton>
       </HistoryGrid>

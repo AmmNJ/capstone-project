@@ -8,7 +8,9 @@ export default function LoginScreen({ login }) {
   return (
     <Grid>
       <Header text="teal" />
-      <LoginButton onClick={login}>Let's get started</LoginButton>
+      <LoginButton onClick={login} name="loginButton">
+        Let's get started
+      </LoginButton>
     </Grid>
   )
 }
