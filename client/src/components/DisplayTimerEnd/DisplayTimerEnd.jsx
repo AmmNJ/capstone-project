@@ -1,20 +1,20 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 
+DisplayTimerEnd.propTypes = {
+  endHrs: PropTypes.number,
+  endMin: PropTypes.number,
+}
+
 export default function DisplayTimerEnd({ endHrs, endMin }) {
   const displayEndHrs = endHrs.toString().padStart(2, '0')
   const displayEndMin = endMin.toString().padStart(2, '0')
 
   return (
-    <TimeWrapper>
+    <TimeWrapper name="displayTimerEnd">
       {displayEndHrs}:{displayEndMin}
     </TimeWrapper>
   )
-}
-
-DisplayTimerEnd.propTypes = {
-  endHrs: PropTypes.number,
-  endMin: PropTypes.number,
 }
 
 const TimeWrapper = styled.span`

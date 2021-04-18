@@ -17,7 +17,7 @@ function App() {
   const { push } = useHistory()
   const SHORT = {
     min: 25,
-    brMin: 50,
+    brMin: 5,
   }
   const LONG = {
     min: 50,
@@ -42,7 +42,7 @@ function App() {
     } else {
       getHistory(localUser._id).then(data => {
         setHistory([...data])
-        setChartData(calcHeight(createChartData([...data])))
+        setChartData(createChartData([...data]))
       })
     }
   }, [localUser, push])
@@ -130,17 +130,6 @@ function App() {
     push('/history')
   }
 
-  function calcHeight(chartData) {
-    let array = []
-    chartData.forEach(element => array.push(element.duration))
-    const maxValue = getMaxValue(array)
-
-    chartData.forEach(
-      el => (el.height = relativeShare(el.duration, 0, maxValue))
-    )
-    return chartData
-  }
-
   function createChartData(history) {
     const goBackDays = 10
     const setupArray = []
@@ -168,6 +157,13 @@ function App() {
       })
       return chartData
     })
+    let array = []
+    chartData.forEach(element => array.push(element.duration))
+    const maxValue = getMaxValue(array)
+
+    chartData.forEach(
+      el => (el.height = relativeShare(el.duration, 0, maxValue))
+    )
     return chartData
   }
 
@@ -180,7 +176,7 @@ function App() {
     }
 
     const fullHistory = [historyEntry, ...history]
-    const updateChartData = calcHeight(createChartData(fullHistory))
+    const updateChartData = createChartData(fullHistory)
 
     setHistory(fullHistory)
     postHistory(historyEntry)

@@ -6,6 +6,23 @@ import { useEffect } from 'react'
 import { addMinToMs } from '../lib/time'
 import PropTypes from 'prop-types'
 
+StartScreen.propTypes = {
+  SHORT: PropTypes.object,
+  LONG: PropTypes.object,
+  appStatus: PropTypes.string,
+  isDurationLong: PropTypes.bool,
+  setIsDurationLong: PropTypes.func,
+  setAppStatus: PropTypes.func,
+  navigateHistory: PropTypes.func,
+  navigateCountdown: PropTypes.func,
+  setStartDate: PropTypes.func,
+  setEndTime: PropTypes.func,
+  setTimer: PropTypes.func,
+  brTimerMin: PropTypes.number,
+  brTimerSec: PropTypes.number,
+  setBrTimer: PropTypes.func,
+}
+
 export default function StartScreen({
   SHORT,
   LONG,
@@ -38,28 +55,38 @@ export default function StartScreen({
         )}
       </HeaderGrid>
       <SVGGrid>
-        {appStatus === 'break' ? <BreakSVG /> : <GetThingsDoneSVG />}
+        {appStatus === 'break' ? (
+          <BreakSVG name="Break" />
+        ) : (
+          <GetThingsDoneSVG name="GTD" />
+        )}
       </SVGGrid>
       <ConfigGrid>
         <Duration onClick={handleShort} selected={!isDurationLong}>
           {SHORT.min + ':00'}
         </Duration>
-        <Duration onClick={handleLong} selected={isDurationLong}>
+        <Duration
+          onClick={handleLong}
+          selected={isDurationLong}
+          name="longButton"
+        >
           {LONG.min + ':00'}
         </Duration>
       </ConfigGrid>
       <StartGrid>
         {appStatus === 'break' ? (
-          <BreakButton onClick={handleBreakAlert}>
+          <BreakButton onClick={handleBreakAlert} name="breakButton">
             {brTimerMin.toString().padStart(2, '0')}:
             {brTimerSec.toString().padStart(2, '0')}
           </BreakButton>
         ) : (
-          <StartButton onClick={handleStart}>Start timer</StartButton>
+          <StartButton onClick={handleStart} name="startButton">
+            Start timer
+          </StartButton>
         )}
       </StartGrid>
       <HistoryGrid>
-        <HistoryButton onClick={navigateHistory}>
+        <HistoryButton onClick={navigateHistory} name="historyButton">
           Take a look at your history
         </HistoryButton>
       </HistoryGrid>
@@ -114,23 +141,6 @@ export default function StartScreen({
       setAppStatus('default')
     }
   }
-}
-
-StartScreen.propTypes = {
-  SHORT: PropTypes.object,
-  LONG: PropTypes.object,
-  appStatus: PropTypes.string,
-  isDurationLong: PropTypes.bool,
-  setIsDurationLong: PropTypes.func,
-  setAppStatus: PropTypes.func,
-  navigateHistory: PropTypes.func,
-  navigateCountdown: PropTypes.func,
-  setStartDate: PropTypes.func,
-  setEndTime: PropTypes.func,
-  setTimer: PropTypes.func,
-  brTimerMin: PropTypes.number,
-  brTimerSec: PropTypes.number,
-  setBrTimer: PropTypes.func,
 }
 
 const Grid = styled.main`

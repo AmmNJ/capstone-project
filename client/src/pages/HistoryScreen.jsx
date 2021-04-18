@@ -9,11 +9,21 @@ import { daysDifference } from '../lib/date'
 import { sumKeyData, roundOneDecimal } from '../lib/math'
 import PropTypes from 'prop-types'
 
+HistoryScreen.propTypes = {
+  chartData: PropTypes.array,
+  history: PropTypes.array,
+  navigateStart: PropTypes.func,
+}
+
 export default function HistoryScreen({ chartData, history, navigateStart }) {
   return (
     <Grid>
       <ReturnArrow>
-        <ArrowLeftSVG role="button" onClick={navigateStart} />
+        <ArrowLeftSVG
+          role="button"
+          onClick={navigateStart}
+          name="returnButton"
+        />
       </ReturnArrow>
       <HeaderGrid>
         <Header text="Productive history" />
@@ -71,12 +81,6 @@ export default function HistoryScreen({ chartData, history, navigateStart }) {
 
     return kpiData
   }
-}
-
-HistoryScreen.propTypes = {
-  chartData: PropTypes.array,
-  history: PropTypes.array,
-  navigateStart: PropTypes.func,
 }
 
 const Grid = styled.main`

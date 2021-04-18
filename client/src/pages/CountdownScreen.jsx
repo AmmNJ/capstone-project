@@ -4,6 +4,22 @@ import DisplayTimer from '../components/DisplayTimer/DisplayTimer'
 import DisplayTimerEnd from '../components/DisplayTimerEnd/DisplayTimerEnd'
 import PropTypes from 'prop-types'
 
+CountdownScreen.propTypes = {
+  SHORT: PropTypes.object,
+  LONG: PropTypes.object,
+  appStatus: PropTypes.string,
+  isDurationLong: PropTypes.bool,
+  setAppStatus: PropTypes.func,
+  updateData: PropTypes.func,
+  navigateStart: PropTypes.func,
+  timerMin: PropTypes.number,
+  timerSec: PropTypes.number,
+  setTimer: PropTypes.func,
+  endHrs: PropTypes.number,
+  endMin: PropTypes.number,
+  setBrTimer: PropTypes.func,
+}
+
 export default function CountdownScreen({
   SHORT,
   LONG,
@@ -25,6 +41,7 @@ export default function CountdownScreen({
       return () => clearTimeout(timeoutID)
     }
   })
+
   return (
     <Grid>
       <TimerGrid>
@@ -33,13 +50,13 @@ export default function CountdownScreen({
           <DisplayTimerEnd endHrs={endHrs} endMin={endMin} />
         )}
       </TimerGrid>
-      <ConfigGrid>
+      <ConfigGrid name="activeConfig">
         {isDurationLong
           ? LONG.min.toString().padStart(2, '0') + ':00'
           : SHORT.min.toString().padStart(2, '0') + ':00'}
       </ConfigGrid>
       <ExecutionGrid>
-        <StopButton role="button" onClick={handleStop}>
+        <StopButton role="button" onClick={handleStop} name="stopButton">
           Stop timer
         </StopButton>
       </ExecutionGrid>
@@ -69,22 +86,6 @@ export default function CountdownScreen({
   function updateBrTimer(isDurationLong) {
     isDurationLong ? setBrTimer([LONG.brMin, 0]) : setBrTimer([SHORT.brMin, 0])
   }
-}
-
-CountdownScreen.propTypes = {
-  SHORT: PropTypes.object,
-  LONG: PropTypes.object,
-  appStatus: PropTypes.string,
-  isDurationLong: PropTypes.bool,
-  setAppStatus: PropTypes.func,
-  updateData: PropTypes.func,
-  navigateStart: PropTypes.func,
-  timerMin: PropTypes.number,
-  timerSec: PropTypes.number,
-  setTimer: PropTypes.func,
-  endHrs: PropTypes.number,
-  endMin: PropTypes.number,
-  setBrTimer: PropTypes.func,
 }
 
 const Grid = styled.main`

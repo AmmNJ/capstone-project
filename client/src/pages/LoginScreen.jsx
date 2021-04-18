@@ -2,16 +2,18 @@ import styled from 'styled-components/macro'
 import Header from '../components/Header/Header'
 import PropTypes from 'prop-types'
 
+LoginScreen.propTypes = { login: PropTypes.func }
+
 export default function LoginScreen({ login }) {
   return (
     <Grid>
       <Header text="teal" />
-      <LoginButton onClick={login}>Let's get started</LoginButton>
+      <LoginButton onClick={login} name="loginButton">
+        Let's get started
+      </LoginButton>
     </Grid>
   )
 }
-
-LoginScreen.propTypes = { login: PropTypes.func }
 
 const Grid = styled.main`
   display: grid;
