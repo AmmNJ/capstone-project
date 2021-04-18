@@ -1,4 +1,5 @@
 # teal
+
 Focus on what matters
 
 ## Features
@@ -22,7 +23,7 @@ As [Canva](https://www.canva.com/colors/color-meanings/teal/) states:
 > Teal combines the calming properties of blue with the renewal qualities of green.
 > It is a revitalizing and rejuvenating color that also represents open communication and clarity of thought.
 
-And due to the fact that it is such an essential ingredient of the app's recipe, I have called the app **TEAL**.
+And due to the fact that it is such an essential ingredient of the app's recipe, I have called the app **teal**.
 
 Last but not least, I would like to thank [unDraw](https://undraw.co/) for providing stunning illustrations truly open-source.
 
