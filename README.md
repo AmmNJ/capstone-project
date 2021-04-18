@@ -35,8 +35,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Installation
 ``` zsh
-$ git clone <this-repository> lean-coffee-board
-$ cd lean-coffee-board
+$ git clone git@github.com:AmmNJ/capstone-project.git
+$ cd capstone-project
 $ npm i # installs packages in root folder and client folder
 $ npm run dev # start in development mode
 $ npm test # run tests
