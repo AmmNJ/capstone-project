@@ -6,6 +6,23 @@ import { useEffect } from 'react'
 import { addMinToMs } from '../lib/time'
 import PropTypes from 'prop-types'
 
+StartScreen.propTypes = {
+  SHORT: PropTypes.object,
+  LONG: PropTypes.object,
+  appStatus: PropTypes.string,
+  isDurationLong: PropTypes.bool,
+  setIsDurationLong: PropTypes.func,
+  setAppStatus: PropTypes.func,
+  navigateHistory: PropTypes.func,
+  navigateCountdown: PropTypes.func,
+  setStartDate: PropTypes.func,
+  setEndTime: PropTypes.func,
+  setTimer: PropTypes.func,
+  brTimerMin: PropTypes.number,
+  brTimerSec: PropTypes.number,
+  setBrTimer: PropTypes.func,
+}
+
 export default function StartScreen({
   SHORT,
   LONG,
@@ -114,23 +131,6 @@ export default function StartScreen({
       setAppStatus('default')
     }
   }
-}
-
-StartScreen.propTypes = {
-  SHORT: PropTypes.object,
-  LONG: PropTypes.object,
-  appStatus: PropTypes.string,
-  isDurationLong: PropTypes.bool,
-  setIsDurationLong: PropTypes.func,
-  setAppStatus: PropTypes.func,
-  navigateHistory: PropTypes.func,
-  navigateCountdown: PropTypes.func,
-  setStartDate: PropTypes.func,
-  setEndTime: PropTypes.func,
-  setTimer: PropTypes.func,
-  brTimerMin: PropTypes.number,
-  brTimerSec: PropTypes.number,
-  setBrTimer: PropTypes.func,
 }
 
 const Grid = styled.main`

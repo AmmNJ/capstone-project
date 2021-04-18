@@ -9,6 +9,12 @@ import { daysDifference } from '../lib/date'
 import { sumKeyData, roundOneDecimal } from '../lib/math'
 import PropTypes from 'prop-types'
 
+HistoryScreen.propTypes = {
+  chartData: PropTypes.array,
+  history: PropTypes.array,
+  navigateStart: PropTypes.func,
+}
+
 export default function HistoryScreen({ chartData, history, navigateStart }) {
   return (
     <Grid>
@@ -71,12 +77,6 @@ export default function HistoryScreen({ chartData, history, navigateStart }) {
 
     return kpiData
   }
-}
-
-HistoryScreen.propTypes = {
-  chartData: PropTypes.array,
-  history: PropTypes.array,
-  navigateStart: PropTypes.func,
 }
 
 const Grid = styled.main`

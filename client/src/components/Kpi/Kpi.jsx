@@ -1,6 +1,11 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 
+Kpi.propTypes = {
+  value: PropTypes.string,
+  info: PropTypes.string,
+}
+
 export default function Kpi({ value, info }) {
   return (
     <ValueBox>
@@ -8,11 +13,6 @@ export default function Kpi({ value, info }) {
       <InfoEl>{info}</InfoEl>
     </ValueBox>
   )
-}
-
-Kpi.propTypes = {
-  value: PropTypes.string,
-  info: PropTypes.string,
 }
 
 const ValueBox = styled.div`

@@ -1,16 +1,16 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 
+Header.propTypes = {
+  title: PropTypes.string,
+}
+
 export default function Header({ text }) {
   return (
     <Heading>
       <HeadingText>{text}</HeadingText>
     </Heading>
   )
-}
-
-Header.propTypes = {
-  title: PropTypes.string,
 }
 
 const Heading = styled.header`
