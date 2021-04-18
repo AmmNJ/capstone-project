@@ -94,7 +94,6 @@ const HeaderGrid = styled.section`
   display: grid;
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   padding: 0 0 min(50px, 7vh);
-  position: relative;
 `
 
 const ChartGrid = styled.section`

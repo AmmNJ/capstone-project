@@ -15,7 +15,7 @@ WelcomeScreen.propTypes = { createUser: PropTypes.func }
 
 const Grid = styled.main`
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 1fr 25vh;
   position: fixed;
   left: 0;
   top: 0;
@@ -31,7 +31,7 @@ const Grid = styled.main`
 `
 
 const LoginButton = styled.button`
-  font-size: 16px;
+  font-size: 20px;
   color: #56dfd1;
   background: white;
   height: 50px;
@@ -39,5 +39,6 @@ const LoginButton = styled.button`
   border: none;
   border-radius: 8px;
   padding: 0;
+  align-self: end;
   animation: slide-opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `

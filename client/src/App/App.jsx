@@ -16,8 +16,8 @@ import { relativeShare } from '../lib/math'
 function App() {
   const { push } = useHistory()
   const SHORT = {
-    min: 1,
-    brMin: 1,
+    min: 25,
+    brMin: 50,
   }
   const LONG = {
     min: 50,
@@ -27,7 +27,6 @@ function App() {
   const [error, setError] = useState(null)
   const [localUser, setLocalUser] = useLocalStorage('localUser')
   const [history, setHistory] = useState([])
-
   const [appStart, setAppStart] = useState(true)
   const [appStatus, setAppStatus] = useState('default')
   const [[timerMin, timerSec], setTimer] = useState([])
@@ -43,7 +42,7 @@ function App() {
     } else {
       getHistory(localUser._id).then(data => {
         setHistory([...data])
-        setChartData(calcHeight(createChartData(data)))
+        setChartData(calcHeight(createChartData([...data])))
       })
     }
   }, [localUser, push])
@@ -96,7 +95,6 @@ function App() {
             setTimer={setTimer}
             setEndTime={setEndTime}
             setStartDate={setStartDate}
-            updateData={updateData}
             navigateCountdown={navigateCountdown}
             navigateHistory={navigateHistory}
             brTimerMin={brTimerMin}
@@ -183,6 +181,7 @@ function App() {
 
     const fullHistory = [historyEntry, ...history]
     const updateChartData = calcHeight(createChartData(fullHistory))
+
     setHistory(fullHistory)
     postHistory(historyEntry)
     setChartData(updateChartData)

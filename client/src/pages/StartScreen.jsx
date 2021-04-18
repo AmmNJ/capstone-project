@@ -193,7 +193,7 @@ const Duration = styled.button`
 `
 
 const StartButton = styled.button`
-  font-size: 16px;
+  font-size: 18px;
   color: white;
   background: linear-gradient(125deg, #a4e3cc, #56dfd1);
   height: 50px;
@@ -205,7 +205,7 @@ const StartButton = styled.button`
 `
 
 const BreakButton = styled.button`
-  font-size: 16px;
+  font-size: 18px;
   color: white;
   background: gray;
   height: 50px;
