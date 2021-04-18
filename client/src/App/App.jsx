@@ -17,7 +17,7 @@ function App() {
   const { push } = useHistory()
   const SHORT = {
     min: 25,
-    brMin: 50,
+    brMin: 5,
   }
   const LONG = {
     min: 50,
