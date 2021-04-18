@@ -14,7 +14,7 @@
     "client": "cd client && npm start",
     "test": "cd client && npm test",
     "postinstall": "cd client && npm install",
-    "storybook": "cd client && npm run storybook",
+    "storybook": "cd client && npm run storybook -p 6006 -s public",
     "test:e2e": "start-server-and-test 'npm run dev' http://localhost:3000 cy:open",
     "cy:open": "cd client && npm run cy:open"
   },
