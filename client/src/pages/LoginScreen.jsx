@@ -2,7 +2,7 @@ import styled from 'styled-components/macro'
 import Header from '../components/Header/Header'
 import PropTypes from 'prop-types'
 
-export default function WelcomeScreen({ login }) {
+export default function LoginScreen({ login }) {
   return (
     <Grid>
       <Header text="teal" />
@@ -11,7 +11,7 @@ export default function WelcomeScreen({ login }) {
   )
 }
 
-WelcomeScreen.propTypes = { createUser: PropTypes.func }
+LoginScreen.propTypes = { login: PropTypes.func }
 
 const Grid = styled.main`
   display: grid;

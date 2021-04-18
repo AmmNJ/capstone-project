@@ -1,7 +1,7 @@
 import CountdownScreen from '../pages/CountdownScreen'
 import StartScreen from '../pages/StartScreen'
 import HistoryScreen from '../pages/HistoryScreen'
-import WelcomeScreen from '../pages/WelcomeScreen'
+import LoginScreen from '../pages/LoginScreen'
 import useLocalStorage from '../hooks/useLocalStorage'
 import getHistory from '../services/getHistory'
 import postHistory from '../services/postHistory'
@@ -38,7 +38,7 @@ function App() {
 
   useEffect(() => {
     if (!localUser) {
-      push('/welcome')
+      push('/login')
     } else {
       getHistory(localUser._id).then(data => {
         setHistory([...data])
@@ -81,8 +81,8 @@ function App() {
             />
           </Route>
         )}
-        <Route path="/welcome">
-          <WelcomeScreen login={login} />
+        <Route path="/login">
+          <LoginScreen login={login} />
         </Route>
         <Route path="/*">
           <StartScreen
