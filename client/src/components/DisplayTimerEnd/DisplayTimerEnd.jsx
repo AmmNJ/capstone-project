@@ -11,7 +11,7 @@ export default function DisplayTimerEnd({ endHrs, endMin }) {
   const displayEndMin = endMin.toString().padStart(2, '0')
 
   return (
-    <TimeWrapper>
+    <TimeWrapper name="displayTimerEnd">
       {displayEndHrs}:{displayEndMin}
     </TimeWrapper>
   )

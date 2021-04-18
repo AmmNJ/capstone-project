@@ -41,6 +41,7 @@ export default function CountdownScreen({
       return () => clearTimeout(timeoutID)
     }
   })
+
   return (
     <Grid>
       <TimerGrid>
@@ -49,13 +50,13 @@ export default function CountdownScreen({
           <DisplayTimerEnd endHrs={endHrs} endMin={endMin} />
         )}
       </TimerGrid>
-      <ConfigGrid>
+      <ConfigGrid name="activeConfig">
         {isDurationLong
           ? LONG.min.toString().padStart(2, '0') + ':00'
           : SHORT.min.toString().padStart(2, '0') + ':00'}
       </ConfigGrid>
       <ExecutionGrid>
-        <StopButton role="button" onClick={handleStop}>
+        <StopButton role="button" onClick={handleStop} name="stopButton">
           Stop timer
         </StopButton>
       </ExecutionGrid>

@@ -55,14 +55,14 @@ export default function StartScreen({
         )}
       </HeaderGrid>
       <SVGGrid>
-        {appStatus === 'break' ? <BreakSVG /> : <GetThingsDoneSVG />}
+        {appStatus === 'break' ? (
+          <BreakSVG name="Break" />
+        ) : (
+          <GetThingsDoneSVG name="GTD" />
+        )}
       </SVGGrid>
       <ConfigGrid>
-        <Duration
-          onClick={handleShort}
-          selected={!isDurationLong}
-          name="shortButton"
-        >
+        <Duration onClick={handleShort} selected={!isDurationLong}>
           {SHORT.min + ':00'}
         </Duration>
         <Duration

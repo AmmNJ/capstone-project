@@ -19,7 +19,11 @@ export default function HistoryScreen({ chartData, history, navigateStart }) {
   return (
     <Grid>
       <ReturnArrow>
-        <ArrowLeftSVG role="button" onClick={navigateStart} />
+        <ArrowLeftSVG
+          role="button"
+          onClick={navigateStart}
+          name="returnButton"
+        />
       </ReturnArrow>
       <HeaderGrid>
         <Header text="Productive history" />

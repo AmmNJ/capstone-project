@@ -11,7 +11,7 @@ export default function DisplayTimer({ timerMin, timerSec }) {
   const displaySeconds = timerSec.toString().padStart(2, '0')
 
   return (
-    <TimerWrapper>
+    <TimerWrapper name="displayTimer">
       {displayMinutes}:{displaySeconds}
     </TimerWrapper>
   )

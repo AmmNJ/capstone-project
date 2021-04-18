@@ -1,3 +1,5 @@
+![App Preview Mockup](./client/public/teal-preview-mockup.png)
+
 # teal
 
 Focus on what matters
@@ -34,8 +36,10 @@ Last but not least, I would like to thank [unDraw](https://undraw.co/) for provi
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and includes all common respective scripts.
 
 ### Installation
-``` zsh
-$ git clone git@github.com:AmmNJ/capstone-project.git
+
+```zsh
+$ git clone https://github.com/AmmNJ/capstone-project.git # HTTPS
+$ git clone git@github.com:AmmNJ/capstone-project.git # SSH
 $ cd capstone-project
 $ npm i # installs packages in root folder and client folder
 $ npm run dev # start in development mode

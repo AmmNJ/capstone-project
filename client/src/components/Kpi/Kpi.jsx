@@ -21,7 +21,7 @@ const ValueBox = styled.div`
 `
 
 const Value = styled.span`
-  color: #585858;
+  color: #a3e2cc;
   font-size: 26px;
   font-weight: 600;
 `
