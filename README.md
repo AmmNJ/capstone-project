@@ -12,6 +12,8 @@ Focus on what matters
 - Dedicated break screen (5:00 / 10:00 minutes break)
 - Productivity time tracking with history and average values
 
+(Mobile optimized)
+
 ## About
 
 **teal** is a productivity app based on the Pomodoro Technique. It is developed to help you focus on one of the most valuable resources - time. With its countdown, break and history features, this app provides you with all tools necessary to enhance your time management.
