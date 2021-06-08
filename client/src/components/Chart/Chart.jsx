@@ -2,6 +2,12 @@ import styled from 'styled-components/macro'
 import { v4 as uuidv4 } from 'uuid'
 import PropTypes from 'prop-types'
 
+Chart.propTypes = {
+  chartData: PropTypes.array,
+  todayValue: PropTypes.string,
+  timeFrame: PropTypes.string,
+}
+
 export default function Chart({ chartData, todayValue, timeFrame }) {
   return (
     <Container>
@@ -26,12 +32,6 @@ export default function Chart({ chartData, todayValue, timeFrame }) {
       </Graph>
     </Container>
   )
-}
-
-Chart.propTypes = {
-  chartData: PropTypes.array,
-  todayValue: PropTypes.string,
-  timeFrame: PropTypes.string,
 }
 
 const Container = styled.section`
