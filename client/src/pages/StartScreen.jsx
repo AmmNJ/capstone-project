@@ -5,6 +5,7 @@ import { ReactComponent as BreakSVG } from '../assets/break.svg'
 import { useEffect } from 'react'
 import { addMinToMs } from '../lib/time'
 import PropTypes from 'prop-types'
+import { timer } from '../lib/timer'
 
 StartScreen.propTypes = {
   SHORT: PropTypes.object,
@@ -38,10 +39,16 @@ export default function StartScreen({
   brTimerMin,
   brTimerSec,
   setBrTimer,
+  brStartDate,
 }) {
   useEffect(() => {
     if (appStatus === 'break') {
-      const breakTimeoutID = setTimeout(() => breakTimer(), 1000)
+      const breakTimeoutID = setTimeout(() => {
+        const brTimerLength = isDurationLong
+          ? LONG.brLengthMs
+          : SHORT.brLengthMs
+        timer(brStartDate, brTimerLength, onBreakTimerEnd, setBrTimer)
+      }, 1000)
       return () => clearTimeout(breakTimeoutID)
     }
   })
@@ -62,12 +69,17 @@ export default function StartScreen({
         )}
       </SVGGrid>
       <ConfigGrid>
-        <Duration onClick={handleShort} selected={!isDurationLong}>
+        <Duration
+          onClick={handleShort}
+          selected={!isDurationLong && appStatus !== 'break'}
+          disabled={appStatus === 'break'}
+        >
           {SHORT.min + ':00'}
         </Duration>
         <Duration
           onClick={handleLong}
-          selected={isDurationLong}
+          selected={isDurationLong && appStatus !== 'break'}
+          disabled={appStatus === 'break'}
           name="longButton"
         >
           {LONG.min + ':00'}
@@ -93,16 +105,20 @@ export default function StartScreen({
     </Grid>
   )
 
-  function breakTimer() {
-    if (brTimerMin === 0 && brTimerSec === 0) {
-      setAppStatus('default')
-      return
-    } else if (brTimerSec === 0) {
-      setBrTimer([brTimerMin - 1, 59])
-    } else {
-      setBrTimer([brTimerMin, brTimerSec - 1])
-    }
+  function onBreakTimerEnd() {
+    setAppStatus('default')
   }
+
+  // function breakTimer() {
+  //   if (brTimerMin === 0 && brTimerSec === 0) {
+  //     setAppStatus('default')
+  //     return
+  //   } else if (brTimerSec === 0) {
+  //     setBrTimer([brTimerMin - 1, 59])
+  //   } else {
+  //     setBrTimer([brTimerMin, brTimerSec - 1])
+  //   }
+  // }
 
   function handleStart() {
     const now = new Date()

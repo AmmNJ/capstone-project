@@ -36,18 +36,13 @@ export default function CountdownScreen({
   endMin,
   setBrTimer,
   startDate,
+  setBrStartDate,
 }) {
   useEffect(() => {
     if (appStatus === 'active') {
       const timeoutID = setTimeout(() => {
-        if (isDurationLong) {
-          const timerLength = LONG.lengthMS
-          timer(startDate, timerLength, onTimerEnd, setTimer)
-        } else {
-          const timerLength = SHORT.lengthMS
-          timer(startDate, timerLength, onTimerEnd, setTimer)
-          console.log(startDate, timerMin, timerSec)
-        }
+        const timerLength = isDurationLong ? LONG.lengthMs : SHORT.lengthMs
+        timer(startDate, timerLength, onTimerEnd, setTimer)
       }, 1000)
 
       return () => clearTimeout(timeoutID)
@@ -57,6 +52,7 @@ export default function CountdownScreen({
   function onTimerEnd() {
     updateData()
     updateBrTimer(isDurationLong)
+    setBrStartDate(new Date())
     navigateStart()
     setAppStatus('break')
     return alert('Congratulations! Time is up.')
@@ -88,20 +84,6 @@ export default function CountdownScreen({
     updateData()
     navigateStart()
   }
-
-  // function timer() {
-  //   if (timerMin === 0 && timerSec === 0) {
-  //     updateData()
-  //     updateBrTimer(isDurationLong)
-  //     navigateStart()
-  //     setAppStatus('break')
-  //     return alert('Congratulations! Time is up.')
-  //   } else if (timerSec === 0) {
-  //     setTimer([timerMin - 1, 59])
-  //   } else {
-  //     setTimer([timerMin, timerSec - 1])
-  //   }
-  // }
 
   function updateBrTimer(isDurationLong) {
     isDurationLong ? setBrTimer([LONG.brMin, 0]) : setBrTimer([SHORT.brMin, 0])

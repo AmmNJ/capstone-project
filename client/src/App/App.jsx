@@ -18,12 +18,14 @@ function App() {
   const SHORT = {
     min: 25,
     brMin: 5,
-    lengthMS: 1500000,
+    lengthMs: 1500000,
+    brLengthMs: 300000,
   }
   const LONG = {
     min: 50,
     brMin: 10,
-    lengthMS: 3000000,
+    lengthMs: 3000000,
+    brLengthMs: 600000,
   }
 
   const [error, setError] = useState(null)
@@ -35,6 +37,7 @@ function App() {
   const [[brTimerMin, brTimerSec], setBrTimer] = useState([])
   const [[endHrs, endMin], setEndTime] = useState([])
   const [startDate, setStartDate] = useState(0)
+  const [brStartDate, setBrStartDate] = useState(0)
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [chartData, setChartData] = useState([])
 
@@ -69,6 +72,7 @@ function App() {
               updateData={updateData}
               navigateStart={navigateStart}
               setBrTimer={setBrTimer}
+              setBrStartDate={setBrStartDate}
             />
           </Route>
         )}
@@ -102,6 +106,7 @@ function App() {
             brTimerMin={brTimerMin}
             brTimerSec={brTimerSec}
             setBrTimer={setBrTimer}
+            brStartDate={brStartDate}
           />
         </Route>
       </Switch>
