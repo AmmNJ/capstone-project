@@ -4,8 +4,8 @@ import { ReactComponent as GetThingsDoneSVG } from '../assets/get-things-done.sv
 import { ReactComponent as BreakSVG } from '../assets/break.svg'
 import { useEffect } from 'react'
 import { addMinToMs } from '../lib/time'
-import PropTypes from 'prop-types'
 import { timer } from '../lib/timer'
+import PropTypes from 'prop-types'
 
 StartScreen.propTypes = {
   SHORT: PropTypes.object,
@@ -22,6 +22,7 @@ StartScreen.propTypes = {
   brTimerMin: PropTypes.number,
   brTimerSec: PropTypes.number,
   setBrTimer: PropTypes.func,
+  brStartDate: PropTypes.instanceOf(Date),
 }
 
 export default function StartScreen({

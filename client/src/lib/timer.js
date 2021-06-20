@@ -1,17 +1,18 @@
 import { addMinToMs, toMin, toMinAndSec } from './time'
 
-export function timer(startDateObj, timerLengthInMs, onTimerEnd, setTimer) {
-  const timerLengthInMin = toMin(timerLengthInMs)
-  const date = new Date(startDateObj)
-  const endTime = new Date(addMinToMs(date.getTime(), timerLengthInMin))
-  const elapsed = Date.now() - date.getTime()
-  const remaining = endTime - Date.now()
+export function timer(startDateObj, timerLengthMs, onTimerEnd, setTimer) {
+  const timerLengthMin = toMin(timerLengthMs)
+  const startDate = new Date(startDateObj)
+  const endTimeMs = new Date(addMinToMs(startDate.getTime(), timerLengthMin))
 
-  if (elapsed >= timerLengthInMs) {
+  const elapsedMs = Date.now() - startDate.getTime()
+  const remainingMs = endTimeMs - Date.now()
+
+  if (elapsedMs >= timerLengthMs) {
     onTimerEnd()
     return
   } else {
-    const [min, sec] = toMinAndSec(remaining)
+    const [min, sec] = toMinAndSec(remainingMs)
     setTimer([min, sec])
   }
 }

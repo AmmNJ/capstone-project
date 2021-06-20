@@ -18,6 +18,7 @@ CountdownScreen.propTypes = {
   setTimer: PropTypes.func,
   endHrs: PropTypes.number,
   endMin: PropTypes.number,
+  startDate: PropTypes.instanceOf(Date),
   setBrTimer: PropTypes.func,
 }
 
@@ -38,6 +39,12 @@ export default function CountdownScreen({
   startDate,
   setBrStartDate,
 }) {
+  // TODO
+  // DONE - 1 - PropTypes for date for all props -> brDate
+  // 2 - Test for timer.js
+  // DONE - 3 - Limit duration in history if timer is exceeded, but JS didn't catch it -> more than 25 min per 1 session
+  // 4 - Re-factor code
+
   useEffect(() => {
     if (appStatus === 'active') {
       const timeoutID = setTimeout(() => {

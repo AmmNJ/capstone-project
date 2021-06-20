@@ -36,8 +36,8 @@ function App() {
   const [[timerMin, timerSec], setTimer] = useState([])
   const [[brTimerMin, brTimerSec], setBrTimer] = useState([])
   const [[endHrs, endMin], setEndTime] = useState([])
-  const [startDate, setStartDate] = useState(0)
-  const [brStartDate, setBrStartDate] = useState(0)
+  const [startDate, setStartDate] = useState()
+  const [brStartDate, setBrStartDate] = useState()
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [chartData, setChartData] = useState([])
 
@@ -175,10 +175,13 @@ function App() {
   }
 
   function updateData() {
+    const maxDuration = isDurationLong ? LONG.lengthMs : SHORT.lengthMs
+    const duration = new Date().getTime() - startDate.getTime()
+
     const historyEntry = {
       start: startDate,
       end: new Date(),
-      duration: new Date().getTime() - startDate.getTime(),
+      duration: Math.min(duration, maxDuration),
       user: localUser._id,
     }
 
