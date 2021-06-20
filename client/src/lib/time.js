@@ -6,7 +6,7 @@ export function toMin(ms) {
   return ms / (1000 * 60)
 }
 
-export function toTimerMinAndSec(ms) {
+export function toMinAndSec(ms) {
   const minutes = Math.floor(ms / 60000)
   const seconds = Math.round((ms % 60000) / 1000)
   return [minutes, seconds]
