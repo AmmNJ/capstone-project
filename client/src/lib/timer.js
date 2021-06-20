@@ -1,4 +1,4 @@
-import { addMinToMs, toMin, toTimerMinAndSec } from './time'
+import { addMinToMs, toMin, toMinAndSec } from './time'
 
 export function timer(startDateObj, timerLengthInMs, onTimerEnd, setTimer) {
   const timerLengthInMin = toMin(timerLengthInMs)
@@ -11,7 +11,7 @@ export function timer(startDateObj, timerLengthInMs, onTimerEnd, setTimer) {
     onTimerEnd()
     return
   } else {
-    const [min, sec] = toTimerMinAndSec(remaining)
+    const [min, sec] = toMinAndSec(remaining)
     setTimer([min, sec])
   }
 }
