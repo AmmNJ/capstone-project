@@ -3,6 +3,7 @@ import styled from 'styled-components/macro'
 import DisplayTimer from '../components/DisplayTimer/DisplayTimer'
 import DisplayTimerEnd from '../components/DisplayTimerEnd/DisplayTimerEnd'
 import PropTypes from 'prop-types'
+import { timer } from '../lib/timer'
 
 CountdownScreen.propTypes = {
   SHORT: PropTypes.object,
@@ -34,13 +35,32 @@ export default function CountdownScreen({
   endHrs,
   endMin,
   setBrTimer,
+  startDate,
 }) {
   useEffect(() => {
     if (appStatus === 'active') {
-      const timeoutID = setTimeout(() => timer(), 1000)
+      const timeoutID = setTimeout(() => {
+        if (isDurationLong) {
+          const timerLength = LONG.lengthMS
+          timer(startDate, timerLength, onTimerEnd, setTimer)
+        } else {
+          const timerLength = SHORT.lengthMS
+          timer(startDate, timerLength, onTimerEnd, setTimer)
+          console.log(startDate, timerMin, timerSec)
+        }
+      }, 1000)
+
       return () => clearTimeout(timeoutID)
     }
   })
+
+  function onTimerEnd() {
+    updateData()
+    updateBrTimer(isDurationLong)
+    navigateStart()
+    setAppStatus('break')
+    return alert('Congratulations! Time is up.')
+  }
 
   return (
     <Grid>
@@ -69,19 +89,19 @@ export default function CountdownScreen({
     navigateStart()
   }
 
-  function timer() {
-    if (timerMin === 0 && timerSec === 0) {
-      updateData()
-      updateBrTimer(isDurationLong)
-      navigateStart()
-      setAppStatus('break')
-      return alert('Congratulations! Time is up.')
-    } else if (timerSec === 0) {
-      setTimer([timerMin - 1, 59])
-    } else {
-      setTimer([timerMin, timerSec - 1])
-    }
-  }
+  // function timer() {
+  //   if (timerMin === 0 && timerSec === 0) {
+  //     updateData()
+  //     updateBrTimer(isDurationLong)
+  //     navigateStart()
+  //     setAppStatus('break')
+  //     return alert('Congratulations! Time is up.')
+  //   } else if (timerSec === 0) {
+  //     setTimer([timerMin - 1, 59])
+  //   } else {
+  //     setTimer([timerMin, timerSec - 1])
+  //   }
+  // }
 
   function updateBrTimer(isDurationLong) {
     isDurationLong ? setBrTimer([LONG.brMin, 0]) : setBrTimer([SHORT.brMin, 0])

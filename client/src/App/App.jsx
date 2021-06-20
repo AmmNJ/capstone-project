@@ -18,10 +18,12 @@ function App() {
   const SHORT = {
     min: 25,
     brMin: 5,
+    lengthMS: 1500000,
   }
   const LONG = {
     min: 50,
     brMin: 10,
+    lengthMS: 3000000,
   }
 
   const [error, setError] = useState(null)
