@@ -45,10 +45,11 @@ export default function StartScreen({
   useEffect(() => {
     if (appStatus === 'break') {
       const breakTimeoutID = setTimeout(() => {
+        const start = brStartDate.getTime()
         const brTimerLength = isDurationLong
           ? LONG.brLengthMs
           : SHORT.brLengthMs
-        timer(brStartDate, brTimerLength, onBreakTimerEnd, setBrTimer)
+        timer(start, brTimerLength, onBreakTimerEnd, setBrTimer)
       }, 1000)
       return () => clearTimeout(breakTimeoutID)
     }
@@ -75,7 +76,7 @@ export default function StartScreen({
           selected={!isDurationLong && appStatus !== 'break'}
           disabled={appStatus === 'break'}
         >
-          {SHORT.min + ':00'}
+          {SHORT.lengthMin + ':00'}
         </Duration>
         <Duration
           onClick={handleLong}
@@ -83,7 +84,7 @@ export default function StartScreen({
           disabled={appStatus === 'break'}
           name="longButton"
         >
-          {LONG.min + ':00'}
+          {LONG.lengthMin + ':00'}
         </Duration>
       </ConfigGrid>
       <StartGrid>
@@ -110,30 +111,19 @@ export default function StartScreen({
     setAppStatus('default')
   }
 
-  // function breakTimer() {
-  //   if (brTimerMin === 0 && brTimerSec === 0) {
-  //     setAppStatus('default')
-  //     return
-  //   } else if (brTimerSec === 0) {
-  //     setBrTimer([brTimerMin - 1, 59])
-  //   } else {
-  //     setBrTimer([brTimerMin, brTimerSec - 1])
-  //   }
-  // }
-
   function handleStart() {
     const now = new Date()
     setStartDate(new Date())
     const nowMS = now.getTime()
-    const endTimeShort = addMinToMs(nowMS, SHORT.min)
-    const endTimeLong = addMinToMs(nowMS, LONG.min)
+    const endTimeShort = addMinToMs(nowMS, SHORT.lengthMin)
+    const endTimeLong = addMinToMs(nowMS, LONG.lengthMin)
 
     if (isDurationLong) {
-      setTimer([LONG.min, 0])
+      setTimer([LONG.lengthMin, 0])
       now.setTime(endTimeLong)
     } else {
       now.setTime(endTimeShort)
-      setTimer([SHORT.min, 0])
+      setTimer([SHORT.lengthMin, 0])
     }
 
     setEndTime([now.getHours(), now.getMinutes()])

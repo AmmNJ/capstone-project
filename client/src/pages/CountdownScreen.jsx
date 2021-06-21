@@ -39,31 +39,17 @@ export default function CountdownScreen({
   startDate,
   setBrStartDate,
 }) {
-  // TODO
-  // DONE - 1 - PropTypes for date for all props -> brDate
-  // 2 - Test for timer.js
-  // DONE - 3 - Limit duration in history if timer is exceeded, but JS didn't catch it -> more than 25 min per 1 session
-  // 4 - Re-factor code
-
   useEffect(() => {
     if (appStatus === 'active') {
       const timeoutID = setTimeout(() => {
+        const start = startDate.getTime()
         const timerLength = isDurationLong ? LONG.lengthMs : SHORT.lengthMs
-        timer(startDate, timerLength, onTimerEnd, setTimer)
+        timer(start, timerLength, onTimerEnd, setTimer)
       }, 1000)
 
       return () => clearTimeout(timeoutID)
     }
   })
-
-  function onTimerEnd() {
-    updateData()
-    updateBrTimer(isDurationLong)
-    setBrStartDate(new Date())
-    navigateStart()
-    setAppStatus('break')
-    return alert('Congratulations! Time is up.')
-  }
 
   return (
     <Grid>
@@ -75,8 +61,8 @@ export default function CountdownScreen({
       </TimerGrid>
       <ConfigGrid name="activeConfig">
         {isDurationLong
-          ? LONG.min.toString().padStart(2, '0') + ':00'
-          : SHORT.min.toString().padStart(2, '0') + ':00'}
+          ? LONG.lengthMin.toString().padStart(2, '0') + ':00'
+          : SHORT.lengthMin.toString().padStart(2, '0') + ':00'}
       </ConfigGrid>
       <ExecutionGrid>
         <StopButton role="button" onClick={handleStop} name="stopButton">
@@ -85,6 +71,14 @@ export default function CountdownScreen({
       </ExecutionGrid>
     </Grid>
   )
+  function onTimerEnd() {
+    updateData()
+    updateBrTimer(isDurationLong)
+    setBrStartDate(new Date())
+    navigateStart()
+    setAppStatus('break')
+    return alert('Congratulations! Time is up.')
+  }
 
   function handleStop() {
     setAppStatus('default')
@@ -93,7 +87,9 @@ export default function CountdownScreen({
   }
 
   function updateBrTimer(isDurationLong) {
-    isDurationLong ? setBrTimer([LONG.brMin, 0]) : setBrTimer([SHORT.brMin, 0])
+    isDurationLong
+      ? setBrTimer([LONG.brLengthMin, 0])
+      : setBrTimer([SHORT.brLengthMin, 0])
   }
 }
 

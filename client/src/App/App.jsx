@@ -16,15 +16,15 @@ import { relativeShare } from '../lib/math'
 function App() {
   const { push } = useHistory()
   const SHORT = {
-    min: 25,
-    brMin: 5,
+    lengthMin: 25,
     lengthMs: 1500000,
+    brLengthMin: 5,
     brLengthMs: 300000,
   }
   const LONG = {
-    min: 50,
-    brMin: 10,
+    lengthMin: 50,
     lengthMs: 3000000,
+    brLengthMin: 10,
     brLengthMs: 600000,
   }
 
