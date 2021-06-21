@@ -16,12 +16,16 @@ import { relativeShare } from '../lib/math'
 function App() {
   const { push } = useHistory()
   const SHORT = {
-    min: 25,
-    brMin: 5,
+    lengthMin: 25,
+    lengthMs: 1500000,
+    brLengthMin: 5,
+    brLengthMs: 300000,
   }
   const LONG = {
-    min: 50,
-    brMin: 10,
+    lengthMin: 50,
+    lengthMs: 3000000,
+    brLengthMin: 10,
+    brLengthMs: 600000,
   }
 
   const [error, setError] = useState(null)
@@ -32,7 +36,8 @@ function App() {
   const [[timerMin, timerSec], setTimer] = useState([])
   const [[brTimerMin, brTimerSec], setBrTimer] = useState([])
   const [[endHrs, endMin], setEndTime] = useState([])
-  const [startDate, setStartDate] = useState(0)
+  const [startDate, setStartDate] = useState(new Date())
+  const [brStartDate, setBrStartDate] = useState(new Date())
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [chartData, setChartData] = useState([])
 
@@ -67,6 +72,7 @@ function App() {
               updateData={updateData}
               navigateStart={navigateStart}
               setBrTimer={setBrTimer}
+              setBrStartDate={setBrStartDate}
             />
           </Route>
         )}
@@ -100,6 +106,7 @@ function App() {
             brTimerMin={brTimerMin}
             brTimerSec={brTimerSec}
             setBrTimer={setBrTimer}
+            brStartDate={brStartDate}
           />
         </Route>
       </Switch>
@@ -168,10 +175,13 @@ function App() {
   }
 
   function updateData() {
+    const maxDuration = isDurationLong ? LONG.lengthMs : SHORT.lengthMs
+    const duration = new Date().getTime() - startDate.getTime()
+
     const historyEntry = {
       start: startDate,
       end: new Date(),
-      duration: new Date().getTime() - startDate.getTime(),
+      duration: Math.min(duration, maxDuration),
       user: localUser._id,
     }
 

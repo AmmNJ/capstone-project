@@ -3,6 +3,7 @@ import styled from 'styled-components/macro'
 import DisplayTimer from '../components/DisplayTimer/DisplayTimer'
 import DisplayTimerEnd from '../components/DisplayTimerEnd/DisplayTimerEnd'
 import PropTypes from 'prop-types'
+import { timer } from '../lib/timer'
 
 CountdownScreen.propTypes = {
   SHORT: PropTypes.object,
@@ -17,6 +18,7 @@ CountdownScreen.propTypes = {
   setTimer: PropTypes.func,
   endHrs: PropTypes.number,
   endMin: PropTypes.number,
+  startDate: PropTypes.instanceOf(Date),
   setBrTimer: PropTypes.func,
 }
 
@@ -34,10 +36,17 @@ export default function CountdownScreen({
   endHrs,
   endMin,
   setBrTimer,
+  startDate,
+  setBrStartDate,
 }) {
   useEffect(() => {
     if (appStatus === 'active') {
-      const timeoutID = setTimeout(() => timer(), 1000)
+      const timeoutID = setTimeout(() => {
+        const start = startDate.getTime()
+        const timerLength = isDurationLong ? LONG.lengthMs : SHORT.lengthMs
+        timer(start, timerLength, onTimerEnd, setTimer)
+      }, 1000)
+
       return () => clearTimeout(timeoutID)
     }
   })
@@ -52,8 +61,8 @@ export default function CountdownScreen({
       </TimerGrid>
       <ConfigGrid name="activeConfig">
         {isDurationLong
-          ? LONG.min.toString().padStart(2, '0') + ':00'
-          : SHORT.min.toString().padStart(2, '0') + ':00'}
+          ? LONG.lengthMin.toString().padStart(2, '0') + ':00'
+          : SHORT.lengthMin.toString().padStart(2, '0') + ':00'}
       </ConfigGrid>
       <ExecutionGrid>
         <StopButton role="button" onClick={handleStop} name="stopButton">
@@ -62,6 +71,14 @@ export default function CountdownScreen({
       </ExecutionGrid>
     </Grid>
   )
+  function onTimerEnd() {
+    updateData()
+    updateBrTimer(isDurationLong)
+    setBrStartDate(new Date())
+    navigateStart()
+    setAppStatus('break')
+    return alert('Congratulations! Time is up.')
+  }
 
   function handleStop() {
     setAppStatus('default')
@@ -69,22 +86,10 @@ export default function CountdownScreen({
     navigateStart()
   }
 
-  function timer() {
-    if (timerMin === 0 && timerSec === 0) {
-      updateData()
-      updateBrTimer(isDurationLong)
-      navigateStart()
-      setAppStatus('break')
-      return alert('Congratulations! Time is up.')
-    } else if (timerSec === 0) {
-      setTimer([timerMin - 1, 59])
-    } else {
-      setTimer([timerMin, timerSec - 1])
-    }
-  }
-
   function updateBrTimer(isDurationLong) {
-    isDurationLong ? setBrTimer([LONG.brMin, 0]) : setBrTimer([SHORT.brMin, 0])
+    isDurationLong
+      ? setBrTimer([LONG.brLengthMin, 0])
+      : setBrTimer([SHORT.brLengthMin, 0])
   }
 }
 

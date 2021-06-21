@@ -4,6 +4,7 @@ import { ReactComponent as GetThingsDoneSVG } from '../assets/get-things-done.sv
 import { ReactComponent as BreakSVG } from '../assets/break.svg'
 import { useEffect } from 'react'
 import { addMinToMs } from '../lib/time'
+import { timer } from '../lib/timer'
 import PropTypes from 'prop-types'
 
 StartScreen.propTypes = {
@@ -21,6 +22,7 @@ StartScreen.propTypes = {
   brTimerMin: PropTypes.number,
   brTimerSec: PropTypes.number,
   setBrTimer: PropTypes.func,
+  brStartDate: PropTypes.instanceOf(Date),
 }
 
 export default function StartScreen({
@@ -38,10 +40,17 @@ export default function StartScreen({
   brTimerMin,
   brTimerSec,
   setBrTimer,
+  brStartDate,
 }) {
   useEffect(() => {
     if (appStatus === 'break') {
-      const breakTimeoutID = setTimeout(() => breakTimer(), 1000)
+      const breakTimeoutID = setTimeout(() => {
+        const start = brStartDate.getTime()
+        const brTimerLength = isDurationLong
+          ? LONG.brLengthMs
+          : SHORT.brLengthMs
+        timer(start, brTimerLength, onBreakTimerEnd, setBrTimer)
+      }, 1000)
       return () => clearTimeout(breakTimeoutID)
     }
   })
@@ -62,15 +71,20 @@ export default function StartScreen({
         )}
       </SVGGrid>
       <ConfigGrid>
-        <Duration onClick={handleShort} selected={!isDurationLong}>
-          {SHORT.min + ':00'}
+        <Duration
+          onClick={handleShort}
+          selected={!isDurationLong && appStatus !== 'break'}
+          disabled={appStatus === 'break'}
+        >
+          {SHORT.lengthMin + ':00'}
         </Duration>
         <Duration
           onClick={handleLong}
-          selected={isDurationLong}
+          selected={isDurationLong && appStatus !== 'break'}
+          disabled={appStatus === 'break'}
           name="longButton"
         >
-          {LONG.min + ':00'}
+          {LONG.lengthMin + ':00'}
         </Duration>
       </ConfigGrid>
       <StartGrid>
@@ -93,30 +107,23 @@ export default function StartScreen({
     </Grid>
   )
 
-  function breakTimer() {
-    if (brTimerMin === 0 && brTimerSec === 0) {
-      setAppStatus('default')
-      return
-    } else if (brTimerSec === 0) {
-      setBrTimer([brTimerMin - 1, 59])
-    } else {
-      setBrTimer([brTimerMin, brTimerSec - 1])
-    }
+  function onBreakTimerEnd() {
+    setAppStatus('default')
   }
 
   function handleStart() {
     const now = new Date()
     setStartDate(new Date())
     const nowMS = now.getTime()
-    const endTimeShort = addMinToMs(nowMS, SHORT.min)
-    const endTimeLong = addMinToMs(nowMS, LONG.min)
+    const endTimeShort = addMinToMs(nowMS, SHORT.lengthMin)
+    const endTimeLong = addMinToMs(nowMS, LONG.lengthMin)
 
     if (isDurationLong) {
-      setTimer([LONG.min, 0])
+      setTimer([LONG.lengthMin, 0])
       now.setTime(endTimeLong)
     } else {
       now.setTime(endTimeShort)
-      setTimer([SHORT.min, 0])
+      setTimer([SHORT.lengthMin, 0])
     }
 
     setEndTime([now.getHours(), now.getMinutes()])
