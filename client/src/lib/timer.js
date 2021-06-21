@@ -2,10 +2,10 @@ import { addMinToMs, toMin, toMinAndSec } from './time'
 
 export function timer(startDateObj, timerLengthMs, onTimerEnd, setTimer) {
   const timerLengthMin = toMin(timerLengthMs)
-  const startDate = new Date(startDateObj)
-  const endTimeMs = new Date(addMinToMs(startDate.getTime(), timerLengthMin))
+  const startTimeMs = startDateObj.getTime()
+  const endTimeMs = addMinToMs(startTimeMs, timerLengthMin)
 
-  const elapsedMs = Date.now() - startDate.getTime()
+  const elapsedMs = Date.now() - startTimeMs
   const remainingMs = endTimeMs - Date.now()
 
   if (elapsedMs >= timerLengthMs) {

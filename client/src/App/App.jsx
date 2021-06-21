@@ -36,8 +36,8 @@ function App() {
   const [[timerMin, timerSec], setTimer] = useState([])
   const [[brTimerMin, brTimerSec], setBrTimer] = useState([])
   const [[endHrs, endMin], setEndTime] = useState([])
-  const [startDate, setStartDate] = useState()
-  const [brStartDate, setBrStartDate] = useState()
+  const [startDate, setStartDate] = useState(new Date())
+  const [brStartDate, setBrStartDate] = useState(new Date())
   const [isDurationLong, setIsDurationLong] = useState(false)
   const [chartData, setChartData] = useState([])
 

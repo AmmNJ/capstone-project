@@ -1,10 +1,17 @@
-import { toHours, toHoursMin, addMinToMs } from './time'
+import { toHours, toHoursMin, addMinToMs, toMin } from './time'
 
-describe('lib/dataExtraction', () => {
+describe('lib/time', () => {
   describe('toHours', () => {
     it('returns the hours of 36000000 milliseconds as a number, which is 10', () => {
       const result = toHours(36000000)
       expect(result).toBe(10)
+    })
+  })
+
+  describe('toMin', () => {
+    it('returns the minutes of 60000 milliseconds as a number, which is 1', () => {
+      const result = toMin(120000)
+      expect(result).toBe(2)
     })
   })
 
