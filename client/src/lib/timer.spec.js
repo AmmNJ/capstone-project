@@ -1,31 +1,29 @@
 import { timer } from './timer'
 
 afterEach(() => {
+  jest.runOnlyPendingTimers()
   jest.useRealTimers()
 })
 
+const setCallback = jest.fn()
 const endCallback = jest.fn()
-const recurrentCallback = jest.fn()
-const timerLengthMs = 1500000
-const startDate = new Date()
+const timerLengthMs = 3000
+const startDateMs = Date.now()
 
 describe('lib/timer', () => {
   describe('timer', () => {
-    it('calls the final function when the timer has ended', () => {
+    it('calls the set-function as soon as the timer starts', () => {
       jest.useFakeTimers()
       setTimeout(() => {
-        timer(startDate, timerLengthMs, endCallback, recurrentCallback)
+        timer(startDateMs, timerLengthMs, endCallback, setCallback)
       }, 1000)
 
-      expect(recurrentCallback).not.toBeCalled()
-      expect(endCallback).not.toBeCalled()
-
+      expect(setCallback).not.toBeCalled()
       expect(setTimeout).toHaveBeenCalledTimes(1)
       expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000)
 
-      jest.runOnlyPendingTimers()
-
-      expect(recurrentCallback).toBeCalled()
+      jest.runAllTimers()
+      expect(setCallback).toHaveBeenCalledTimes(1)
     })
   })
 })

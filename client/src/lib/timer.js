@@ -1,7 +1,7 @@
-export function timer(startTimeMs, timerLengthMs, onTimerEnd, setTimer) {
-  const endTimeMs = startTimeMs + timerLengthMs
-  const elapsedMs = Date.now() - startTimeMs
-  const remainingMs = endTimeMs - Date.now()
+export function timer(startDateMs, timerLengthMs, onTimerEnd, setTimer) {
+  const endDateMs = startDateMs + timerLengthMs
+  const elapsedMs = Date.now() - startDateMs
+  const remainingMs = endDateMs - Date.now()
 
   if (elapsedMs >= timerLengthMs) {
     onTimerEnd()
